@@ -1,3 +1,5 @@
+import 'package:diver/controller/home_controller.dart';
+import 'package:diver/controller/survey_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sizer/sizer.dart';
@@ -6,6 +8,7 @@ import 'package:diver/core/routes/routes.dart';
 import 'package:diver/pages/survey_task.dart';
 import 'package:diver/widgets/circle_gradient_icon.dart';
 import 'package:diver/widgets/task_group.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,6 +16,8 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
+final SurveyController _surveyController = Get.find<SurveyController>();
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -32,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CircleGradientIcon(
               onTap: () {
-                Navigator.pushNamed(context, Routes.todaysTask);
+                // Navigator.pushNamed(context, Routes.todaysTask);
               },
               icon: Icons.calendar_month,
               color: Colors.purple,
@@ -94,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                const OnGoingTask(),
+                // const OnGoingTask(),
                 const SizedBox(
                   height: 40,
                 ),
@@ -171,12 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisCellCount: 1.3,
           child: GestureDetector(
             // ignore: avoid_print
-            onTap: () {
-              Navigator.pushNamed(context, Routes.surveyTask);
-            },
-            // onTap: () {
-            //   Navigator.pushNamed(context, Routes.surveyTask);
-            // },
+            onTap: () => _surveyController.getAll(),
             child: const TaskGroupContainer(
               color: Colors.pink,
               icon: Icons.article,
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisCellCount: 1,
           mainAxisCellCount: 1,
           child: GestureDetector(
-            onTap: () => print('ec ec'),
+            onTap: () => {},
             child: const TaskGroupContainer(
               color: Colors.orange,
               isSmall: true,
