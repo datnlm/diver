@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:diver/core/res/color.dart';
-import 'package:diver/models/task.dart';
+
 import 'package:diver/widgets/circle_gradient_icon.dart';
 import 'package:diver/widgets/task.dart';
+
+import '../models/task.dart';
+
 
 class TodaysTaskScreen extends StatefulWidget {
   const TodaysTaskScreen({Key? key}) : super(key: key);

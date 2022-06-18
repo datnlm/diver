@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:diver/core/res/color.dart';
-import 'package:diver/models/task.dart';
+
+import '../models/task.dart';
 
 class TaskWidget extends StatelessWidget {
   final TaskModel taskModel;
