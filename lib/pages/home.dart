@@ -176,7 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisCellCount: 1.3,
           child: GestureDetector(
             // ignore: avoid_print
-            onTap: () => _surveyController.getAll(),
+            onTap: () => Get.toNamed(Routes.surveyList),
+            // onTap: () => _surveyController.getAll(),
             child: const TaskGroupContainer(
               color: Colors.pink,
               icon: Icons.article,
