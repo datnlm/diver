@@ -43,9 +43,5 @@ class RouterGenerator {
         name: Routes.photoTask,
         page: () => const PhotoScreen(),
         binding: Binding()),
-    // GetPage(
-    //     name: Routes.cellPhoto,
-    //     page: () => const CellImageScreen(cell: null),
-    //     binding: Binding()),
   ];
 }

@@ -2,11 +2,6 @@ import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/models/cell_survey.dart';
 import 'package:diver/widgets/cell_card_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:diver/widgets/cell_card.dart';
-import 'package:diver/widgets/task_group.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:get/get.dart';
 
 class CellImageScreen extends StatelessWidget {
@@ -30,28 +25,55 @@ class CellImageScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16),
+      body: SafeArea(
         // color: kBackgroundColor,
-        child: GetBuilder<SurveyController>(
-          builder: (controller) => (controller.isLoading.isTrue)
-              ? const Center(child: CircularProgressIndicator())
-              : GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 15,
-                    crossAxisSpacing: 15,
-                  ),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: controller.listImage.length + 1,
-                  itemBuilder: (BuildContext ctx, index) {
-                    return CellImageCard(imageIndex: index);
-                  },
-                ),
+        child: SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: GetBuilder<SurveyController>(
+              builder: (controller) => (controller.isLoading.isTrue)
+                  ? const Center(child: CircularProgressIndicator())
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                      ),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: (controller.cellResponse.images!.isNotEmpty
+                              ? controller.cellResponse.images!.length
+                              : 0) +
+                          controller.listImage.length +
+                          1,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return CellImageCard(imageIndex: index);
+                        // return (controller.cellResponse.images!.isNotEmpty
+                        //             ? controller.cellResponse.images!.length
+                        //             : 0) >=
+                        //         index
+                        //     ? CellImageCardNetWord(imageIndex: index)
+                        //     : CellImageCardFille(imageIndex: index);
+                      },
+                    ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
+
+//  MasonryGridView.count(
+//                     crossAxisCount: 2,
+//                     mainAxisSpacing: 15,
+//                     crossAxisSpacing: 15,
+//                     itemCount: 4,
+//                     itemBuilder: (context, index) {
+//                       return CellImageCard(imageIndex: index);
+//                     },
+//                   ),

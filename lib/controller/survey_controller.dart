@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:diver/core/res/app.dart';
 import 'package:diver/core/routes/routes.dart';
 import 'package:diver/models/cell_survey.dart';
+import 'package:diver/models/cell.dart';
 import 'package:diver/models/survey.dart';
 import 'package:diver/pages/survey_task.dart';
 import 'package:get/get.dart';
@@ -12,13 +13,16 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../pages/cell_image.dart';
+
 class SurveyController extends GetxController {
   List<File> listImage = <File>[].obs;
   String? imageLink = "";
   var isLoading = false.obs;
   List<Survey> listSurvey = <Survey>[].obs;
   List<Cell> listCellSurvey = <Cell>[].obs;
-
+  CellResponse cellResponse = CellResponse();
+  Cell? cell = Cell();
   @override
   onInit() {
     getAll();
@@ -30,9 +34,13 @@ class SurveyController extends GetxController {
       isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
+      String? diverPref = prefs.getString('diver');
+
+      Map<String, dynamic> diver =
+          jsonDecode(diverPref!) as Map<String, dynamic>;
 
       Map<String, String> queryParams = {
-        'DiverId': '2',
+        'DiverId': diver['id'],
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -46,24 +54,28 @@ class SurveyController extends GetxController {
         var surveys = divingSurveyResponseFromJson(response.body);
         if (surveys.items!.isNotEmpty) {
           listSurvey = surveys.items as List<Survey>;
-          isLoading(false);
-          update();
         }
       }
     } catch (e) {
       print(e);
+    } finally {
+      isLoading(false);
+      update();
     }
   }
 
   Future<void> getBySurveyId(Survey survey) async {
     try {
-      print('vao day roi ne');
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
+      String? diverPref = prefs.getString('diver');
+
+      Map<String, dynamic> diver =
+          jsonDecode(diverPref!) as Map<String, dynamic>;
 
       Map<String, String> queryParams = {
         'DivingSurveyId': survey.id.toString(),
-        'DiverId': '2',
+        'DiverId': diver['id'],
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/cell-surveys')
@@ -72,52 +84,82 @@ class SurveyController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${token}"
           });
-      print(response.statusCode);
 
       if (response.statusCode == 200) {
         var cellSurvey = cellSurveyResponseFromJson(response.body);
         if (cellSurvey.items!.isNotEmpty) {
           listCellSurvey = cellSurvey.items as List<Cell>;
           Get.toNamed(Routes.surveyTask);
-          print(listCellSurvey.length);
-          isLoading(false);
-          update();
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> getAllCell() async {
-    try {
-      // isLoading(true);
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-
-      Map<String, String> queryParams = {
-        'AreaId': '1',
-        'GardenId': '1',
-      };
-      final response = await http.get(
-          Uri.parse('${AppConstants.baseUrl}/api/v1/FIX/diving-surveys')
-              .replace(queryParameters: queryParams),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer ${token}"
-          });
-      if (response.statusCode == 200) {
-        var surveys = divingSurveyResponseFromJson(response.body);
-        if (surveys.items!.isNotEmpty) {
-          listSurvey = surveys.items as List<Survey>;
-          Get.toNamed(Routes.surveyList);
-          update();
         }
       }
     } catch (e) {
       print(e);
     } finally {
       isLoading(false);
+      update();
+    }
+  }
+
+  // Future<void> getAllCell() async {
+  //   try {
+  //     // isLoading(true);
+  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     final String? token = prefs.getString('token');
+
+  //     Map<String, String> queryParams = {
+  //       'AreaId': '1',
+  //       'GardenId': '1',
+  //     };
+  //     final response = await http.get(
+  //         Uri.parse('${AppConstants.baseUrl}/api/v1/FIX/diving-surveys')
+  //             .replace(queryParameters: queryParams),
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "Authorization": "Bearer ${token}"
+  //         });
+  //     if (response.statusCode == 200) {
+  //       var surveys = divingSurveyResponseFromJson(response.body);
+  //       if (surveys.items!.isNotEmpty) {
+  //         listSurvey = surveys.items as List<Survey>;
+  //         Get.toNamed(Routes.surveyList);
+  //         update();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
+
+  Future<void> getByCellId(Cell cell) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      listImage = [];
+
+      final response = await http.get(
+          Uri.parse(
+              '${AppConstants.baseUrl}/api/v1/diver/cell-surveys/${cell.id}'),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${token}"
+          });
+      print('cell');
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var cellSurvey = cellResponseFromJson(response.body);
+        cellResponse = cellSurvey;
+        print(cellResponse.images![0].imageUrl);
+        print(cellSurvey.images!.length);
+        Get.to(CellImageScreen(cell: cell));
+        update();
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
+      update();
     }
   }
 
@@ -173,6 +215,8 @@ class SurveyController extends GetxController {
         final imageTemporary = File(image.path);
 
         listImage.add(imageTemporary);
+        print(listImage.length);
+        print(listImage[0]);
         update();
       }
     } catch (e) {

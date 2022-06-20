@@ -1,6 +1,5 @@
 import 'package:diver/controller/survey_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
@@ -14,49 +13,71 @@ class CellImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SurveyController _surveyController = Get.find<SurveyController>();
-    return StaggeredGridTile.count(
-      crossAxisCellCount: 1,
-      mainAxisCellCount: 1,
-      child: GestureDetector(
-        onTap: () => _surveyController.pickImage(true),
-        child: DottedBorder(
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(12),
-          dashPattern: [8, 4],
-          padding: const EdgeInsets.all(6),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: _surveyController.listImage.isNotEmpty
-                  ? GetBuilder<SurveyController>(
-                      builder: (controller) =>
-                          controller.listImage.length == imageIndex
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Icon(
-                                      Icons.add,
-                                      size: 60,
-                                    ),
-                                  ],
-                                )
-                              : Image.file(controller.listImage[imageIndex],
-                                  fit: BoxFit.cover),
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.add,
-                          size: 60,
-                        ),
-                      ],
-                    ),
-            ),
+    return GestureDetector(
+      onTap: () => _surveyController.pickImage(true),
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        radius: const Radius.circular(12),
+        dashPattern: const [8, 4],
+        padding: const EdgeInsets.all(6),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          child: SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: _surveyController.listImage.isNotEmpty ||
+                    _surveyController.cellResponse.images!.isNotEmpty
+                ? GetBuilder<SurveyController>(
+                    builder: (controller) => controller.listImage.length ==
+                            imageIndex -
+                                (controller.cellResponse.images!.isNotEmpty
+                                    ? controller.cellResponse.images!.length
+                                    : 0)
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.add,
+                                size: 60,
+                              ),
+                            ],
+                          )
+                        : imageIndex -
+                                    (controller.cellResponse.images!.isNotEmpty
+                                        ? controller.cellResponse.images!.length
+                                        : 0) <
+                                0
+                            ? CachedNetworkImage(
+                                imageUrl: controller.cellResponse
+                                        .images![imageIndex].imageUrl ??
+                                    '',
+                                fit: BoxFit.cover,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) => Center(
+                                  child: CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              )
+                            : Image.file(
+                                controller.listImage[imageIndex -
+                                    (controller.cellResponse.images!.isNotEmpty
+                                        ? controller.cellResponse.images!.length
+                                        : 0)],
+                                fit: BoxFit.cover),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.add,
+                        size: 60,
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),
