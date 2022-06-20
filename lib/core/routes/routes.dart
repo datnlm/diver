@@ -7,6 +7,8 @@ import 'package:diver/pages/survey_task.dart';
 import 'package:get/get.dart';
 import 'package:diver/bindings/bindings.dart';
 
+import '../../pages/cell_image.dart';
+
 class Routes {
   static const login = "/";
   static const home = "/home";
@@ -14,6 +16,7 @@ class Routes {
   static const surveyTask = "/survey_task";
   static const orderList = "/order_list";
   static const photoTask = "/photo_task";
+  static const cellPhoto = "/cell_image";
 }
 
 class RouterGenerator {
@@ -40,5 +43,9 @@ class RouterGenerator {
         name: Routes.photoTask,
         page: () => const PhotoScreen(),
         binding: Binding()),
+    // GetPage(
+    //     name: Routes.cellPhoto,
+    //     page: () => const CellImageScreen(cell: null),
+    //     binding: Binding()),
   ];
 }
