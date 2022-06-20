@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SurveyController extends GetxController {
-  File? image;
+  List<File> listImage = <File>[].obs;
   String? imageLink = "";
   var isLoading = false.obs;
   List<Survey> listSurvey = <Survey>[].obs;
@@ -129,7 +129,7 @@ class SurveyController extends GetxController {
     }
   }
 
-  Future<void> uploadImage(File? image) async {
+  Future<void> uploadImage(Cell cell) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
     try {
@@ -141,23 +141,19 @@ class SurveyController extends GetxController {
           Uri.parse("${AppConstants.baseUrl}/api/v1/diver/cell-surveys");
 
       var request = http.MultipartRequest("PUT", postUri);
-
-      http.MultipartFile multipartFile =
-          await http.MultipartFile.fromPath('imageFiles', image!.path);
-      multipartFile =
-          await http.MultipartFile.fromPath('imageFiles', image.path);
+      for (var i = 0; i < listImage.length; i++) {
+        request.files.add(
+            await http.MultipartFile.fromPath('imageFiles', listImage[i].path));
+      }
       request.headers.addAll(headers);
-      request.fields['id'] = '25';
-      request.fields['note'] = 'dat test put survey';
-      request.fields['MediaUrl'] = "images/surveys/sv1_2022-06-17T03:46:18";
+      request.fields['id'] = cell.id.toString();
+      request.fields['note'] = cell.note.toString();
+      request.fields['MediaUrl'] = cell.mediaUrl.toString();
       request.fields['DivingSurveyId'] = '13';
-      request.files.add(multipartFile);
 
       http.StreamedResponse response = await request.send();
       var responseString = await response.stream.bytesToString();
       print(response.statusCode);
-      // imageLink = (json.decode(responseString))['data'];
-      // print(imageLink);
     } catch (e) {
       print(e);
     }
@@ -175,9 +171,9 @@ class SurveyController extends GetxController {
         print('loi');
       } else {
         final imageTemporary = File(image.path);
-        this.image = imageTemporary;
-        uploadImage(this.image);
-        print('oke');
+
+        listImage.add(imageTemporary);
+        update();
       }
     } catch (e) {
       print('exception');
