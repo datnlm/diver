@@ -14,15 +14,16 @@ class CellImageScreen extends StatelessWidget {
     final SurveyController _surveyController = Get.find<SurveyController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Survey"),
+        title: const Text("Cell Survey"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
               Icons.save_alt,
-              color: Colors.black,
+              color: Colors.black87,
+              size: 30,
             ),
             onPressed: () => _surveyController.uploadImage(cell),
-          ),
+          )
         ],
       ),
       body: SafeArea(

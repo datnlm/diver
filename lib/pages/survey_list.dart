@@ -33,22 +33,6 @@ class _SurveyListState extends State<SurveyList> {
                     ),
                   ),
       ),
-      // body: GetBuilder<SurveyController>(
-      //   builder: (controller) => (controller.isLoading.isTrue)
-      //       ? const Center(child: CircularProgressIndicator())
-      //       : controller.listSurvey.isEmpty
-      //           ? const Center(child: Text('Ko co task'))
-      //           : ListView.builder(
-      //               itemCount: controller.listSurvey.length,
-      //               itemBuilder: (context, index) => GestureDetector(
-      //                 onTap: () {
-      //                   controller
-      //                       .getBySurveyId(controller.listSurvey[index].id!);
-      //                 },
-      //                 child: SurveyCard(survey: controller.listSurvey[index]),
-      //               ),
-      //             ),
-      // ),
     );
   }
 }

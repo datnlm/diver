@@ -5,7 +5,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sizer/sizer.dart';
 import 'package:diver/core/res/color.dart';
 import 'package:diver/core/routes/routes.dart';
-import 'package:diver/pages/survey_task.dart';
 import 'package:diver/widgets/circle_gradient_icon.dart';
 import 'package:diver/widgets/task_group.dart';
 import 'package:get/get.dart';
@@ -340,17 +339,6 @@ class BottomNavClipper extends CustomClipper<Path> {
       secEndPoint.dx,
       secEndPoint.dy,
     );
-
-//     path.lineTo(size.width * 0.45, 30);
-
-//     final lastControlPoint = Offset(size.width * 0.45, 20);
-//     final lastEndPoint = Offset(size.width * 0.2, 30);
-//     path.quadraticBezierTo(
-//       lastControlPoint.dx,
-//       lastControlPoint.dy,
-//       lastEndPoint.dx,
-//       lastEndPoint.dy,
-//     );
 
     path.close();
 

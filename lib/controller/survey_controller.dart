@@ -13,7 +13,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../pages/cell_image.dart';
+import '../pages/cell_survey.dart';
 
 class SurveyController extends GetxController {
   List<File> listImage = <File>[].obs;
@@ -23,6 +23,8 @@ class SurveyController extends GetxController {
   List<Cell> listCellSurvey = <Cell>[].obs;
   CellResponse cellResponse = CellResponse();
   Cell? cell = Cell();
+  var isUpdate = false.obs;
+
   @override
   onInit() {
     getAll();
@@ -149,11 +151,10 @@ class SurveyController extends GetxController {
       print(response.statusCode);
       if (response.statusCode == 200) {
         var cellSurvey = cellResponseFromJson(response.body);
+
         cellResponse = cellSurvey;
-        print(cellResponse.images![0].imageUrl);
-        print(cellSurvey.images!.length);
         Get.to(CellImageScreen(cell: cell));
-        update();
+        // update();
       }
     } catch (e) {
       print(e);
@@ -191,11 +192,14 @@ class SurveyController extends GetxController {
       request.fields['id'] = cell.id.toString();
       request.fields['note'] = cell.note.toString();
       request.fields['MediaUrl'] = cell.mediaUrl.toString();
-      request.fields['DivingSurveyId'] = '13';
+      request.fields['DivingSurveyId'] = cell.divingSurveyId.toString();
 
       http.StreamedResponse response = await request.send();
       var responseString = await response.stream.bytesToString();
       print(response.statusCode);
+      if (response.statusCode == 200) {
+        Get.back();
+      }
     } catch (e) {
       print(e);
     }

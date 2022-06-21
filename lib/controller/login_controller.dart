@@ -21,15 +21,13 @@ class LoginController extends GetxController {
         },
         body: data,
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         final data = json.decode(response.body);
         prefs.setString('token', data['token']);
         Map<String, dynamic> payload = Jwt.parseJwt(data['token']);
         prefs.setString('diver', json.encode(payload));
-        print(payload);
-        Get.toNamed(Routes.home);
+        Get.toNamed(Routes.dashboard);
       }
     } catch (e) {
       print(e);

@@ -37,7 +37,9 @@ class CellResponse {
   factory CellResponse.fromJson(Map<String, dynamic> json) => CellResponse(
         id: json["id"],
         mediaUrl: json["mediaUrl"],
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        images: json["images"] == null
+            ? []
+            : List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
         note: json["note"],
         coralCellId: json["coralCellId"],
         divingSurveyId: json["divingSurveyId"],
