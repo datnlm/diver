@@ -17,10 +17,10 @@ class LoginForm extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             width: MediaQuery.of(context).size.width * 0.8,
             decoration: BoxDecoration(
-              color: Color(0xFFF1E6FF),
+              color: const Color(0xFFF1E6FF),
               borderRadius: BorderRadius.circular(29),
             ),
             child: TextFormField(
@@ -28,16 +28,15 @@ class LoginForm extends StatelessWidget {
               textAlignVertical: TextAlignVertical.center,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              cursorColor: Color(0xFF6F35A5),
+              cursorColor: const Color(0xFF6F35A5),
               // cursorColor: kPrimaryColor,
               controller: email,
               // onSaved: (email) {},
               decoration: const InputDecoration(
-                hintText: "Your email",
+                hintText: "Địa chỉ email",
                 border: InputBorder.none,
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(16.0),
-                  // padding: const EdgeInsets.all(defaultPadding),
                   child: Icon(
                     Icons.person,
                     color: Color(0xFF6F35A5),
@@ -47,7 +46,6 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           Padding(
-            // padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -66,10 +64,9 @@ class LoginForm extends StatelessWidget {
                 controller: password,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
-                  hintText: "Your password",
+                  hintText: "Mật khẩu",
                   prefixIcon: Padding(
                     padding: EdgeInsets.all(16.0),
-                    // padding: const EdgeInsets.all(defaultPadding),
                     child: Icon(
                       Icons.lock,
                       color: Color(0xFF6F35A5),
@@ -80,7 +77,6 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          // const SizedBox(height: defaultPadding),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
             child: ClipRRect(
@@ -93,9 +89,8 @@ class LoginForm extends StatelessWidget {
                 ),
                 onPressed: () {
                   loginController.login(email, password);
-                  // Navigator.pushNamed(context, Routes.home);
                 },
-                child: Text('Login'),
+                child: const Text('Đăng nhập'),
               ),
             ),
           ),
