@@ -1,17 +1,21 @@
 import 'package:diver/pages/home.dart';
 import 'package:diver/pages/login.dart';
+import 'package:diver/pages/menu.dart';
 import 'package:diver/pages/order_list.dart';
 import 'package:diver/pages/photo_task.dart';
 import 'package:diver/pages/survey_list.dart';
-import 'package:diver/pages/survey_task.dart';
 import 'package:get/get.dart';
 import 'package:diver/bindings/bindings.dart';
 
-import '../../pages/cell_image.dart';
+import '../../pages/cell_survey.dart';
+import '../../pages/dashboard.dart';
+import '../../pages/survey_task.dart';
 
 class Routes {
   static const login = "/";
+  static const dashboard = "/dashboard";
   static const home = "/home";
+  static const menu = "/menu";
   static const surveyList = "/survey_list";
   static const surveyTask = "/survey_task";
   static const orderList = "/order_list";
@@ -24,6 +28,14 @@ class RouterGenerator {
     GetPage(
         name: Routes.login,
         page: () => const LoginScreen(),
+        binding: Binding()),
+    GetPage(
+        name: Routes.dashboard,
+        page: () => const DashBoardScreen(),
+        binding: Binding()),
+        GetPage(
+        name: Routes.menu,
+        page: () => const MenuScreen(),
         binding: Binding()),
     GetPage(
         name: Routes.home, page: () => const HomeScreen(), binding: Binding()),

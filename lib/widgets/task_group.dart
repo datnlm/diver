@@ -6,14 +6,14 @@ class TaskGroupContainer extends StatelessWidget {
   final bool? isSmall;
   final IconData icon;
   final String taskGroup;
-  final num taskCount;
+  final num? taskCount;
   const TaskGroupContainer({
     Key? key,
     required this.color,
     this.isSmall = false,
     required this.icon,
     required this.taskGroup,
-    required this.taskCount,
+    this.taskCount,
   }) : super(key: key);
 
   @override
@@ -23,12 +23,13 @@ class TaskGroupContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: color[400],
         boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.4),
-            blurRadius: 10,
-            spreadRadius: 4,
-            offset: const Offset(2, 6),
-          )
+          if (taskCount != null)
+            BoxShadow(
+              color: color.withOpacity(0.4),
+              blurRadius: 10,
+              spreadRadius: 4,
+              offset: const Offset(2, 6),
+            )
         ],
         gradient: AppColors.getDarkLinearGradient(color),
         borderRadius: BorderRadius.circular(20),
@@ -62,13 +63,14 @@ class TaskGroupContainer extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          Text(
-            "$taskCount Task",
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
-              fontSize: 12,
+          if (taskCount != null)
+            Text(
+              "$taskCount Task",
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.7),
+                fontSize: 12,
+              ),
             ),
-          ),
           const SizedBox(
             height: 5,
           ),
