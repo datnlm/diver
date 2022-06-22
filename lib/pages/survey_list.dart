@@ -16,7 +16,14 @@ class _SurveyListState extends State<SurveyList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Survey List"),
+        centerTitle: true,
+        title: const Text(
+          "Survey List",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: GetBuilder<SurveyController>(
         builder: (controller) => (controller.isLoading.isTrue)

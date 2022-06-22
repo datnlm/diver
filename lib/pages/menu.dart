@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/core/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
-
-import '../controller/information_diver_controller.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -13,17 +11,23 @@ class MenuScreen extends StatefulWidget {
   _MenuScreenState createState() => _MenuScreenState();
 }
 
+AuthController _authorController = Get.find<AuthController>();
+
 class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(
-          child: Text('Menu'),
+        title: Text(
+          'Menu',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         automaticallyImplyLeading: false,
       ),
-      body: GetBuilder<InformationDiverController>(
+      body: GetBuilder<AuthController>(
         builder: (controller) => SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,17 +40,34 @@ class _MenuScreenState extends State<MenuScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
                     onTap: () => Get.toNamed(Routes.information),
+                    // leading: CircleAvatar(
+                    //     radius: 29,
+                    //     backgroundImage: CachedNetworkImage(
+                    //       imageUrl: controller
+                    //               .cellResponse.images![imageIndex].imageUrl ??
+                    //           '',
+                    //       fit: BoxFit.cover,
+                    //       progressIndicatorBuilder:
+                    //           (context, url, downloadProgress) => Center(
+                    //         child: CircularProgressIndicator(
+                    //             value: downloadProgress.progress),
+                    //       ),
+                    //       errorWidget: (context, url, error) =>
+                    //           const Icon(Icons.error),
+                    //     )),
                     leading: CircleAvatar(
                       radius: 29,
+                      backgroundColor: Colors.transparent,
                       backgroundImage: CachedNetworkImageProvider(
-                          controller.diver.imageUrl ?? ''),
+                        controller.diver.imageUrl ?? '',
+                      ),
                     ),
                     title: Text(
                       '${controller.diver.name}',
                       style:
                           TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                     ),
-                    subtitle: const Text('So dien thoai'),
+                    subtitle: Text('${controller.diver.email}'),
                     trailing: const Icon(
                       Icons.navigate_next,
                     ),
@@ -106,7 +127,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     borderRadius: BorderRadius.circular(10.0)),
                 margin: const EdgeInsets.all(8.0),
                 child: ListTile(
-                  onTap: () => {},
+                  onTap: () => _authorController.logout(),
                   leading: Container(
                     height: double.infinity,
                     child: Icon(Icons.logout),

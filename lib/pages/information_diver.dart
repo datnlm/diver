@@ -1,4 +1,4 @@
-import 'package:diver/controller/information_diver_controller.dart';
+import 'package:diver/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +16,7 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'Thông tin cá nhân',
           style: TextStyle(
@@ -24,7 +25,7 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
           ),
         ),
       ),
-      body: GetBuilder<InformationDiverController>(
+      body: GetBuilder<AuthController>(
         builder: (controller) => Column(
           children: [
             ListTile(
@@ -34,22 +35,11 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                 padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   'Tên',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              title: Text('${controller.diver.name}'),
-              // title: Expanded(
-              //   child: Text('${controller.diver.name}'),
-              // ),
-
-              // title: Column(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text('Nguyen Le Man Dat'),
-              //     Divider(),
-              //   ],
-              // ),
+              title: Text('${controller.diver.name}',
+                  style: TextStyle(fontSize: 18)),
             ),
             const Divider(),
             ListTile(
@@ -59,13 +49,11 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                 padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   'Email',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              title: Text('${controller.diver.name}'),
-              // title: Expanded(
-              //   child: Text('${controller.diver.name}'),
-              // ),
+              title: Text('${controller.diver.email}',
+                  style: TextStyle(fontSize: 18)),
             ),
             const Divider(),
             ListTile(
@@ -75,13 +63,11 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                 padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   'Điện thoại',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              title: Text('0337804259'),
-              // title: const Expanded(
-              //   child: Text('0337804259'),
-              // ),
+              title: Text('${controller.diver.phone}',
+                  style: TextStyle(fontSize: 18)),
             ),
             const Divider(),
             ListTile(
@@ -91,13 +77,13 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                 padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   'Địa chỉ',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
-              title: Text('FPT HCM'),
-              // title: const Expanded(
-              //   child: Text('FPT HCM'),
-              // ),
+              title: Text(
+                '${controller.diver.address}',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
             const Divider(),
           ],

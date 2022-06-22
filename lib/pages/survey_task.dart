@@ -21,7 +21,14 @@ class _SurveyScreenState extends State<SurveyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Survey"),
+        centerTitle: true,
+        title: const Text(
+          "Survey",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.all(16),

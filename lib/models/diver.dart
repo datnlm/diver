@@ -9,41 +9,41 @@ Diver diverFromJson(String str) => Diver.fromJson(json.decode(str));
 String diverToJson(Diver data) => json.encode(data.toJson());
 
 class Diver {
-    Diver({
-        this.name,
-        this.username,
-        this.role,
-        this.imageUrl,
-        this.roleName,
-        this.id,
-        this.siteid,
-    });
+  Diver({
+    this.id,
+    this.imageUrl,
+    this.name,
+    this.phone,
+    this.email,
+    this.address,
+    this.status,
+  });
 
-    String? name;
-    String? username;
-    String? role;
-    String? imageUrl;
-    String? roleName;
-    String? id;
-    String? siteid;
+  int? id;
+  String? imageUrl;
+  String? name;
+  String? phone;
+  String? email;
+  String? address;
+  int? status;
 
-    factory Diver.fromJson(Map<String, dynamic> json) => Diver(
-        name: json["name"],
-        username: json["username"],
-        role: json["role"],
-        imageUrl: json["imageUrl"],
-        roleName: json["roleName"],
+  factory Diver.fromJson(Map<String, dynamic> json) => Diver(
         id: json["id"],
-        siteid: json["siteid"],
-    );
+        imageUrl: json["imageUrl"],
+        name: json["name"],
+        phone: json["phone"],
+        email: json["email"],
+        address: json["address"],
+        status: json["status"],
+      );
 
-    Map<String, dynamic> toJson() => {
-        "name": name,
-        "username": username,
-        "role": role,
-        "imageUrl": imageUrl,
-        "roleName": roleName,
+  Map<String, dynamic> toJson() => {
         "id": id,
-        "siteid": siteid,
-    };
+        "imageUrl": imageUrl,
+        "name": name,
+        "phone": phone,
+        "email": email,
+        "address": address,
+        "status": status,
+      };
 }

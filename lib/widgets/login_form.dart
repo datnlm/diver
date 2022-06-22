@@ -1,4 +1,4 @@
-import 'package:diver/controller/login_controller.dart';
+import 'package:diver/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,7 @@ class LoginForm extends StatelessWidget {
     TextEditingController? password = TextEditingController();
     final formkey = GlobalKey<FormState>();
 
-    final LoginController loginController = Get.find<LoginController>();
+    final AuthController authController = Get.find<AuthController>();
     return Form(
       key: formkey,
       child: Column(
@@ -88,7 +88,7 @@ class LoginForm extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () {
-                  loginController.login(email, password);
+                  authController.login(email, password);
                 },
                 child: const Text('Đăng nhập'),
               ),
