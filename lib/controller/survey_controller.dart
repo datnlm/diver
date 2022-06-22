@@ -24,7 +24,6 @@ class SurveyController extends GetxController {
   CellResponse cellResponse = CellResponse();
   Cell? cell = Cell();
   var isUpdate = false.obs;
-
   @override
   onInit() {
     getAll();
@@ -36,13 +35,10 @@ class SurveyController extends GetxController {
       isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
-      String? diverPref = prefs.getString('diver');
-
-      Map<String, dynamic> diver =
-          jsonDecode(diverPref!) as Map<String, dynamic>;
 
       Map<String, String> queryParams = {
-        'DiverId': diver['id'],
+        'DiverId': '2',
+        // 'DiverId': information.diver.id.toString(),
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -70,14 +66,11 @@ class SurveyController extends GetxController {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
-      String? diverPref = prefs.getString('diver');
-
-      Map<String, dynamic> diver =
-          jsonDecode(diverPref!) as Map<String, dynamic>;
 
       Map<String, String> queryParams = {
         'DivingSurveyId': survey.id.toString(),
-        'DiverId': diver['id'],
+        'DiverId': '2',
+        // 'DiverId': information.diver.id.toString(),
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/cell-surveys')
@@ -101,38 +94,6 @@ class SurveyController extends GetxController {
       update();
     }
   }
-
-  // Future<void> getAllCell() async {
-  //   try {
-  //     // isLoading(true);
-  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     final String? token = prefs.getString('token');
-
-  //     Map<String, String> queryParams = {
-  //       'AreaId': '1',
-  //       'GardenId': '1',
-  //     };
-  //     final response = await http.get(
-  //         Uri.parse('${AppConstants.baseUrl}/api/v1/FIX/diving-surveys')
-  //             .replace(queryParameters: queryParams),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "Authorization": "Bearer ${token}"
-  //         });
-  //     if (response.statusCode == 200) {
-  //       var surveys = divingSurveyResponseFromJson(response.body);
-  //       if (surveys.items!.isNotEmpty) {
-  //         listSurvey = surveys.items as List<Survey>;
-  //         Get.toNamed(Routes.surveyList);
-  //         update();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
 
   Future<void> getByCellId(Cell cell) async {
     try {
