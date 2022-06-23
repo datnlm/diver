@@ -23,14 +23,18 @@ class CellImageScreen extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.save_alt,
-              color: Colors.black87,
-              size: 30,
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(
+                fontSize: 18,
+              ),
             ),
             onPressed: () => _surveyController.uploadImage(cell),
-          )
+            child: const Text('Xong',
+                style: TextStyle(
+                  color: Colors.black,
+                )),
+          ),
         ],
       ),
       body: SafeArea(
@@ -60,12 +64,6 @@ class CellImageScreen extends StatelessWidget {
                           1,
                       itemBuilder: (BuildContext ctx, index) {
                         return CellImageCard(imageIndex: index);
-                        // return (controller.cellResponse.images!.isNotEmpty
-                        //             ? controller.cellResponse.images!.length
-                        //             : 0) >=
-                        //         index
-                        //     ? CellImageCardNetWord(imageIndex: index)
-                        //     : CellImageCardFille(imageIndex: index);
                       },
                     ),
             ),
@@ -75,13 +73,3 @@ class CellImageScreen extends StatelessWidget {
     );
   }
 }
-
-//  MasonryGridView.count(
-//                     crossAxisCount: 2,
-//                     mainAxisSpacing: 15,
-//                     crossAxisSpacing: 15,
-//                     itemCount: 4,
-//                     itemBuilder: (context, index) {
-//                       return CellImageCard(imageIndex: index);
-//                     },
-//                   ),

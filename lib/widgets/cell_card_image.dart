@@ -24,88 +24,84 @@ class CellImageCard extends StatelessWidget {
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             child: SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: _surveyController.listImage.isNotEmpty ||
-                      _surveyController.cellResponse.images!.isNotEmpty
-                  ? GetBuilder<SurveyController>(
-                      builder: (controller) => controller.listImage.length ==
-                              imageIndex -
-                                  (controller.cellResponse.images!.isNotEmpty
-                                      ? controller.cellResponse.images!.length
-                                      : 0)
-                          ? GestureDetector(
-                              onTap: () => _surveyController.pickImage(true),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.add,
-                                    size: 60,
-                                  ),
-                                ],
-                              ),
-                            )
-                          : imageIndex -
-                                      (controller
-                                              .cellResponse.images!.isNotEmpty
-                                          ? controller
-                                              .cellResponse.images!.length
-                                          : 0) <
-                                  0
-                              ? CachedNetworkImage(
-                                  imageUrl: controller.cellResponse
-                                          .images![imageIndex].imageUrl ??
-                                      '',
-                                  fit: BoxFit.cover,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          Center(
-                                    child: CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                )
-                              : Image.file(
-                                  controller.listImage[imageIndex -
-                                      (controller
-                                              .cellResponse.images!.isNotEmpty
-                                          ? controller
-                                              .cellResponse.images!.length
-                                          : 0)],
-                                  fit: BoxFit.cover),
-                    )
-                  : GestureDetector(
-                      onTap: () => _surveyController.pickImage(true),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.add,
-                            size: 60,
-                          ),
-                        ],
-                      ),
-                    ),
-            ),
+                height: double.infinity,
+                width: double.infinity,
+                child: _surveyController.listImage.isNotEmpty ||
+                        _surveyController.cellResponse.images!.isNotEmpty
+                    ? GetBuilder<SurveyController>(
+                        builder: (controller) => controller.listImage.length ==
+                                imageIndex -
+                                    (controller.cellResponse.images!.isNotEmpty
+                                        ? controller.cellResponse.images!.length
+                                        : 0)
+                            ? pickupImage(_surveyController)
+                            : imageIndex -
+                                        (controller
+                                                .cellResponse.images!.isNotEmpty
+                                            ? controller
+                                                .cellResponse.images!.length
+                                            : 0) <
+                                    0
+                                ? netWorkImage(controller)
+                                : imageFile(controller),
+                      )
+                    : pickupImage(_surveyController)),
           ),
         ),
         if (imageIndex <
             _surveyController.cellResponse.images!.length +
                 _surveyController.listImage.length)
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: GestureDetector(
-              onTap: () => _surveyController.deleteImage(imageIndex),
-              // onTap: () => print(imageIndex),
-              child: buildDeleteIcon(Theme.of(context).colorScheme.primary),
-            ),
-          ),
+          deleteIcon(_surveyController, context),
       ],
+    );
+  }
+
+  Positioned deleteIcon(
+      SurveyController _surveyController, BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      right: 4,
+      child: GestureDetector(
+        onTap: () => _surveyController.deleteImage(imageIndex),
+        // onTap: () => print(imageIndex),
+        child: buildDeleteIcon(Theme.of(context).colorScheme.primary),
+      ),
+    );
+  }
+
+  Image imageFile(SurveyController controller) {
+    return Image.file(
+        controller.listImage[imageIndex -
+            (controller.cellResponse.images!.isNotEmpty
+                ? controller.cellResponse.images!.length
+                : 0)],
+        fit: BoxFit.cover);
+  }
+
+  GestureDetector pickupImage(SurveyController _surveyController) {
+    return GestureDetector(
+      onTap: () => _surveyController.pickImage(true),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Icon(
+            Icons.add,
+            size: 60,
+          ),
+        ],
+      ),
+    );
+  }
+
+  CachedNetworkImage netWorkImage(SurveyController controller) {
+    return CachedNetworkImage(
+      imageUrl: controller.cellResponse.images![imageIndex].imageUrl ?? '',
+      fit: BoxFit.cover,
+      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+        child: CircularProgressIndicator(value: downloadProgress.progress),
+      ),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 

@@ -1,7 +1,8 @@
 import 'package:diver/models/survey.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+
+import '../core/res/status.dart';
 
 class SurveyCard extends StatelessWidget {
   final Survey survey;
@@ -73,7 +74,7 @@ class SurveyCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Trạng thái:'),
-                      Text('${survey.status}',
+                      Text('${AppStatus.status[survey.status]}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                           )),
