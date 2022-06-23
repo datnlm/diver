@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diver/controller/auth_controller.dart';
+import 'package:diver/controller/information_controller.dart';
 import 'package:diver/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ class MenuScreen extends StatefulWidget {
   _MenuScreenState createState() => _MenuScreenState();
 }
 
-AuthController _authorController = Get.find<AuthController>();
+final AuthController _authController = Get.find<AuthController>();
 
 class _MenuScreenState extends State<MenuScreen> {
   @override
@@ -27,7 +28,7 @@ class _MenuScreenState extends State<MenuScreen> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: GetBuilder<AuthController>(
+      body: GetBuilder<InformationController>(
         builder: (controller) => SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +128,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     borderRadius: BorderRadius.circular(10.0)),
                 margin: const EdgeInsets.all(8.0),
                 child: ListTile(
-                  onTap: () => _authorController.logout(),
+                  onTap: () => _authController.logout(),
                   leading: Container(
                     height: double.infinity,
                     child: Icon(Icons.logout),

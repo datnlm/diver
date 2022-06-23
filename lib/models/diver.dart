@@ -19,13 +19,13 @@ class Diver {
     this.status,
   });
 
-  int? id;
+  dynamic id;
   String? imageUrl;
   String? name;
   String? phone;
   String? email;
   String? address;
-  int? status;
+  dynamic status;
 
   factory Diver.fromJson(Map<String, dynamic> json) => Diver(
         id: json["id"],

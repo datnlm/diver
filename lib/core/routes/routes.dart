@@ -11,6 +11,7 @@ import 'package:diver/bindings/bindings.dart';
 import '../../pages/cell_survey.dart';
 import '../../pages/dashboard.dart';
 import '../../pages/survey_task.dart';
+import '../../pages/information_form.dart';
 
 class Routes {
   static const login = "/";
@@ -18,6 +19,7 @@ class Routes {
   static const home = "/home";
   static const menu = "/menu";
   static const information = "/information_diver";
+  static const updateInformation = "/information_form";
   static const surveyList = "/survey_list";
   static const surveyTask = "/survey_task";
   static const orderList = "/order_list";
@@ -51,20 +53,29 @@ class RouterGenerator {
       binding: Binding(),
     ),
     GetPage(
-        name: Routes.surveyList,
-        page: () => const SurveyList(),
-        binding: Binding()),
+      name: Routes.updateInformation,
+      page: () => const UpdateInformationScreen(),
+      binding: Binding(),
+    ),
     GetPage(
-        name: Routes.surveyTask,
-        page: () => const SurveyScreen(),
-        binding: Binding()),
+      name: Routes.surveyList,
+      page: () => const SurveyList(),
+      binding: Binding(),
+    ),
     GetPage(
-        name: Routes.orderList,
-        page: () => const OrderList(),
-        binding: Binding()),
+      name: Routes.surveyTask,
+      page: () => const SurveyScreen(),
+      binding: Binding(),
+    ),
     GetPage(
-        name: Routes.photoTask,
-        page: () => const PhotoScreen(),
-        binding: Binding()),
+      name: Routes.orderList,
+      page: () => const OrderList(),
+      binding: Binding(),
+    ),
+    GetPage(
+      name: Routes.photoTask,
+      page: () => const PhotoScreen(),
+      binding: Binding(),
+    ),
   ];
 }
