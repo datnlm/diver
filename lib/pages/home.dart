@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //       .bodySmall!
         //       .copyWith(fontWeight: FontWeight.bold),
         // ),
+          automaticallyImplyLeading: false,
         elevation: 0,
         actions: [
           Padding(
@@ -45,26 +46,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           )
         ],
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: InkWell(
-              onTap: () {},
-              customBorder: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: const Icon(
-                Icons.menu_rounded,
-              ),
-            ),
-          ),
-        ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 10),
+        //   child: Container(
+        //     width: 50,
+        //     height: 50,
+        //     decoration: const BoxDecoration(
+        //       color: Colors.white,
+        //       shape: BoxShape.circle,
+        //     ),
+        //     child: InkWell(
+        //       onTap: () {},
+        //       customBorder: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(100),
+        //       ),
+        //       child: const Icon(
+        //         Icons.menu_rounded,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
       extendBody: true,
       body: _buildBody(),
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.pink,
               icon: Icons.article,
               taskCount: 10,
-              taskGroup: "Survey",
+              taskGroup: "Khảo sát",
             ),
           ),
         ),

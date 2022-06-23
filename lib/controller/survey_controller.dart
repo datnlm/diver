@@ -24,6 +24,7 @@ class SurveyController extends GetxController {
   CellResponse cellResponse = CellResponse();
   Cell? cell = Cell();
   var isUpdate = false.obs;
+
   @override
   onInit() {
     getAll();
@@ -35,10 +36,10 @@ class SurveyController extends GetxController {
       isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
+      final String? diverId = prefs.getString('diverId');
 
       Map<String, String> queryParams = {
-        'DiverId': '2',
-        // 'DiverId': information.diver.id.toString(),
+        'DiverId': diverId!,
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -66,10 +67,11 @@ class SurveyController extends GetxController {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
+      final String? diverId = prefs.getString('diverId');
 
       Map<String, String> queryParams = {
         'DivingSurveyId': survey.id.toString(),
-        'DiverId': '2',
+        'DiverId': diverId!,
         // 'DiverId': information.diver.id.toString(),
       };
       final response = await http.get(
@@ -108,14 +110,11 @@ class SurveyController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${token}"
           });
-      print('cell');
-      print(response.statusCode);
       if (response.statusCode == 200) {
         var cellSurvey = cellResponseFromJson(response.body);
 
         cellResponse = cellSurvey;
         Get.to(CellImageScreen(cell: cell));
-        // update();
       }
     } catch (e) {
       print(e);
@@ -145,6 +144,7 @@ class SurveyController extends GetxController {
           Uri.parse("${AppConstants.baseUrl}/api/v1/diver/cell-surveys");
 
       var request = http.MultipartRequest("PUT", postUri);
+
       for (var i = 0; i < listImage.length; i++) {
         request.files.add(
             await http.MultipartFile.fromPath('imageFiles', listImage[i].path));
@@ -154,9 +154,15 @@ class SurveyController extends GetxController {
       request.fields['note'] = cell.note.toString();
       request.fields['MediaUrl'] = cell.mediaUrl.toString();
       request.fields['DivingSurveyId'] = cell.divingSurveyId.toString();
-
+      // request.fields['Images[0]'] =
+      //     cellResponse.images![0].imageUrl.toString();
+      for (var i = 0; i < cellResponse.images!.length; i++) {
+        request.fields['Images[$i].Id'] = cellResponse.images![i].id.toString();
+        request.fields['Images[$i].ImageUrl'] =
+            cellResponse.images![i].imageUrl.toString();
+      }
+      print(request);
       http.StreamedResponse response = await request.send();
-      var responseString = await response.stream.bytesToString();
       print(response.statusCode);
       if (response.statusCode == 200) {
         Get.back();
@@ -187,5 +193,14 @@ class SurveyController extends GetxController {
     } catch (e) {
       print('exception');
     }
+  }
+
+  void deleteImage(int index) {
+    if (cellResponse.images!.isNotEmpty) {
+      cellResponse.images!.removeAt(index);
+    } else if (listImage.isNotEmpty) {
+      listImage.removeAt(index - cellResponse.images!.length);
+    }
+    update();
   }
 }
