@@ -1,6 +1,4 @@
-import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/controller/information_controller.dart';
-import 'package:diver/pages/information_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +6,7 @@ class InformationDiverScreen extends StatefulWidget {
   const InformationDiverScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _InformationDiverScreenState createState() => _InformationDiverScreenState();
 }
 
@@ -28,7 +27,7 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
       body: GetBuilder<InformationController>(
         builder: (controller) => ListView(
           // padding: EdgeInsets.symmetric(horizontal: 32),
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           children: [
             Center(
               child: Stack(

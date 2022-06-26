@@ -1,9 +1,6 @@
-import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
-import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/core/routes/routes.dart';
-import 'package:diver/pages/information_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,10 +39,10 @@ class InformationController extends GetxController {
       final String? id = prefs.getString('diverId');
 
       final response = await http.get(
-          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/divers/${id}'),
+          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/divers/$id'),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer ${token}"
+            "Authorization": "Bearer $token"
           });
       if (response.statusCode == 200) {
         prefs.setString('diver', response.body);
@@ -54,7 +51,7 @@ class InformationController extends GetxController {
         update();
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     } finally {
       isLoading(false);
       update();
@@ -63,7 +60,6 @@ class InformationController extends GetxController {
 
   Future<void> initTextField(String type) async {
     typeField = type;
-    print(diver.address);
     switch (type) {
       case "name":
         title = "Tên";
@@ -78,7 +74,7 @@ class InformationController extends GetxController {
         textField.text = diver.address!;
         break;
       default:
-        print(type);
+        log(type);
         break;
     }
     Get.toNamed(Routes.updateInformation);
@@ -130,13 +126,13 @@ class InformationController extends GetxController {
         getDiver();
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
   Future pickImage(bool isCamera) async {
     try {
-      final image;
+      final XFile? image;
       if (!isCamera) {
         image = await ImagePicker().pickImage(source: ImageSource.gallery);
       } else {
@@ -149,7 +145,7 @@ class InformationController extends GetxController {
         updateInformation();
       }
     } catch (e) {
-      print('exception');
+      log(e.toString());
     }
   }
 }

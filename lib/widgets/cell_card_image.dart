@@ -4,16 +4,13 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
-import '../models/cell_survey.dart';
-
 class CellImageCard extends StatelessWidget {
   final int imageIndex;
   const CellImageCard({Key? key, required this.imageIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final SurveyController _surveyController = Get.find<SurveyController>();
-
+    final SurveyController surveyController = Get.find<SurveyController>();
     return Stack(
       children: [
         DottedBorder(
@@ -26,15 +23,15 @@ class CellImageCard extends StatelessWidget {
             child: SizedBox(
                 height: double.infinity,
                 width: double.infinity,
-                child: _surveyController.listImage.isNotEmpty ||
-                        _surveyController.cellResponse.images!.isNotEmpty
+                child: surveyController.listImage.isNotEmpty ||
+                        surveyController.cellResponse.images!.isNotEmpty
                     ? GetBuilder<SurveyController>(
                         builder: (controller) => controller.listImage.length ==
                                 imageIndex -
                                     (controller.cellResponse.images!.isNotEmpty
                                         ? controller.cellResponse.images!.length
                                         : 0)
-                            ? pickupImage(context, _surveyController)
+                            ? pickupImage(context, surveyController)
                             : imageIndex -
                                         (controller
                                                 .cellResponse.images!.isNotEmpty
@@ -45,13 +42,13 @@ class CellImageCard extends StatelessWidget {
                                 ? netWorkImage(controller)
                                 : imageFile(controller),
                       )
-                    : pickupImage(context, _surveyController)),
+                    : pickupImage(context, surveyController)),
           ),
         ),
         if (imageIndex <
-            _surveyController.cellResponse.images!.length +
-                _surveyController.listImage.length)
-          deleteIcon(context, _surveyController),
+            surveyController.cellResponse.images!.length +
+                surveyController.listImage.length)
+          deleteIcon(context, surveyController),
       ],
     );
   }
@@ -102,7 +99,10 @@ class CellImageCard extends StatelessWidget {
                 height: 50,
                 child: InkWell(
                   highlightColor: Colors.grey[200],
-                  onTap: () => surveyController.deleteImage(imageIndex),
+                  onTap: () {
+                    surveyController.deleteImage(imageIndex);
+                    Get.back();
+                  },
                   child: const Center(
                     child: Text(
                       "Xoá",

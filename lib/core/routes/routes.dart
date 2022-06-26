@@ -1,9 +1,9 @@
+import 'package:diver/pages/cell_survey.dart';
 import 'package:diver/pages/home.dart';
 import 'package:diver/pages/information_diver.dart';
 import 'package:diver/pages/login.dart';
 import 'package:diver/pages/splash.dart';
 import 'package:diver/pages/menu.dart';
-import 'package:diver/pages/photo_task.dart';
 import 'package:get/get.dart';
 import 'package:diver/bindings/bindings.dart';
 
@@ -20,8 +20,8 @@ class Routes {
   static const information = "/information_diver";
   static const updateInformation = "/information_form";
   static const surveyTask = "/survey_task";
-  static const photoTask = "/photo_task";
   static const cellPhoto = "/cell_image";
+  static const cellSurvey = "/cell_survey";
 }
 
 class RouterGenerator {
@@ -64,8 +64,8 @@ class RouterGenerator {
       binding: Binding(),
     ),
     GetPage(
-      name: Routes.photoTask,
-      page: () => const PhotoScreen(),
+      name: Routes.cellSurvey,
+      page: () => const CellSurveyScreen(),
       binding: Binding(),
     ),
   ];

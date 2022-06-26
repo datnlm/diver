@@ -1,4 +1,5 @@
 import 'package:diver/controller/survey_controller.dart';
+import 'package:diver/core/routes/routes.dart';
 import 'package:diver/widgets/survey_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,18 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  // final events = LinkedHashMap(
-  //   equals: isSameDay,
-  //   hashCode: getHashCode,
-  // )..addAll(eventSource);
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // selectedEvents[_focusedDay]?.add(
-    //   Event(title: 'abc'),
-    // );
     _selectedDay = _focusedDay;
   }
 
@@ -78,10 +70,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Center(
                     child: Text(
                       text,
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   );
                 }
+                return null;
               },
             ),
             selectedDayPredicate: (day) {
@@ -116,38 +109,42 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           const SizedBox(height: 8.0),
-          Expanded(
-            child: GetBuilder<SurveyController>(
-              builder: (controller) => (controller.isLoading.isTrue)
-                  ? const Center(child: CircularProgressIndicator())
-                  : controller.listSurvey.isEmpty
-                      ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Icon(
-                            Icons.assignment_outlined,
-                            size: 120.0,
-                          ),
-                          Text(
-                            'Không có công việc',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          // Look like you have no task in this date.
-                          Text(
-                            'Có vẻ như bạn không có nhiệm vụ trong ngày này.',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      )
-                      : _survey(controller),
-            ),
-          ),
+          _getListSurvey(),
         ],
+      ),
+    );
+  }
+
+  Expanded _getListSurvey() {
+    return Expanded(
+      child: GetBuilder<SurveyController>(
+        builder: (controller) => (controller.isLoading.isTrue)
+            ? const Center(child: CircularProgressIndicator())
+            : controller.listSurvey.isEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Icon(
+                        Icons.assignment_outlined,
+                        size: 120.0,
+                      ),
+                      Text(
+                        'Không có công việc',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      // Look like you have no task in this date.
+                      Text(
+                        'Có vẻ như bạn không có nhiệm vụ trong ngày này.',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ],
+                  )
+                : _survey(controller),
       ),
     );
   }
@@ -158,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
       itemBuilder: ((context, index) {
         return GestureDetector(
           onTap: () {
-            controller.getBySurveyId(controller.listSurvey[index]);
+            controller.getSurveyById(controller.listSurvey[index]);
+            Get.toNamed(Routes.surveyTask);
           },
           child: Container(
               margin: const EdgeInsets.symmetric(

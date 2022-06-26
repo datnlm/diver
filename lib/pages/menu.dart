@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/controller/information_controller.dart';
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletons/skeletons.dart';
@@ -10,6 +11,7 @@ class MenuScreen extends StatefulWidget {
   const MenuScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MenuScreenState createState() => _MenuScreenState();
 }
 
@@ -43,7 +45,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   child: Skeleton(
                     isLoading: controller.isLoading.isTrue ? true : false,
                     skeleton: _profileSkeleton(context),
-                    child: _profile(controller),
+                    child: controller.diver.imageUrl != null
+                        ? _profile(controller)
+                        : const Loading(),
                   ),
                 ),
               ),
@@ -89,7 +93,7 @@ class _MenuScreenState extends State<MenuScreen> {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         onTap: () => _authController.logout(),
-        leading: Container(
+        leading: const SizedBox(
           height: double.infinity,
           child: Icon(Icons.logout),
         ),
@@ -120,7 +124,7 @@ class _MenuScreenState extends State<MenuScreen> {
               'Ngôn ngữ',
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
-            subtitle: Text('Việt Nam'),
+            subtitle: const Text('Việt Nam'),
             trailing: const Icon(
               Icons.navigate_next,
             ),

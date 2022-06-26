@@ -1,20 +1,16 @@
 import 'package:diver/controller/survey_controller.dart';
+import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diver/widgets/cell_card.dart';
-import 'package:diver/widgets/task_group.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:get/get.dart';
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SurveyScreenState createState() => _SurveyScreenState();
 }
-
-final SurveyController _surveyController = Get.find<SurveyController>();
 
 class _SurveyScreenState extends State<SurveyScreen> {
   @override
@@ -23,7 +19,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Survey",
+          "Khảo sát",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
@@ -35,7 +31,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
         // color: kBackgroundColor,
         child: GetBuilder<SurveyController>(
           builder: (controller) => (controller.isLoading.isTrue)
-              ? const Center(child: CircularProgressIndicator())
+              ? const Loading()
               : controller.listCellSurvey.isEmpty
                   ? const Center(child: Text('Ko co task'))
                   : GridView.builder(

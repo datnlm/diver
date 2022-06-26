@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static bool isDarkMode = false;
 
-  static Color get primaryColor => Color(0xFF6F35A5);
+  static Color get primaryColor => const Color(0xFF6F35A5);
   // static Color get primaryColor => Colors.pink[400]!;
   static MaterialColor get primarySwatch => Colors.pink;
   static Color get accentColor => isDarkMode ? primaryColor : Colors.grey[600]!;
