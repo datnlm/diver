@@ -1,5 +1,4 @@
 import 'package:diver/controller/dashboard_controller.dart';
-import 'package:diver/controller/home_controller.dart';
 import 'package:diver/pages/home.dart';
 import 'package:diver/pages/menu.dart';
 import 'package:flutter/material.dart';

@@ -49,94 +49,10 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(20.0),
                                 ),
-                                // borderRadius: BorderRadius.only(
-                                //     topLeft: Radius.circular(20.0),
-                                //     topRight: Radius.circular(20.0)),
                               ),
                               context: context,
                               builder: (BuildContext context) {
-                                return Container(
-                                  // child: SizedBox(
-                                  //   height:
-                                  //       MediaQuery.of(context).size.height / 4,
-                                  child: Wrap(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Card(
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(20.0),
-                                                ),
-                                              ),
-                                              child: ListView(
-                                                shrinkWrap: true,
-                                                children: ListTile.divideTiles(
-                                                    context: context,
-                                                    tiles: [
-                                                      ListTile(
-                                                        onTap: () => controller
-                                                            .pickImage(true),
-                                                        title: const Center(
-                                                          child: Text(
-                                                            'Chụp ảnh',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .blueAccent),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ListTile(
-                                                        onTap: () => controller
-                                                            .pickImage(false),
-                                                        title: const Center(
-                                                          child: Text(
-                                                            'Chọn ảnh',
-                                                            style: TextStyle(
-                                                                fontSize: 18,
-                                                                color: Colors
-                                                                    .blueAccent),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]).toList(),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(20.0),
-                                                ),
-                                              ),
-                                              child: ListTile(
-                                                title: Center(
-                                                  child: Text(
-                                                    'Huỷ',
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        color:
-                                                            Colors.blueAccent),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                return _pickupImage(context, controller);
                               }),
                         ),
                       ),
@@ -153,63 +69,136 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
             const SizedBox(
               height: 24,
             ),
-            Card(
-              child: ListView(
-                  shrinkWrap: true,
-                  children: ListTile.divideTiles(context: context, tiles: [
-                    ListTile(
-                      onTap: () => controller.initTextField('name'),
-                      minLeadingWidth: 85,
-                      leading: const Text(
-                        'Tên',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      title: Text('${controller.diver.name}',
-                          style: const TextStyle(fontSize: 18)),
-                    ),
-                    ListTile(
-                      minLeadingWidth: 85,
-                      leading: const Text(
-                        'Email',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      title: Text(
-                        '${controller.diver.email}',
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      subtitle: const Text(
-                        'Email hệ thống',
-                        style:
-                            TextStyle(fontSize: 16, color: Colors.blueAccent),
-                      ),
-                    ),
-                    ListTile(
-                      onTap: () => controller.initTextField('phone'),
-                      minLeadingWidth: 85,
-                      leading: const Text(
-                        'Điện thoại',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      title: Text('${controller.diver.phone}',
-                          style: const TextStyle(fontSize: 18)),
-                    ),
-                    ListTile(
-                      onTap: () => controller.initTextField('address'),
-                      minLeadingWidth: 85,
-                      leading: const Text(
-                        'Địa chỉ',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      title: Text(
-                        '${controller.diver.address}',
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                    ),
-                  ]).toList()),
-            ),
+            _information(context, controller),
           ],
         ),
       ),
+    );
+  }
+
+  SizedBox _pickupImage(
+      BuildContext context, InformationController controller) {
+    return SizedBox(
+      child: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Card(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
+                  ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: ListTile.divideTiles(context: context, tiles: [
+                      ListTile(
+                        onTap: () => controller.pickImage(true),
+                        title: const Center(
+                          child: Text(
+                            'Chụp ảnh',
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.blueAccent),
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () => controller.pickImage(false),
+                        title: const Center(
+                          child: Text(
+                            'Chọn ảnh',
+                            style: TextStyle(
+                                fontSize: 18, color: Colors.blueAccent),
+                          ),
+                        ),
+                      ),
+                    ]).toList(),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Center(
+                      child: Text(
+                        'Huỷ',
+                        style:
+                            TextStyle(fontSize: 18, color: Colors.blueAccent),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Card _information(BuildContext context, InformationController controller) {
+    return Card(
+      child: ListView(
+          shrinkWrap: true,
+          children: ListTile.divideTiles(context: context, tiles: [
+            ListTile(
+              onTap: () => controller.initTextField('name'),
+              minLeadingWidth: 85,
+              leading: const Text(
+                'Tên',
+                style: TextStyle(fontSize: 16),
+              ),
+              title: Text('${controller.diver.name}',
+                  style: const TextStyle(fontSize: 18)),
+            ),
+            ListTile(
+              minLeadingWidth: 85,
+              leading: const Text(
+                'Email',
+                style: TextStyle(fontSize: 16),
+              ),
+              title: Text(
+                '${controller.diver.email}',
+                style: const TextStyle(fontSize: 18),
+              ),
+              subtitle: const Text(
+                'Email hệ thống',
+                style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+              ),
+            ),
+            ListTile(
+              onTap: () => controller.initTextField('phone'),
+              minLeadingWidth: 85,
+              leading: const Text(
+                'Điện thoại',
+                style: TextStyle(fontSize: 16),
+              ),
+              title: Text('${controller.diver.phone}',
+                  style: const TextStyle(fontSize: 18)),
+            ),
+            ListTile(
+              onTap: () => controller.initTextField('address'),
+              minLeadingWidth: 85,
+              leading: const Text(
+                'Địa chỉ',
+                style: TextStyle(fontSize: 16),
+              ),
+              title: Text(
+                '${controller.diver.address}',
+                style: const TextStyle(fontSize: 18),
+              ),
+            ),
+          ]).toList()),
     );
   }
 

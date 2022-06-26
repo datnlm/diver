@@ -2,8 +2,6 @@ import 'package:diver/controller/dashboard_controller.dart';
 import 'package:diver/controller/information_controller.dart';
 import 'package:diver/controller/survey_controller.dart';
 import 'package:get/get.dart';
-
-import '../controller/home_controller.dart';
 import '../controller/auth_controller.dart';
 
 class Binding implements Bindings {
@@ -11,7 +9,6 @@ class Binding implements Bindings {
   void dependencies() {
     Get.lazyPut(() => DashBoardController());
     Get.lazyPut(() => AuthController());
-    Get.lazyPut(() => HomeController());
     Get.lazyPut(() => SurveyController());
     Get.lazyPut(() => InformationController());
   }

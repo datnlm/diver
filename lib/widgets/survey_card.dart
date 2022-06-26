@@ -1,7 +1,8 @@
 import 'package:diver/models/survey.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+
+import '../core/res/status.dart';
 
 class SurveyCard extends StatelessWidget {
   final Survey survey;
@@ -12,78 +13,75 @@ class SurveyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Tên vườn:'),
+              Text(survey.gardenName!,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  )),
+            ],
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Tên vườn:'),
-                Text(survey.gardenName!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                    )),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Bắt đầu:'),
+                        Text(
+                            DateFormat.yMMMMEEEEd('vi_VN')
+                                .format(survey.startTime!),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Kết thúc:'),
+                        Text(
+                            DateFormat.yMMMMEEEEd('vi_VN')
+                                .format(survey.endTime!),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Trạng thái:'),
+                    Text('${AppStatus.status[survey.status]}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        )),
+                  ],
+                ),
               ],
             ),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Bắt đầu:'),
-                          Text(
-                              DateFormat.yMMMMEEEEd('vi_VN')
-                                  .format(survey.startTime!),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Kết thúc:'),
-                          Text(
-                              DateFormat.yMMMMEEEEd('vi_VN')
-                                  .format(survey.endTime!),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Trạng thái:'),
-                      Text('${survey.status}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            leading: _getCorrectIcon(survey.status!),
           ),
+          leading: _getCorrectIcon(survey.status!),
         ),
       ),
     );
