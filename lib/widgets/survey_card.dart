@@ -109,19 +109,3 @@ class SurveyCard extends StatelessWidget {
     }
   }
 }
-//   Icon getIconStatus(int body) {
-//     switch (body) {
-//       case 0:
-//         Icon(Icons.check_circle, size: 40.0, color: Colors.green);
-//         break;
-//       case 1:
-//         Icon(Icons.check_circle, size: 40.0, color: Colors.green);
-//         break;
-//       case 2:
-//         const Icon(Icons.check_circle, size: 40.0, color: Colors.green);
-//         break;
-//       default:
-//         const Icon(Icons.check_circle, size: 40.0, color: Colors.green);
-//     }
-//   }
-// }

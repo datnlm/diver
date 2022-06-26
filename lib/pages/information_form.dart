@@ -1,19 +1,18 @@
 import 'package:diver/controller/information_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 class UpdateInformationScreen extends StatelessWidget {
   const UpdateInformationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    InformationController _informationController =
+    InformationController informationController =
         Get.find<InformationController>();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          _informationController.title,
+          informationController.title,
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
@@ -26,7 +25,7 @@ class UpdateInformationScreen extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            onPressed: () => _informationController.updateInformation(),
+            onPressed: () => informationController.updateInformation(),
             child: const Text('Xong',
                 style: TextStyle(
                   color: Colors.black,
@@ -35,7 +34,7 @@ class UpdateInformationScreen extends StatelessWidget {
         ],
       ),
       body: Form(
-        key: _informationController.formkey,
+        key: informationController.formkey,
         child: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
@@ -43,7 +42,7 @@ class UpdateInformationScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextField(
-                    controller: _informationController.textField,
+                    controller: informationController.textField,
                     decoration: const InputDecoration(
                       suffixIcon: Padding(
                         padding: EdgeInsets.all(16.0),

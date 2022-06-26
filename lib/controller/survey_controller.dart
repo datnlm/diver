@@ -1,20 +1,18 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:diver/core/res/app.dart';
-import 'package:diver/core/routes/routes.dart';
 import 'package:diver/models/cell_survey.dart';
 import 'package:diver/models/cell.dart';
 import 'package:diver/models/survey.dart';
-import 'package:diver/pages/survey_task.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../pages/cell_survey.dart';
+import '../utils/toast.dart';
 
 class SurveyController extends GetxController {
   List<File> listImage = <File>[].obs;
@@ -50,7 +48,7 @@ class SurveyController extends GetxController {
               .replace(queryParameters: queryParams),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer ${token}"
+            "Authorization": "Bearer $token"
           });
 
       if (response.statusCode == 200) {
@@ -62,15 +60,16 @@ class SurveyController extends GetxController {
         listSurvey = [];
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     } finally {
       isLoading(false);
       update();
     }
   }
 
-  Future<void> getBySurveyId(Survey survey) async {
+  Future<void> getSurveyById(Survey survey) async {
     try {
+      isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       final String? diverId = prefs.getString('diverId');
@@ -85,26 +84,27 @@ class SurveyController extends GetxController {
               .replace(queryParameters: queryParams),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer ${token}"
+            "Authorization": "Bearer $token"
           });
 
       if (response.statusCode == 200) {
         var cellSurvey = cellSurveyResponseFromJson(response.body);
         if (cellSurvey.items!.isNotEmpty) {
           listCellSurvey = cellSurvey.items as List<Cell>;
-          Get.toNamed(Routes.surveyTask);
         }
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     } finally {
       isLoading(false);
       update();
     }
   }
 
-  Future<void> getByCellId(Cell cell) async {
+  Future<void> getCellById(Cell cell) async {
     try {
+      this.cell = cell;
+      isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       listImage = [];
@@ -114,72 +114,74 @@ class SurveyController extends GetxController {
               '${AppConstants.baseUrl}/api/v1/diver/cell-surveys/${cell.id}'),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer ${token}"
+            "Authorization": "Bearer $token"
           });
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         var cellSurvey = cellResponseFromJson(response.body);
 
         cellResponse = cellSurvey;
-        Get.to(CellImageScreen(cell: cell));
+        // Get.to(CellSurveyScreen(cell: cell));
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     } finally {
       isLoading(false);
       update();
     }
   }
 
-  Future<void> getByOrderId() async {
+  Future<void> uploadImage() async {
     try {
-      Get.toNamed(Routes.photoTask);
+      if (cell != null) {
+        isLoading(true);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String? token = prefs.getString('token');
+        Map<String, String> headers = {
+          "Authorization": "Bearer $token",
+          "Content-Type": "multipart/form-data"
+        };
+        var postUri =
+            Uri.parse("${AppConstants.baseUrl}/api/v1/diver/cell-surveys");
+
+        var request = http.MultipartRequest("PUT", postUri);
+
+        for (var i = 0; i < listImage.length; i++) {
+          request.files.add(await http.MultipartFile.fromPath(
+              'imageFiles', listImage[i].path));
+        }
+        request.headers.addAll(headers);
+        request.fields['id'] = cell!.id.toString();
+        request.fields['note'] = cell!.note.toString();
+        request.fields['MediaUrl'] = cell!.mediaUrl.toString();
+        request.fields['DivingSurveyId'] = cell!.divingSurveyId.toString();
+        for (var i = 0; i < cellResponse.images!.length; i++) {
+          request.fields['Images[$i].Id'] =
+              cellResponse.images![i].id.toString();
+          request.fields['Images[$i].ImageUrl'] =
+              cellResponse.images![i].imageUrl.toString();
+        }
+        http.StreamedResponse response = await request.send();
+
+        if (response.statusCode == 200) {
+          Get.back();
+          Get.back();
+          showMyToast("Lưu thành công");
+        } else {
+          showMyToast("Lưu thất bại");
+        }
+      }
     } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> uploadImage(Cell cell) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    try {
-      Map<String, String> headers = {
-        "Authorization": "Bearer $token",
-        "Content-Type": "multipart/form-data"
-      };
-      var postUri =
-          Uri.parse("${AppConstants.baseUrl}/api/v1/diver/cell-surveys");
-
-      var request = http.MultipartRequest("PUT", postUri);
-
-      for (var i = 0; i < listImage.length; i++) {
-        request.files.add(
-            await http.MultipartFile.fromPath('imageFiles', listImage[i].path));
-      }
-      request.headers.addAll(headers);
-      request.fields['id'] = cell.id.toString();
-      request.fields['note'] = cell.note.toString();
-      request.fields['MediaUrl'] = cell.mediaUrl.toString();
-      request.fields['DivingSurveyId'] = cell.divingSurveyId.toString();
-      // request.fields['Images[0]'] =
-      //     cellResponse.images![0].imageUrl.toString();
-      for (var i = 0; i < cellResponse.images!.length; i++) {
-        request.fields['Images[$i].Id'] = cellResponse.images![i].id.toString();
-        request.fields['Images[$i].ImageUrl'] =
-            cellResponse.images![i].imageUrl.toString();
-      }
-      http.StreamedResponse response = await request.send();
-      if (response.statusCode == 200) {
-        Get.back();
-      }
-    } catch (e) {
-      print(e);
+      log(e.toString());
+    } finally {
+      isLoading(false);
+      update();
     }
   }
 
   Future pickImage(bool isCamera) async {
     try {
-      final image;
+      final XFile? image;
       if (!isCamera) {
         image = await ImagePicker().pickImage(source: ImageSource.gallery);
       } else {
@@ -192,7 +194,7 @@ class SurveyController extends GetxController {
         update();
       }
     } catch (e) {
-      print('exception');
+      log(e.toString());
     }
   }
 

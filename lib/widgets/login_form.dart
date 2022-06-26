@@ -1,4 +1,5 @@
 import 'package:diver/controller/auth_controller.dart';
+import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -88,6 +89,7 @@ class LoginForm extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () {
+                  showLoaderDialog(context);
                   authController.login(email, password);
                 },
                 child: const Text('Đăng nhập'),
@@ -98,6 +100,16 @@ class LoginForm extends StatelessWidget {
           // const SizedBox(height: defaultPadding),
         ],
       ),
+    );
+  }
+
+  showLoaderDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return const Loading();
+      },
     );
   }
 }

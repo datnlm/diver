@@ -1,15 +1,11 @@
 import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/core/res/status.dart';
 import 'package:diver/core/routes/routes.dart';
-import 'package:diver/widgets/task_group.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 import '../models/cell_survey.dart';
-import '../pages/cell_survey.dart';
 
 class CellCard extends StatelessWidget {
   final Cell cell;
@@ -33,7 +29,11 @@ class CellCard extends StatelessWidget {
               height: double.infinity,
               width: double.infinity,
               child: GestureDetector(
-                onTap: () => _surveyController.getByCellId(cell),
+                onTap: () {
+                  // Get.to(CellSurveyScreen(cell: cell));
+                  Get.toNamed(Routes.cellSurvey);
+                  _surveyController.getCellById(cell);
+                },
                 onLongPress: () => showModal(context),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +97,7 @@ class CellCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text("This is a modal sheet"),
                   ],
                 ),
