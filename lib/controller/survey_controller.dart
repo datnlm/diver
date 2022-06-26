@@ -9,6 +9,7 @@ import 'package:diver/pages/survey_task.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,14 +25,16 @@ class SurveyController extends GetxController {
   CellResponse cellResponse = CellResponse();
   Cell? cell = Cell();
   var isUpdate = false.obs;
+  late DateTime focusedDay;
 
   @override
   onInit() {
-    getAll();
+    focusedDay = DateTime.now();
+    getAll(focusedDay);
     super.onInit();
   }
 
-  Future<void> getAll() async {
+  Future<void> getAll(DateTime selectedDay) async {
     try {
       isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -40,6 +43,7 @@ class SurveyController extends GetxController {
 
       Map<String, String> queryParams = {
         'DiverId': diverId!,
+        'StartTime': DateFormat('yyyy-MM-dd').format(selectedDay),
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -48,12 +52,14 @@ class SurveyController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${token}"
           });
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         var surveys = divingSurveyResponseFromJson(response.body);
         if (surveys.items!.isNotEmpty) {
           listSurvey = surveys.items as List<Survey>;
         }
+      } else {
+        listSurvey = [];
       }
     } catch (e) {
       print(e);
@@ -110,6 +116,7 @@ class SurveyController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${token}"
           });
+      print(response.statusCode);
       if (response.statusCode == 200) {
         var cellSurvey = cellResponseFromJson(response.body);
 
@@ -161,9 +168,7 @@ class SurveyController extends GetxController {
         request.fields['Images[$i].ImageUrl'] =
             cellResponse.images![i].imageUrl.toString();
       }
-      print(request);
       http.StreamedResponse response = await request.send();
-      print(response.statusCode);
       if (response.statusCode == 200) {
         Get.back();
       }
@@ -180,14 +185,10 @@ class SurveyController extends GetxController {
       } else {
         image = await ImagePicker().pickImage(source: ImageSource.camera);
       }
-      if (image == null) {
-        print('loi');
-      } else {
+      if (image != null) {
         final imageTemporary = File(image.path);
 
         listImage.add(imageTemporary);
-        print(listImage.length);
-        print(listImage[0]);
         update();
       }
     } catch (e) {

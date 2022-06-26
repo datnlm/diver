@@ -13,6 +13,7 @@ import '../core/res/app.dart';
 import '../models/diver.dart';
 
 class InformationController extends GetxController {
+  var isLoading = false.obs;
   File? image;
   String title = "";
   String typeField = "";
@@ -34,20 +35,28 @@ class InformationController extends GetxController {
   final formkey = GlobalKey<FormState>();
 
   Future<void> getDiver() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    final String? id = prefs.getString('diverId');
+    try {
+      isLoading(true);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      final String? id = prefs.getString('diverId');
 
-    final response = await http.get(
-        Uri.parse('${AppConstants.baseUrl}/api/v1/diver/divers/${id}'),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer ${token}"
-        });
-    if (response.statusCode == 200) {
-      prefs.setString('diver', response.body);
-      var data = diverFromJson(response.body);
-      diver = data;
+      final response = await http.get(
+          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/divers/${id}'),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${token}"
+          });
+      if (response.statusCode == 200) {
+        prefs.setString('diver', response.body);
+        var data = diverFromJson(response.body);
+        diver = data;
+        update();
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
       update();
     }
   }

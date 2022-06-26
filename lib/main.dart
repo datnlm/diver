@@ -11,7 +11,7 @@ void main() async {
     GetMaterialApp(
       theme: AppColors.getTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.login,
+      initialRoute: Routes.splash,
       getPages: RouterGenerator.pages,
     ),
   );

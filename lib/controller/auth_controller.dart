@@ -11,6 +11,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 
 class AuthController extends GetxController {
+  static bool isInitialized = false;
+  @override
+  onInit() {
+    getAccessToken();
+    super.onInit();
+  }
+
   Future<void> login(email, password) async {
     try {
       String data = json.encode(
@@ -27,7 +34,7 @@ class AuthController extends GetxController {
         final prefs = await SharedPreferences.getInstance();
         final data = json.decode(response.body);
         prefs.setString('token', data['token']);
-        getAccessToken(data['token']);
+        getAccessToken();
         Get.toNamed(Routes.dashboard);
       }
     } catch (e) {
@@ -35,26 +42,39 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<dynamic> getAccessToken(String token) async {
+  Future<void> getAccessToken() async {
     try {
+      //set isInitialized = false;
+      isInitialized = false;
       final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      if (token == null) {
+        Get.toNamed(Routes.login);
+      } else {
+        Map<String, String> queryParams = {
+          'token': token,
+        };
+        final response = await http.get(
+          Uri.parse('${AppConstants.baseUrl}/api/v1/account-info')
+              .replace(queryParameters: queryParams),
+        );
+        if (response.statusCode == 200) {
+          var data = json.decode(response.body);
+          prefs.setString('diverId', data['id']);
 
-      Map<String, String> queryParams = {
-        'token': token,
-      };
-      final response = await http.get(
-        Uri.parse('${AppConstants.baseUrl}/api/v1/account-info')
-            .replace(queryParameters: queryParams),
-      );
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        prefs.setString('diverId', data['id']);
-
-        return response.statusCode;
+          if (response.statusCode == 200) {
+            Get.toNamed(Routes.dashboard);
+          } else {
+            Get.toNamed(Routes.login);
+          }
+        }
       }
     } catch (e) {
       print(e);
-    } finally {}
+    } finally {
+      isInitialized = true;
+      update();
+    }
   }
 
   Future<void> logout() async {

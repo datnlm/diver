@@ -66,46 +66,6 @@ class CellCard extends StatelessWidget {
         ),
       ],
     );
-
-    // borderRadius: const BorderRadius.all(Radius.circular(12)),
-
-    // return StaggeredGridTile.count(
-    //   crossAxisCellCount: 1,
-    //   mainAxisCellCount: 1,
-    //   child: GestureDetector(
-    //     onTap: () => _surveyController.getByCellId(cell),
-    //     onLongPress: () => showModalBottomSheet<void>(
-    //         shape: const RoundedRectangleBorder(
-    //           borderRadius: BorderRadius.only(
-    //               topLeft: Radius.circular(20.0),
-    //               topRight: Radius.circular(20.0)),
-    //         ),
-    //         context: context,
-    //         builder: (BuildContext context) {
-    //           return SingleChildScrollView(
-    //             child: SizedBox(
-    //               height: MediaQuery.of(context).size.height / 2,
-    //               child: Padding(
-    //                 padding: const EdgeInsets.all(8.0),
-    //                 child: Column(
-    //                   mainAxisAlignment: MainAxisAlignment.start,
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   children: [
-    //                     Text("This is a modal sheet"),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           );
-    //         }),
-    //     child: TaskGroupContainer(
-    //       color: cell.status == 0 ? Colors.blue : Colors.green,
-    //       isSmall: true,
-    //       icon: Icons.check_box_outline_blank,
-    //       taskGroup: 'Cell: #${cell.id}',
-    //     ),
-    //   ),
-    // );
   }
 
   Color _getColor(int? status) {
