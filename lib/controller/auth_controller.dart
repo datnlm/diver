@@ -22,9 +22,7 @@ class AuthController extends GetxController {
       isInitialized = false;
       final prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
-      if (token == null) {
-        Get.toNamed(Routes.login);
-      } else {
+      if (token != null) {
         Map<String, String> queryParams = {
           'token': token,
         };

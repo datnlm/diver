@@ -40,7 +40,9 @@ class CellCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Icon(
-                      Icons.assignment_outlined,
+                      Icons.assignment_late_outlined,
+                      // Icons.assignment_turned_in_outlined,
+                      // AssignmentTurnedIn
                       size: 60,
                     ),
                     Text('Cell: #${cell.id}'),

@@ -8,9 +8,9 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: SpinKitPouringHourGlassRefined(
-        color: Colors.orangeAccent,
+        color: Colors.orange.shade200,
       ),
     );
   }
