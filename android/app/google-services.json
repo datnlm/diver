@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "902083700800",
+    "project_id": "coralpark-c107a",
+    "storage_bucket": "coralpark-c107a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902083700800:android:452dff51844b1bda5d97a5",
+        "android_client_info": {
+          "package_name": "com.example.diver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902083700800-s44no1ih4o2f9fd4i8lud5u0hu1mvbsh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diver",
+            "certificate_hash": "07e4eb8120aa1ccbee56aa9626e33d3058687873"
+          }
+        },
+        {
+          "client_id": "902083700800-ocaqbbgku1ejrste88k49212rbkqstcj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr5vd7BA35KUyUiY45flpzaRuTSyXYZqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902083700800-ocaqbbgku1ejrste88k49212rbkqstcj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -40,10 +40,12 @@ dependencies:
   table_calendar: ^3.0.6
   flutter_spinkit: ^5.1.0
   flutter_local_notifications: ^9.0.2
+  firebase_messaging: ^11.4.2
   skeletons: ^0.0.3
   jwt_decode: ^0.3.1
   http: ^0.13.4
   fluttertoast: ^8.0.9
+  numberpicker: ^2.1.1
   intl:
 
   # The following adds the Cupertino Icons font to your application.

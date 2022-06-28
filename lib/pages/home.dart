@@ -14,16 +14,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 final SurveyController _surveyController = Get.find<SurveyController>();
+CalendarFormat _calendarFormat = CalendarFormat.week;
+DateTime _focusedDay = DateTime.now();
+DateTime? _selectedDay;
+const List<Tab> myTabs = <Tab>[
+  Tab(text: 'Đang xử lý'),
+  Tab(text: 'Hoàn thành'),
+];
+
+late TabController _tabController;
 
 class _HomeScreenState extends State<HomeScreen> {
-  CalendarFormat _calendarFormat = CalendarFormat.week;
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-
   @override
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
+    // _tabController = TabController(vsync: this, length: myTabs.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -40,11 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      extendBody: true,
       body: Column(
         children: [
           TableCalendar(
             locale: 'vi',
+            calendarStyle: const CalendarStyle(
+              // Use `CalendarStyle` to customize the UI
+              outsideDaysVisible: false,
+              weekendTextStyle: TextStyle(color: Colors.red),
+            ),
             availableCalendarFormats: const {
               CalendarFormat.month: 'Tuần',
               CalendarFormat.twoWeeks: 'Tháng',
@@ -56,11 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
             lastDay: DateTime.utc(2025, 1, 1),
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
-            calendarStyle: const CalendarStyle(
-              // Use `CalendarStyle` to customize the UI
-              outsideDaysVisible: false,
-              weekendTextStyle: TextStyle(color: Colors.red),
-            ),
             calendarBuilders: CalendarBuilders(
               dowBuilder: (context, day) {
                 if (day.weekday == DateTime.sunday ||
@@ -117,35 +128,86 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Expanded _getListSurvey() {
     return Expanded(
-      child: GetBuilder<SurveyController>(
-        builder: (controller) => (controller.isLoading.isTrue)
-            ? const Center(child: CircularProgressIndicator())
-            : controller.listSurvey.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      SizedBox(
-                        height: 40,
+      child: DefaultTabController(
+          length: myTabs.length,
+          initialIndex: 0,
+          child: Builder(
+            builder: (BuildContext context) {
+              final TabController tabController =
+                  DefaultTabController.of(context)!;
+              tabController.addListener(() {
+                if (!tabController.indexIsChanging) {
+                  _surveyController.tabIndex = tabController.index;
+                  _surveyController.getAll(_selectedDay!);
+                  // Your code goes here.
+                  // To get index of current tab use tabController.index
+                }
+              });
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    child: TabBar(
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      tabs: myTabs,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Công việc ${DateFormat.yMMMMEEEEd('vi_VN').format(_selectedDay!)}',
+                      style: TextStyle(
+                        color: Colors.blueGrey[900],
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
                       ),
-                      Icon(
-                        Icons.assignment_outlined,
-                        size: 120.0,
-                      ),
-                      Text(
-                        'Không có công việc',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      // Look like you have no task in this date.
-                      Text(
-                        'Có vẻ như bạn không có nhiệm vụ trong ngày này.',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  )
-                : _survey(controller),
-      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    child: GetBuilder<SurveyController>(
+                      builder: (controller) => (controller.isLoading.isTrue)
+                          ? const Center(child: CircularProgressIndicator())
+                          : controller.listSurvey.isEmpty
+                              ? _emptyTask()
+                              : _survey(controller),
+                    ),
+                  ),
+                ],
+              );
+            },
+          )),
+    );
+  }
+
+  Column _emptyTask() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: const [
+        SizedBox(
+          height: 40,
+        ),
+        Icon(
+          Icons.assignment_outlined,
+          size: 120.0,
+        ),
+        Text(
+          'Không có công việc',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        // Look like you have no task in this date.
+        Text(
+          'Có vẻ như bạn không có nhiệm vụ trong ngày này.',
+          style: TextStyle(fontSize: 12),
+        ),
+      ],
     );
   }
 
@@ -156,7 +218,13 @@ class _HomeScreenState extends State<HomeScreen> {
         return GestureDetector(
           onTap: () {
             controller.getSurveyById(controller.listSurvey[index]);
-            Get.toNamed(Routes.surveyTask);
+            Get.toNamed(
+              Routes.surveyTask,
+              arguments: {
+                "divingId": controller.listSurvey[index].id,
+                "gardenId": controller.listSurvey[index].gardenId
+              },
+            );
           },
           child: Container(
               margin: const EdgeInsets.symmetric(

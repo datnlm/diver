@@ -1,8 +1,11 @@
+import 'package:diver/controller/garden_report_controller.dart';
 import 'package:diver/controller/survey_controller.dart';
+import 'package:diver/core/routes/routes.dart';
 import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:diver/widgets/cell_card.dart';
 import 'package:get/get.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({Key? key}) : super(key: key);
@@ -11,6 +14,11 @@ class SurveyScreen extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _SurveyScreenState createState() => _SurveyScreenState();
 }
+
+bool isSwitched = false;
+SurveyController surveyController = Get.find<SurveyController>();
+GardenReportController gardenReportController =
+    Get.find<GardenReportController>();
 
 class _SurveyScreenState extends State<SurveyScreen> {
   @override
@@ -25,6 +33,29 @@ class _SurveyScreenState extends State<SurveyScreen> {
             fontWeight: FontWeight.w600,
           ),
         ),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            onPressed: () {
+              gardenReportController.getGardenReportById(Get.arguments['divingId']);
+              Get.toNamed(
+                Routes.gardenReport,
+                arguments: {
+                  "divingId": Get.arguments['divingId'],
+                  "gardenId": Get.arguments['gardenId']
+                },
+              );
+            },
+            child: const Text('Report',
+                style: TextStyle(
+                  color: Colors.black,
+                )),
+          ),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(8),

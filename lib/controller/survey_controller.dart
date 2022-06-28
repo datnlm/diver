@@ -21,6 +21,7 @@ class SurveyController extends GetxController {
   List<Survey> listSurvey = <Survey>[].obs;
   List<Cell> listCellSurvey = <Cell>[].obs;
   CellResponse cellResponse = CellResponse();
+  var tabIndex = 0;
   Cell? cell = Cell();
   var isUpdate = false.obs;
   late DateTime focusedDay;
@@ -35,12 +36,14 @@ class SurveyController extends GetxController {
   Future<void> getAll(DateTime selectedDay) async {
     try {
       isLoading(true);
+      update();
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       final String? diverId = prefs.getString('diverId');
 
       Map<String, String> queryParams = {
         'DiverId': diverId!,
+        'Status': tabIndex.toString(),
         'StartTime': DateFormat('yyyy-MM-dd').format(selectedDay),
       };
       final response = await http.get(
@@ -51,6 +54,7 @@ class SurveyController extends GetxController {
             "Authorization": "Bearer $token"
           });
 
+      print(response.statusCode);
       if (response.statusCode == 200) {
         var surveys = divingSurveyResponseFromJson(response.body);
         if (surveys.items!.isNotEmpty) {
