@@ -51,78 +51,113 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         automaticallyImplyLeading: false,
         elevation: 0,
-      ),
-      body: Column(
-        children: [
-          TableCalendar(
-            locale: 'vi',
-            calendarStyle: const CalendarStyle(
-              // Use `CalendarStyle` to customize the UI
-              outsideDaysVisible: false,
-              weekendTextStyle: TextStyle(color: Colors.red),
-            ),
-            availableCalendarFormats: const {
-              CalendarFormat.month: 'Tuần',
-              CalendarFormat.twoWeeks: 'Tháng',
-              CalendarFormat.week: '2 tuần'
-            },
-            weekendDays: const [DateTime.saturday, DateTime.sunday],
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            firstDay: DateTime.utc(2020, 1, 1),
-            lastDay: DateTime.utc(2025, 1, 1),
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            calendarBuilders: CalendarBuilders(
-              dowBuilder: (context, day) {
-                if (day.weekday == DateTime.sunday ||
-                    day.weekday == DateTime.saturday) {
-                  final text = DateFormat.E('vi').format(day);
-
-                  return Center(
-                    child: Text(
-                      text,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  );
-                }
-                return null;
-              },
-            ),
-            selectedDayPredicate: (day) {
-              // Use `selectedDayPredicate` to determine which day is currently selected.
-              // If this returns true, then `day` will be marked as selected.
-
-              // Using `isSameDay` is recommended to disregard
-              // the time-part of compared DateTime objects.
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              if (!isSameDay(_selectedDay, selectedDay)) {
-                // Call `setState()` when updating the selected day
-                setState(() {
-                  _surveyController.getAll(selectedDay);
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                });
-              }
-            },
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                // Call `setState()` when updating calendar format
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            onPageChanged: (focusedDay) {
-              // No need to call `setState()` here
-              _focusedDay = focusedDay;
-            },
-          ),
-          const SizedBox(height: 8.0),
-          _getListSurvey(),
+        actions: [
+          GetBuilder<SurveyController>(
+            builder: ((controller) => TextButton(
+                  onPressed: () => _surveyController.changeViewTab(),
+                  child: controller.isViewCalendar
+                      ? Text('Xem toàn bộ')
+                      : Text('Xem theo ngày'),
+                )),
+          )
         ],
       ),
+      body: GetBuilder<SurveyController>(
+        builder: (controller) => (controller.isViewCalendar)
+            ? _viewCalendar()
+            : Column(
+                children: [
+                  _getListSurvey(),
+                ],
+              ),
+      ),
+    );
+    // body: _viewCalendar());
+
+    //  GetBuilder<SurveyController>(
+    //   builder: (controller) => (controller.isViewCalendar)
+    //       ?_tableCalendar(),
+    //       : controller.listSurvey.isEmpty
+    //           ? _emptyTask()
+    //           : _survey(controller),
+    // ),
+  }
+
+  Column _viewCalendar() {
+    return Column(
+      children: [
+        _tableCalendar(),
+        const SizedBox(height: 8.0),
+        _getListSurvey(),
+      ],
+    );
+  }
+
+  TableCalendar<dynamic> _tableCalendar() {
+    return TableCalendar(
+      locale: 'vi',
+      calendarStyle: const CalendarStyle(
+        // Use `CalendarStyle` to customize the UI
+        outsideDaysVisible: false,
+        weekendTextStyle: TextStyle(color: Colors.red),
+      ),
+      availableCalendarFormats: const {
+        CalendarFormat.month: 'Tuần',
+        CalendarFormat.twoWeeks: 'Tháng',
+        CalendarFormat.week: '2 tuần'
+      },
+      weekendDays: const [DateTime.saturday, DateTime.sunday],
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      firstDay: DateTime.utc(2020, 1, 1),
+      lastDay: DateTime.utc(2025, 1, 1),
+      focusedDay: _focusedDay,
+      calendarFormat: _calendarFormat,
+      calendarBuilders: CalendarBuilders(
+        dowBuilder: (context, day) {
+          if (day.weekday == DateTime.sunday ||
+              day.weekday == DateTime.saturday) {
+            final text = DateFormat.E('vi').format(day);
+
+            return Center(
+              child: Text(
+                text,
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+          }
+          return null;
+        },
+      ),
+      selectedDayPredicate: (day) {
+        // Use `selectedDayPredicate` to determine which day is currently selected.
+        // If this returns true, then `day` will be marked as selected.
+
+        // Using `isSameDay` is recommended to disregard
+        // the time-part of compared DateTime objects.
+        return isSameDay(_selectedDay, day);
+      },
+      onDaySelected: (selectedDay, focusedDay) {
+        if (!isSameDay(_selectedDay, selectedDay)) {
+          // Call `setState()` when updating the selected day
+          setState(() {
+            _surveyController.getByDateTime(selectedDay);
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+          });
+        }
+      },
+      onFormatChanged: (format) {
+        if (_calendarFormat != format) {
+          // Call `setState()` when updating calendar format
+          setState(() {
+            _calendarFormat = format;
+          });
+        }
+      },
+      onPageChanged: (focusedDay) {
+        // No need to call `setState()` here
+        _focusedDay = focusedDay;
+      },
     );
   }
 
@@ -138,7 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
               tabController.addListener(() {
                 if (!tabController.indexIsChanging) {
                   _surveyController.tabIndex = tabController.index;
-                  _surveyController.getAll(_selectedDay!);
+                  if (_surveyController.isViewCalendar) {
+                    _surveyController.getByDateTime(_selectedDay!);
+                  } else {
+                    _surveyController.getAll();
+                  }
                   // Your code goes here.
                   // To get index of current tab use tabController.index
                 }
@@ -158,14 +197,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      'Công việc ${DateFormat.yMMMMEEEEd('vi_VN').format(_selectedDay!)}',
-                      style: TextStyle(
-                        color: Colors.blueGrey[900],
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
+                    child: _surveyController.isViewCalendar
+                        ? Text(
+                            'Công việc ${DateFormat.yMMMMEEEEd('vi_VN').format(_selectedDay!)}',
+                            style: TextStyle(
+                              color: Colors.blueGrey[900],
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          )
+                        : Text(
+                            'Danh sách tất cả survey',
+                            style: TextStyle(
+                              color: Colors.blueGrey[900],
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          ),
                   ),
                   const SizedBox(
                     height: 10,

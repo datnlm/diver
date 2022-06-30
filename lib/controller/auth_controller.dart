@@ -40,6 +40,8 @@ class AuthController extends GetxController {
             Get.toNamed(Routes.login);
           }
         }
+      } else {
+        Get.toNamed(Routes.login);
       }
     } catch (e) {
       log(e.toString());
