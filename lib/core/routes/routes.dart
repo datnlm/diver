@@ -24,6 +24,7 @@ class Routes {
   static const cellPhoto = "/cell_image";
   static const cellSurvey = "/cell_survey";
   static const gardenReport = "/garden_report";
+  static const surveyList = "/survey_list";
 }
 
 class RouterGenerator {

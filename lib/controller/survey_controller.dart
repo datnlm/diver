@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/toast.dart';
 
 class SurveyController extends GetxController {
+  bool isViewCalendar = true;
   List<File> listImage = <File>[].obs;
   String? imageLink = "";
   var isLoading = false.obs;
@@ -29,11 +30,48 @@ class SurveyController extends GetxController {
   @override
   onInit() {
     focusedDay = DateTime.now();
-    getAll(focusedDay);
+    getByDateTime(focusedDay);
     super.onInit();
   }
 
-  Future<void> getAll(DateTime selectedDay) async {
+  Future<void> getAll() async {
+    try {
+      isLoading(true);
+      update();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      final String? diverId = prefs.getString('diverId');
+
+      Map<String, String> queryParams = {
+        'DiverId': diverId!,
+        'Status': tabIndex.toString(),
+      };
+      final response = await http.get(
+          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
+              .replace(queryParameters: queryParams),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          });
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var surveys = divingSurveyResponseFromJson(response.body);
+        if (surveys.items!.isNotEmpty) {
+          listSurvey = surveys.items as List<Survey>;
+        }
+      } else {
+        listSurvey = [];
+      }
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isLoading(false);
+      update();
+    }
+  }
+
+  Future<void> getByDateTime(DateTime selectedDay) async {
     try {
       isLoading(true);
       update();
@@ -207,6 +245,16 @@ class SurveyController extends GetxController {
       cellResponse.images!.removeAt(index);
     } else if (listImage.isNotEmpty) {
       listImage.removeAt(index - cellResponse.images!.length);
+    }
+    update();
+  }
+
+  void changeViewTab() {
+    isViewCalendar = !isViewCalendar;
+    if (!isViewCalendar) {
+      getAll();
+    } else {
+      getByDateTime(focusedDay);
     }
     update();
   }
