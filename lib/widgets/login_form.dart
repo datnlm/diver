@@ -33,10 +33,10 @@ class LoginForm extends StatelessWidget {
               // cursorColor: kPrimaryColor,
               controller: email,
               // onSaved: (email) {},
-              decoration: const InputDecoration(
-                hintText: "Địa chỉ email",
+              decoration: InputDecoration(
+                hintText: "email".tr,
                 border: InputBorder.none,
-                prefixIcon: Padding(
+                prefixIcon: const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Icon(
                     Icons.person,
@@ -63,10 +63,10 @@ class LoginForm extends StatelessWidget {
                 cursorColor: const Color(0xFF6F35A5),
                 // cursorColor: kPrimaryColor,
                 controller: password,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: "Mật khẩu",
-                  prefixIcon: Padding(
+                  hintText: "password".tr,
+                  prefixIcon: const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Icon(
                       Icons.lock,
@@ -92,7 +92,7 @@ class LoginForm extends StatelessWidget {
                   showLoaderDialog(context);
                   authController.login(email, password);
                 },
-                child: const Text('Đăng nhập'),
+                child: Text('login'.tr),
               ),
             ),
           ),

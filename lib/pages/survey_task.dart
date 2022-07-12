@@ -26,9 +26,9 @@ class _SurveyScreenState extends State<SurveyScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Khảo sát",
-          style: TextStyle(
+        title: Text(
+          "survery".tr,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -41,7 +41,8 @@ class _SurveyScreenState extends State<SurveyScreen> {
               ),
             ),
             onPressed: () {
-              gardenReportController.getGardenReportById(Get.arguments['divingId']);
+              gardenReportController
+                  .getGardenReportById(Get.arguments['divingId']);
               Get.toNamed(
                 Routes.gardenReport,
                 arguments: {
@@ -64,7 +65,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           builder: (controller) => (controller.isLoading.isTrue)
               ? const Loading()
               : controller.listCellSurvey.isEmpty
-                  ? const Center(child: Text('Ko co task'))
+                  ? Center(child: Text('task-empty'.tr))
                   : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(

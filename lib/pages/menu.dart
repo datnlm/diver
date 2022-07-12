@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/controller/information_controller.dart';
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/services/localization.dart';
 import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,9 @@ class MenuScreen extends StatefulWidget {
 final AuthController _authController = Get.find<AuthController>();
 
 class _MenuScreenState extends State<MenuScreen> {
+  bool _value = false;
+  int val = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,8 +101,8 @@ class _MenuScreenState extends State<MenuScreen> {
           height: double.infinity,
           child: Icon(Icons.logout),
         ),
-        title: const Text(
-          'Đăng xuất',
+        title: Text(
+          'logout'.tr,
           style: TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
@@ -112,7 +116,6 @@ class _MenuScreenState extends State<MenuScreen> {
       child: Column(
         children: [
           ListTile(
-            onTap: () => {},
             leading: const SizedBox(
               height: double.infinity,
               child: Icon(
@@ -120,13 +123,52 @@ class _MenuScreenState extends State<MenuScreen> {
                 color: Color(0xFF6F35A5),
               ),
             ),
-            title: const Text(
-              'Ngôn ngữ',
+            title: Text(
+              'language'.tr,
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
-            subtitle: const Text('Việt Nam'),
-            trailing: const Icon(
-              Icons.navigate_next,
+            trailing: SizedBox(
+              width: 300,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      title: Text(
+                        'vietnamese'.tr,
+                      ),
+                      leading: Radio(
+                        value: 2,
+                        groupValue: val,
+                        onChanged: (value) {
+                          setState(() {
+                            LocalizationService.changeLocale(
+                                LocalizationService.langCodes[1]);
+                            val = int.parse(value.toString());
+                          });
+                        },
+                        activeColor: Colors.green,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      title: Text('english'.tr),
+                      leading: Radio(
+                        value: 1,
+                        groupValue: val,
+                        onChanged: (value) {
+                          setState(() {
+                            LocalizationService.changeLocale(
+                                LocalizationService.langCodes[0]);
+                            val = int.parse(value.toString());
+                          });
+                        },
+                        activeColor: Colors.green,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           ListTile(
@@ -138,8 +180,8 @@ class _MenuScreenState extends State<MenuScreen> {
                 color: Color(0xFF6F35A5),
               ),
             ),
-            title: const Text(
-              'Cấu hình khác',
+            title: Text(
+              'setting'.tr,
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             trailing: const Icon(Icons.navigate_next),

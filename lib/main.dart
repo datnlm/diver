@@ -1,4 +1,5 @@
 import 'package:diver/core/res/color.dart';
+import 'package:diver/services/localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,9 @@ void main() async {
     GetMaterialApp(
       theme: AppColors.getTheme,
       debugShowCheckedModeBanner: false,
+      locale: Get.deviceLocale,
+      fallbackLocale: LocalizationService.fallbackLocale,
+      translations: LocalizationService(),
       initialRoute: Routes.splash,
       getPages: RouterGenerator.pages,
     ),

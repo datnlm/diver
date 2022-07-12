@@ -80,16 +80,16 @@ class CellImageCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 15),
-              const Text(
-                "Xoá ảnh",
-                style: TextStyle(
+              Text(
+                "delete-title".tr,
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 15),
               //Would you like to delete this image?
-              const Text("Bạn có muốn xóa hình ảnh này không?"),
+              Text("delete-message".tr),
               const SizedBox(height: 20),
               const Divider(
                 height: 1,
@@ -103,10 +103,10 @@ class CellImageCard extends StatelessWidget {
                     surveyController.deleteImage(imageIndex);
                     Get.back();
                   },
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "Xoá",
-                      style: TextStyle(
+                      "delete".tr,
+                      style: const TextStyle(
                         fontSize: 18.0,
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
@@ -128,10 +128,10 @@ class CellImageCard extends StatelessWidget {
                   ),
                   highlightColor: Colors.grey[200],
                   onTap: () => Get.back(),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "Huỷ",
-                      style: TextStyle(
+                      "cancel".tr,
+                      style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.normal,
                       ),
@@ -207,10 +207,10 @@ class CellImageCard extends StatelessWidget {
                           Get.back();
                           controller.pickImage(true);
                         },
-                        title: const Center(
+                        title: Center(
                           child: Text(
-                            'Chụp ảnh',
-                            style: TextStyle(
+                            'camera'.tr,
+                            style: const TextStyle(
                                 fontSize: 18, color: Colors.blueAccent),
                           ),
                         ),
@@ -220,10 +220,10 @@ class CellImageCard extends StatelessWidget {
                           Get.back();
                           controller.pickImage(false);
                         },
-                        title: const Center(
+                        title: Center(
                           child: Text(
-                            'Chọn ảnh',
-                            style: TextStyle(
+                            'photo'.tr,
+                            style: const TextStyle(
                                 fontSize: 18, color: Colors.blueAccent),
                           ),
                         ),
@@ -242,11 +242,11 @@ class CellImageCard extends StatelessWidget {
                   ),
                   child: ListTile(
                     onTap: () => Get.back(),
-                    title: const Center(
+                    title: Center(
                       child: Text(
-                        'Huỷ',
-                        style:
-                            TextStyle(fontSize: 18, color: Colors.blueAccent),
+                        'cancel'.tr,
+                        style: const TextStyle(
+                            fontSize: 18, color: Colors.blueAccent),
                       ),
                     ),
                   ),

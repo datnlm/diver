@@ -16,9 +16,9 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'Thông tin cá nhân',
-          style: TextStyle(
+        title: Text(
+          'information'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -97,20 +97,20 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                     children: ListTile.divideTiles(context: context, tiles: [
                       ListTile(
                         onTap: () => controller.pickImage(true),
-                        title: const Center(
+                        title: Center(
                           child: Text(
-                            'Chụp ảnh',
-                            style: TextStyle(
+                            'camera'.tr,
+                            style: const TextStyle(
                                 fontSize: 18, color: Colors.blueAccent),
                           ),
                         ),
                       ),
                       ListTile(
                         onTap: () => controller.pickImage(false),
-                        title: const Center(
+                        title: Center(
                           child: Text(
-                            'Chọn ảnh',
-                            style: TextStyle(
+                            'photo'.tr,
+                            style: const TextStyle(
                                 fontSize: 18, color: Colors.blueAccent),
                           ),
                         ),
@@ -121,8 +121,8 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Card(
-                  shape: RoundedRectangleBorder(
+                Card(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(20.0),
                     ),
@@ -130,9 +130,9 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
                   child: ListTile(
                     title: Center(
                       child: Text(
-                        'Huỷ',
-                        style:
-                            TextStyle(fontSize: 18, color: Colors.blueAccent),
+                        'cancel'.tr,
+                        style: const TextStyle(
+                            fontSize: 18, color: Colors.blueAccent),
                       ),
                     ),
                   ),
@@ -153,34 +153,34 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
             ListTile(
               onTap: () => controller.initTextField('name'),
               minLeadingWidth: 85,
-              leading: const Text(
-                'Tên',
-                style: TextStyle(fontSize: 16),
+              leading: Text(
+                'name'.tr,
+                style: const TextStyle(fontSize: 16),
               ),
               title: Text('${controller.diver.name}',
                   style: const TextStyle(fontSize: 18)),
             ),
             ListTile(
               minLeadingWidth: 85,
-              leading: const Text(
-                'Email',
-                style: TextStyle(fontSize: 16),
+              leading: Text(
+                'email'.tr,
+                style: const TextStyle(fontSize: 16),
               ),
               title: Text(
                 '${controller.diver.email}',
                 style: const TextStyle(fontSize: 18),
               ),
-              subtitle: const Text(
-                'Email hệ thống',
-                style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+              subtitle: Text(
+                'organization-email'.tr,
+                style: const TextStyle(fontSize: 16, color: Colors.blueAccent),
               ),
             ),
             ListTile(
               onTap: () => controller.initTextField('phone'),
               minLeadingWidth: 85,
-              leading: const Text(
-                'Điện thoại',
-                style: TextStyle(fontSize: 16),
+              leading: Text(
+                'phone'.tr,
+                style: const TextStyle(fontSize: 16),
               ),
               title: Text('${controller.diver.phone}',
                   style: const TextStyle(fontSize: 18)),
@@ -188,9 +188,9 @@ class _InformationDiverScreenState extends State<InformationDiverScreen> {
             ListTile(
               onTap: () => controller.initTextField('address'),
               minLeadingWidth: 85,
-              leading: const Text(
-                'Địa chỉ',
-                style: TextStyle(fontSize: 16),
+              leading: Text(
+                'address'.tr,
+                style: const TextStyle(fontSize: 16),
               ),
               title: Text(
                 '${controller.diver.address}',
