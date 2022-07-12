@@ -1,5 +1,6 @@
 import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/services/localization.dart';
 import 'package:diver/widgets/survey_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,9 +18,9 @@ final SurveyController _surveyController = Get.find<SurveyController>();
 CalendarFormat _calendarFormat = CalendarFormat.week;
 DateTime _focusedDay = DateTime.now();
 DateTime? _selectedDay;
-const List<Tab> myTabs = <Tab>[
-  Tab(text: 'Đang xử lý'),
-  Tab(text: 'Hoàn thành'),
+List<Tab> myTabs = <Tab>[
+  Tab(text: 'process'.tr),
+  Tab(text: 'done'.tr),
 ];
 
 late TabController _tabController;
@@ -42,9 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Trang chủ',
-          style: TextStyle(
+        title: Text(
+          'home'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -56,8 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: ((controller) => TextButton(
                   onPressed: () => _surveyController.changeViewTab(),
                   child: controller.isViewCalendar
-                      ? Text('Xem toàn bộ')
-                      : Text('Xem theo ngày'),
+                      ? Text('view-all'.tr)
+                      : Text('view-day'.tr),
                 )),
           )
         ],
@@ -95,16 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TableCalendar<dynamic> _tableCalendar() {
     return TableCalendar(
-      locale: 'vi',
+      locale: 'vi-VN',
       calendarStyle: const CalendarStyle(
         // Use `CalendarStyle` to customize the UI
         outsideDaysVisible: false,
         weekendTextStyle: TextStyle(color: Colors.red),
       ),
-      availableCalendarFormats: const {
-        CalendarFormat.month: 'Tuần',
-        CalendarFormat.twoWeeks: 'Tháng',
-        CalendarFormat.week: '2 tuần'
+      availableCalendarFormats: {
+        CalendarFormat.month: 'week'.tr,
+        CalendarFormat.twoWeeks: 'month'.tr,
+        CalendarFormat.week: '2-week'.tr
       },
       weekendDays: const [DateTime.saturday, DateTime.sunday],
       startingDayOfWeek: StartingDayOfWeek.monday,
@@ -185,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     child: TabBar(
                       labelColor: Colors.black,
                       unselectedLabelColor: Colors.grey,
@@ -199,7 +200,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: _surveyController.isViewCalendar
                         ? Text(
-                            'Công việc ${DateFormat.yMMMMEEEEd('vi_VN').format(_selectedDay!)}',
+                            'task'.tr +
+                                DateFormat.yMMMMEEEEd('vi')
+                                    .format(_selectedDay!),
                             style: TextStyle(
                               color: Colors.blueGrey[900],
                               fontWeight: FontWeight.w700,
@@ -207,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                         : Text(
-                            'Danh sách tất cả survey',
+                            'list-survey'.tr,
                             style: TextStyle(
                               color: Colors.blueGrey[900],
                               fontWeight: FontWeight.w700,
@@ -238,22 +241,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
-        SizedBox(
+      children: [
+        const SizedBox(
           height: 40,
         ),
-        Icon(
+        const Icon(
           Icons.assignment_outlined,
           size: 120.0,
         ),
         Text(
-          'Không có công việc',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          'task-empty'.tr,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         // Look like you have no task in this date.
         Text(
-          'Có vẻ như bạn không có nhiệm vụ trong ngày này.',
-          style: TextStyle(fontSize: 12),
+          'task-emty-detail'.tr,
+          style: const TextStyle(fontSize: 12),
         ),
       ],
     );

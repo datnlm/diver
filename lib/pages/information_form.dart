@@ -1,6 +1,7 @@
 import 'package:diver/controller/information_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class UpdateInformationScreen extends StatelessWidget {
   const UpdateInformationScreen({Key? key}) : super(key: key);
 
@@ -26,8 +27,8 @@ class UpdateInformationScreen extends StatelessWidget {
               ),
             ),
             onPressed: () => informationController.updateInformation(),
-            child: const Text('Xong',
-                style: TextStyle(
+            child: Text('done'.tr,
+                style: const TextStyle(
                   color: Colors.black,
                 )),
           ),
