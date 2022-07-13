@@ -50,7 +50,7 @@ void main() async {
     GetMaterialApp(
       theme: AppColors.getTheme,
       debugShowCheckedModeBanner: false,
-      locale: Get.deviceLocale,
+      locale: LocalizationService.locale,
       fallbackLocale: LocalizationService.fallbackLocale,
       translations: LocalizationService(),
       initialRoute: Routes.splash,

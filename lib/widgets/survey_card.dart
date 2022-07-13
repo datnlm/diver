@@ -1,5 +1,6 @@
 import 'package:diver/models/survey.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../core/res/status.dart';
@@ -19,7 +20,7 @@ class SurveyCard extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Tên vườn:'),
+              Text('garden-name:'.tr),
               Text(survey.gardenName!,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
@@ -39,9 +40,9 @@ class SurveyCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Bắt đầu:'),
+                        Text('start:'.tr),
                         Text(
-                            DateFormat.yMMMMEEEEd('vi_VN')
+                            DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
                                 .format(survey.startTime!),
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
@@ -54,9 +55,9 @@ class SurveyCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Kết thúc:'),
+                        Text('end:'.tr),
                         Text(
-                            DateFormat.yMMMMEEEEd('vi_VN')
+                            DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
                                 .format(survey.endTime!),
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
@@ -71,7 +72,7 @@ class SurveyCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Trạng thái:'),
+                    Text('status:'.tr),
                     Text('${AppStatus.status[survey.status]}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,

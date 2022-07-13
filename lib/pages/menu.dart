@@ -20,7 +20,7 @@ final AuthController _authController = Get.find<AuthController>();
 
 class _MenuScreenState extends State<MenuScreen> {
   bool _value = false;
-  int val = 1;
+  int val = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -137,12 +137,12 @@ class _MenuScreenState extends State<MenuScreen> {
                         'vietnamese'.tr,
                       ),
                       leading: Radio(
-                        value: 2,
+                        value: 0,
                         groupValue: val,
                         onChanged: (value) {
                           setState(() {
                             LocalizationService.changeLocale(
-                                LocalizationService.langCodes[1]);
+                                LocalizationService.langCodes[0]);
                             val = int.parse(value.toString());
                           });
                         },
@@ -159,7 +159,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         onChanged: (value) {
                           setState(() {
                             LocalizationService.changeLocale(
-                                LocalizationService.langCodes[0]);
+                                LocalizationService.langCodes[1]);
                             val = int.parse(value.toString());
                           });
                         },

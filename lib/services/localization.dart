@@ -6,23 +6,23 @@ import 'locales/vn.dart' as vi;
 import 'locales/en.dart' as en;
 
 class LocalizationService extends Translations {
-  static final locale = _getLocaleFromLanguage();
+  static final locale = _getLocaleFromLanguage() ?? locales[0];
   // ignore: prefer_const_constructors
   static final fallbackLocale = Locale('vi', 'VN');
 
   static final langCodes = [
-    'en',
     'vi',
+    'en',
   ];
 
   static final locales = [
-    const Locale('en', 'US'),
     const Locale('vi', 'VN'),
+    const Locale('en', 'US'),
   ];
 
   static final langs = LinkedHashMap.from({
-    'en': 'English',
     'vi': 'Tiếng Việt',
+    'en': 'English',
   });
 
   static void changeLocale(String langCode) {
