@@ -73,15 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
       ),
     );
-    // body: _viewCalendar());
-
-    //  GetBuilder<SurveyController>(
-    //   builder: (controller) => (controller.isViewCalendar)
-    //       ?_tableCalendar(),
-    //       : controller.listSurvey.isEmpty
-    //           ? _emptyTask()
-    //           : _survey(controller),
-    // ),
   }
 
   Column _viewCalendar() {
@@ -96,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   TableCalendar<dynamic> _tableCalendar() {
     return TableCalendar(
-      locale: 'vi-VN',
+      locale: Get.locale!.toLanguageTag(),
       calendarStyle: const CalendarStyle(
         // Use `CalendarStyle` to customize the UI
         outsideDaysVisible: false,
@@ -117,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
         dowBuilder: (context, day) {
           if (day.weekday == DateTime.sunday ||
               day.weekday == DateTime.saturday) {
-            final text = DateFormat.E('vi').format(day);
+            final text = DateFormat.E(Get.locale!.toLanguageTag()).format(day);
 
             return Center(
               child: Text(
@@ -200,9 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: _surveyController.isViewCalendar
                         ? Text(
-                            'task'.tr +
-                                DateFormat.yMMMMEEEEd('vi')
-                                    .format(_selectedDay!),
+                            '${'task'.tr} ${DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag()).format(_selectedDay!)}',
                             style: TextStyle(
                               color: Colors.blueGrey[900],
                               fontWeight: FontWeight.w700,
