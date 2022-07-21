@@ -19,7 +19,7 @@ class NotificationController extends GetxController {
       if (route != null) {
         print("object ne bn oi" + route);
         SurveyController surveyController = Get.find<SurveyController>();
-        surveyController.getSurveyById('1');
+        surveyController.getSurveyById(route);
         Get.toNamed(Routes.surveyTask);
       }
     });

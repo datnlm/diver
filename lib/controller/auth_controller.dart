@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   static bool isInitialized = false;
+  String tokenDevice = '';
   @override
   onInit() {
     getAccessToken();
@@ -30,15 +31,13 @@ class AuthController extends GetxController {
           Uri.parse('${AppConstants.baseUrl}/api/v1/account-info')
               .replace(queryParameters: queryParams),
         );
+        print(response.statusCode);
         if (response.statusCode == 200) {
           var data = json.decode(response.body);
           prefs.setString('diverId', data['id']);
-
-          if (response.statusCode == 200) {
-            Get.toNamed(Routes.dashboard);
-          } else {
-            Get.toNamed(Routes.login);
-          }
+          Get.toNamed(Routes.dashboard);
+        } else {
+          Get.toNamed(Routes.login);
         }
       } else {
         Get.toNamed(Routes.login);
@@ -54,7 +53,11 @@ class AuthController extends GetxController {
   Future<void> login(email, password) async {
     try {
       String data = json.encode(
-        {'username': email.text, 'password': password.text},
+        {
+          'username': email.text,
+          'password': password.text,
+          'deviceId': tokenDevice
+        },
       );
       final response = await http.post(
         Uri.parse('${AppConstants.baseUrl}/api/v1/login'),
@@ -63,6 +66,7 @@ class AuthController extends GetxController {
         },
         body: data,
       );
+      print(response.statusCode);
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         final data = json.decode(response.body);
@@ -83,25 +87,9 @@ class AuthController extends GetxController {
     Get.toNamed(Routes.login);
   }
 
-  void sendToken(String tokenDevice) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? token = prefs.getString('token');
-    final String? diverId = prefs.getString('diverId');
-    try {
-      String body = json.encode({'id': diverId, 'token': tokenDevice});
-
-      final response = await http.post(
-        Uri.parse('${AppConstants.baseUrl}/api/v1/login'),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token",
-        },
-        body: body,
-      );
-      if (response.statusCode == 200) {
-      } else {}
-    } catch (e) {
-      log(e.toString());
-    }
+  void setTokenDevice(String token) {
+    print(token);
+    tokenDevice = token;
+    update();
   }
 }
