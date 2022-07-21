@@ -1,4 +1,6 @@
+import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/controller/dashboard_controller.dart';
+import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/pages/home.dart';
 import 'package:diver/pages/menu.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -18,11 +20,13 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
+  final AuthController _authController = Get.find<AuthController>();
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken().then((value) => {});
-    // .then((value) => _loginController.sendToken(value!));
+    FirebaseMessaging.instance
+        .getToken()
+        .then((value) => _authController.sendToken(value!));
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
         final routeFromMessage = message.data['route'];

@@ -82,4 +82,26 @@ class AuthController extends GetxController {
     controller.tabIndex = 0;
     Get.toNamed(Routes.login);
   }
+
+  void sendToken(String tokenDevice) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+    final String? diverId = prefs.getString('diverId');
+    try {
+      String body = json.encode({'id': diverId, 'token': tokenDevice});
+
+      final response = await http.post(
+        Uri.parse('${AppConstants.baseUrl}/api/v1/login'),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: body,
+      );
+      if (response.statusCode == 200) {
+      } else {}
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
