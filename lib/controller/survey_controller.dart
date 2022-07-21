@@ -109,7 +109,7 @@ class SurveyController extends GetxController {
     }
   }
 
-  Future<void> getSurveyById(Survey survey) async {
+  Future<void> getSurveyById(String surveyId) async {
     try {
       isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -117,7 +117,7 @@ class SurveyController extends GetxController {
       final String? diverId = prefs.getString('diverId');
 
       Map<String, String> queryParams = {
-        'DivingSurveyId': survey.id.toString(),
+        'DivingSurveyId': surveyId.toString(),
         'DiverId': diverId!,
         // 'DiverId': information.diver.id.toString(),
       };
@@ -194,7 +194,10 @@ class SurveyController extends GetxController {
         }
         request.headers.addAll(headers);
         request.fields['id'] = cell!.id.toString();
-        request.fields['note'] = cell!.note.toString();
+        if (cell!.note != null) {
+          request.fields['note'] = cell!.note;
+        }
+        request.fields['status'] = cell!.status.toString();
         request.fields['MediaUrl'] = cell!.mediaUrl.toString();
         request.fields['DivingSurveyId'] = cell!.divingSurveyId.toString();
         for (var i = 0; i < cellResponse.images!.length; i++) {

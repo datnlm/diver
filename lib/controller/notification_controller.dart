@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:diver/controller/dashboard_controller.dart';
+import 'package:diver/controller/survey_controller.dart';
+import 'package:diver/core/routes/routes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -16,9 +18,9 @@ class NotificationController extends GetxController {
         onSelectNotification: (String? route) async {
       if (route != null) {
         print("object ne bn oi" + route);
-        DashBoardController dashBoardController =
-            Get.find<DashBoardController>();
-        dashBoardController.tabIndex = 0;
+        SurveyController surveyController = Get.find<SurveyController>();
+        surveyController.getSurveyById('1');
+        Get.toNamed(Routes.surveyTask);
       }
     });
   }
