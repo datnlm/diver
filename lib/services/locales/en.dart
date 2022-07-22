@@ -33,5 +33,6 @@ const Map<String, String> en = {
   'list-survey': 'List all survey',
   'week': 'Week',
   '2-week': '2 Week',
-  'month': 'Month'
+  'month': 'Month',
+  'new': 'New'
 };

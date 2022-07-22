@@ -43,8 +43,9 @@ class SurveyController extends GetxController {
       final String? diverId = prefs.getString('diverId');
 
       Map<String, String> queryParams = {
-        'DiverId': diverId!,
-        'Status': tabIndex.toString(),
+        'DiverId': diverId!
+        // 'DiverId': diverId!,
+        // 'Status': tabIndex.toString(),
       };
       final response = await http.get(
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -73,6 +74,20 @@ class SurveyController extends GetxController {
 
   Future<void> getByDateTime(DateTime selectedDay) async {
     try {
+      switch (tabIndex) {
+        case 0:
+          tabIndex = 1;
+          break;
+        case 1:
+          tabIndex = 2;
+          break;
+        case 2:
+          tabIndex = 3;
+          break;
+        default:
+          tabIndex = 0;
+      }
+      print(tabIndex);
       isLoading(true);
       update();
       final SharedPreferences prefs = await SharedPreferences.getInstance();

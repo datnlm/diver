@@ -73,7 +73,7 @@ class SurveyCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('status:'.tr),
-                    Text('${AppStatus.status[survey.status]}',
+                    Text('${AppStatus.statusDivingSurvey[survey.status]}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                         )),
