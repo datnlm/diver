@@ -19,6 +19,7 @@ CalendarFormat _calendarFormat = CalendarFormat.week;
 DateTime _focusedDay = DateTime.now();
 DateTime? _selectedDay;
 List<Tab> myTabs = <Tab>[
+  Tab(text: 'new'.tr),
   Tab(text: 'process'.tr),
   Tab(text: 'done'.tr),
 ];

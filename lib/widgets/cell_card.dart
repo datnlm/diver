@@ -61,7 +61,7 @@ class CellCard extends StatelessWidget {
               color: _getColor(cell.status),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('${AppStatus.status[cell.status]}'),
+                child: Text('${AppStatus.statusCellSurvey[cell.status]}'),
               ),
             ),
           ),

@@ -35,5 +35,6 @@ const Map<String, String> vn = {
   'list-survey': 'Danh sách tất cả survey',
   'week': 'Tuần',
   '2-week': '2 Tuần',
-  'month': 'Tháng'
+  'month': 'Tháng',
+  'new': 'Mới'
 };
