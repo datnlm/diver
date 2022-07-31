@@ -45,30 +45,43 @@ class _DiverTeamScreenState extends State<DiverTeamScreen>
         ),
         automaticallyImplyLeading: false,
         elevation: 0,
-        bottom: TabBar(
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          controller: _tabController,
-          tabs: myTabs,
-        ),
+        // bottom: TabBar(
+        //   labelColor: Colors.black,
+        //   unselectedLabelColor: Colors.grey,
+        //   controller: _tabController,
+        //   tabs: myTabs,
+        // ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: myTabs.map((Tab tab) {
-          return GetBuilder<DiverTeamController>(
-            builder: (controller) => (controller.isLoading.isTrue)
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemCount: controller.listDiverTeam.length,
-                    itemBuilder: ((context, index) {
-                      return DiverTeamCard(
-                        diverTeam: controller.listDiverTeam[index],
-                      );
-                    }),
-                  ),
-          );
-        }).toList(),
+      body: GetBuilder<DiverTeamController>(
+        builder: (controller) => (controller.isLoading.isTrue)
+            ? const Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: controller.listDiverTeam.length,
+                itemBuilder: ((context, index) {
+                  return DiverTeamCard(
+                    diverTeam: controller.listDiverTeam[index],
+                  );
+                }),
+              ),
       ),
+
+      // body: TabBarView(
+      //   controller: _tabController,
+      //   children: myTabs.map((Tab tab) {
+      //     return GetBuilder<DiverTeamController>(
+      //       builder: (controller) => (controller.isLoading.isTrue)
+      //           ? const Center(child: CircularProgressIndicator())
+      //           : ListView.builder(
+      //               itemCount: controller.listDiverTeam.length,
+      //               itemBuilder: ((context, index) {
+      //                 return DiverTeamCard(
+      //                   diverTeam: controller.listDiverTeam[index],
+      //                 );
+      //               }),
+      //             ),
+      //     );
+      //   }).toList(),
+      // ),
     );
   }
 }

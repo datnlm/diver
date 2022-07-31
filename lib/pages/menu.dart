@@ -175,21 +175,6 @@ class _MenuScreenState extends State<MenuScreen> {
               //   ),
               // ),
               ),
-          // ListTile(
-          //   onTap: () => {},
-          //   leading: const SizedBox(
-          //     height: double.infinity,
-          //     child: Icon(
-          //       Icons.settings,
-          //       color: Color(0xFF6F35A5),
-          //     ),
-          //   ),
-          //   title: Text(
-          //     'setting'.tr,
-          //     style: TextStyle(fontWeight: FontWeight.w500),
-          //   ),
-          //   trailing: const Icon(Icons.navigate_next),
-          // ),
         ],
       ),
     );

@@ -123,7 +123,7 @@ class SurveyController extends GetxController {
               "Content-Type": "application/json",
               "Authorization": "Bearer $token"
             });
-        print(token);
+
         if (response.statusCode == 200) {
           AuthController.isInitialized = false;
           var surveys = divingSurveyResponseFromJson(response.body);
@@ -245,6 +245,7 @@ class SurveyController extends GetxController {
           request.fields['Images[$i].ImageUrl'] =
               cellResponse.images![i].imageUrl.toString();
         }
+
         http.StreamedResponse response = await request.send();
 
         if (response.statusCode == 200) {

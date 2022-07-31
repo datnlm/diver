@@ -4,12 +4,16 @@ import 'dart:developer';
 import 'package:diver/controller/dashboard_controller.dart';
 import 'package:diver/core/res/app.dart';
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/utils/toast.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   static bool isInitialized = false;
+  final formkey = GlobalKey<FormState>();
+  bool isAuthen = true;
   String tokenDevice = '';
   @override
   onInit() {
@@ -34,7 +38,7 @@ class AuthController extends GetxController {
         if (response.statusCode == 200) {
           var data = json.decode(response.body);
           prefs.setString('diverId', data['id']);
-          Get.offAllNamed(Routes.dashboard);
+          // Get.offAllNamed(Routes.dashboard);
         } else {
           Get.toNamed(Routes.login);
         }
@@ -48,6 +52,11 @@ class AuthController extends GetxController {
 
   Future<void> login(email, password) async {
     try {
+      final isValid = formkey.currentState!.validate();
+      if (!isValid) {
+        return;
+      }
+      print(tokenDevice);
       String data = json.encode(
         {
           'username': email.text,
@@ -68,9 +77,14 @@ class AuthController extends GetxController {
         prefs.setString('token', data['token']);
         getAccessToken();
         Get.offAllNamed(Routes.dashboard);
+      } else {
+        Get.back();
+        showMyToast('invalid-user'.tr);
       }
     } catch (e) {
       log(e.toString());
+    } finally {
+      update();
     }
   }
 
@@ -85,5 +99,12 @@ class AuthController extends GetxController {
   void setTokenDevice(String token) {
     tokenDevice = token;
     update();
+  }
+
+  String? validate(String value, String message) {
+    if (value.isEmpty) {
+      return message;
+    }
+    return null;
   }
 }

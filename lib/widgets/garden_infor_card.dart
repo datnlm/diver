@@ -8,15 +8,16 @@ import 'package:intl/intl.dart';
 
 import '../core/res/status.dart';
 
-class DiverTeamCard extends StatefulWidget {
+class GardenInformationCard extends StatefulWidget {
   final DiverTeams diverTeam;
-  const DiverTeamCard({Key? key, required this.diverTeam}) : super(key: key);
+  const GardenInformationCard({Key? key, required this.diverTeam})
+      : super(key: key);
 
   @override
-  State<DiverTeamCard> createState() => _DiverTeamCardState();
+  State<GardenInformationCard> createState() => _GardenInformationCardState();
 }
 
-class _DiverTeamCardState extends State<DiverTeamCard> {
+class _GardenInformationCardState extends State<GardenInformationCard> {
   final DiverTeamController diverTeamController =
       Get.find<DiverTeamController>();
 

@@ -4,33 +4,10 @@
 
 import 'dart:convert';
 
-DiverTeamResponse diverTeamResponseFromJson(String str) =>
-    DiverTeamResponse.fromJson(json.decode(str));
+DiverTeam diverTeamResponseFromJson(String str) =>
+    DiverTeam.fromJson(json.decode(str));
 
-String diverTeamResponseToJson(DiverTeamResponse data) =>
-    json.encode(data.toJson());
-
-class DiverTeamResponse {
-  DiverTeamResponse({
-    this.metaData,
-    this.items,
-  });
-
-  MetaData? metaData;
-  List<DiverTeam>? items;
-
-  factory DiverTeamResponse.fromJson(Map<String, dynamic> json) =>
-      DiverTeamResponse(
-        metaData: MetaData.fromJson(json["metaData"]),
-        items: List<DiverTeam>.from(
-            json["items"].map((x) => DiverTeam.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "metaData": metaData!.toJson(),
-        "items": List<dynamic>.from(items!.map((x) => x.toJson())),
-      };
-}
+String diverTeamResponseToJson(DiverTeam data) => json.encode(data.toJson());
 
 class DiverTeam {
   DiverTeam({
@@ -44,86 +21,114 @@ class DiverTeam {
   });
 
   int? id;
-  dynamic createTime;
+  DateTime? createTime;
   String? name;
   int? number;
   int? status;
-  dynamic divers;
-  dynamic areas;
+  List<Diver>? divers;
+  List<Area>? areas;
 
   factory DiverTeam.fromJson(Map<String, dynamic> json) => DiverTeam(
         id: json["id"],
-        createTime: json["createTime"],
+        createTime: DateTime.parse(json["createTime"]),
         name: json["name"],
         number: json["number"],
         status: json["status"],
-        divers: json["divers"],
-        areas: json["areas"],
+        divers: List<Diver>.from(json["divers"].map((x) => Diver.fromJson(x))),
+        areas: List<Area>.from(json["areas"].map((x) => Area.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "createTime": createTime,
+        "createTime": createTime!.toIso8601String(),
         "name": name,
         "number": number,
         "status": status,
-        "divers": divers,
-        "areas": areas,
+        "divers": List<dynamic>.from(divers!.map((x) => x.toJson())),
+        "areas": List<dynamic>.from(areas!.map((x) => x.toJson())),
       };
 }
 
-class MetaData {
-  MetaData({
-    this.currentPage,
-    this.totalPages,
-    this.pageSize,
-    this.totalCount,
-    this.hasPrevious,
-    this.hasNext,
-    this.previousPage,
-    this.currentPageUri,
-    this.nextPage,
-    this.firstPage,
-    this.lastPage,
+class Area {
+  Area({
+    this.id,
+    this.name,
+    this.wellKnownText,
+    this.address,
+    this.corals,
+    this.diverTeams,
+    this.technicians,
   });
 
-  int? currentPage;
-  int? totalPages;
-  int? pageSize;
-  int? totalCount;
-  bool? hasPrevious;
-  bool? hasNext;
-  dynamic previousPage;
-  String? currentPageUri;
-  dynamic nextPage;
-  String? firstPage;
-  String? lastPage;
+  int? id;
+  String? name;
+  String? wellKnownText;
+  String? address;
+  dynamic corals;
+  dynamic diverTeams;
+  dynamic technicians;
 
-  factory MetaData.fromJson(Map<String, dynamic> json) => MetaData(
-        currentPage: json["currentPage"],
-        totalPages: json["totalPages"],
-        pageSize: json["pageSize"],
-        totalCount: json["totalCount"],
-        hasPrevious: json["hasPrevious"],
-        hasNext: json["hasNext"],
-        previousPage: json["previousPage"],
-        currentPageUri: json["currentPageUri"],
-        nextPage: json["nextPage"],
-        firstPage: json["firstPage"],
-        lastPage: json["lastPage"],
+  factory Area.fromJson(Map<String, dynamic> json) => Area(
+        id: json["id"],
+        name: json["name"],
+        wellKnownText: json["wellKnownText"],
+        address: json["address"],
+        corals: json["corals"],
+        diverTeams: json["diverTeams"],
+        technicians: json["technicians"],
       );
 
   Map<String, dynamic> toJson() => {
-        "currentPage": currentPage,
-        "totalPages": totalPages,
-        "pageSize": pageSize,
-        "totalCount": totalCount,
-        "hasPrevious": hasPrevious,
-        "hasNext": hasNext,
-        "previousPage": previousPage,
-        "currentPageUri": currentPageUri,
-        "nextPage": nextPage,
-        "firstPage": firstPage,
-        "lastPage": lastPage,
+        "id": id,
+        "name": name,
+        "wellKnownText": wellKnownText,
+        "address": address,
+        "corals": corals,
+        "diverTeams": diverTeams,
+        "technicians": technicians,
+      };
+}
+
+class Diver {
+  Diver({
+    this.id,
+    this.imageUrl,
+    this.name,
+    this.phone,
+    this.email,
+    this.address,
+    this.deviceId,
+    this.status,
+  });
+
+  int? id;
+  String? imageUrl;
+  String? name;
+  String? phone;
+  String? email;
+  String? address;
+  String? deviceId;
+  int? status;
+
+  factory Diver.fromJson(Map<String, dynamic> json) => Diver(
+        id: json["id"],
+        imageUrl: json["imageUrl"],
+        name: json["name"],
+        phone: json["phone"],
+        email: json["email"],
+        address: json["address"],
+        deviceId: json["deviceId"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "imageUrl": imageUrl,
+        "name": name,
+        "phone": phone,
+        "email": email,
+        "address": address,
+        "deviceId": deviceId,
+        "status": status,
       };
 }

@@ -31,7 +31,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             items: [
               _bottomNavigationBarItem(
                 icon: Icons.home,
-                label: 'home.tr',
+                label: 'home'.tr,
               ),
               _bottomNavigationBarItem(
                 icon: Icons.people_alt_rounded,
