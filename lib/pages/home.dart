@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 final SurveyController _surveyController = Get.find<SurveyController>();
 CalendarFormat _calendarFormat = CalendarFormat.week;
 DateTime _focusedDay = DateTime.now();
+var label = "Hôm nay";
 DateTime? _selectedDay;
 List<Tab> myTabs = <Tab>[
   Tab(text: 'process'.tr),
@@ -137,6 +138,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _surveyController.getByDateTime(selectedDay);
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
+            if (DateFormat('yyyy-MM-dd').format(_selectedDay!) ==
+                DateFormat('yyyy-MM-dd').format(DateTime.now())) {
+              label = "Công việc hôm nay";
+            } else {
+              label =
+                  '${'task'.tr} ${DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag()).format(_selectedDay!)}';
+            }
           });
         }
       },
@@ -194,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: _surveyController.isViewCalendar
                         ? Text(
-                            '${'task'.tr} ${DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag()).format(_selectedDay!)}',
+                            label,
                             style: TextStyle(
                               color: Colors.blueGrey[900],
                               fontWeight: FontWeight.w700,

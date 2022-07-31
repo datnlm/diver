@@ -1,4 +1,5 @@
 import 'package:diver/pages/cell_survey.dart';
+import 'package:diver/pages/diver_team_infor.dart';
 import 'package:diver/pages/garden_report.dart';
 import 'package:diver/pages/home.dart';
 import 'package:diver/pages/information_diver.dart';
@@ -19,6 +20,7 @@ class Routes {
   static const home = "/home";
   static const menu = "/menu";
   static const information = "/information_diver";
+  static const information_diver = "/diver_team_infor";
   static const updateInformation = "/information_form";
   static const surveyTask = "/survey_task";
   static const cellPhoto = "/cell_image";
@@ -54,6 +56,11 @@ class RouterGenerator {
     GetPage(
       name: Routes.information,
       page: () => const InformationDiverScreen(),
+      binding: Binding(),
+    ),
+    GetPage(
+      name: Routes.information_diver,
+      page: () => const DiverTeamInformation(),
       binding: Binding(),
     ),
     GetPage(

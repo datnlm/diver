@@ -35,5 +35,9 @@ const Map<String, String> en = {
   '2-week': '2 Week',
   'month': 'Month',
   'new': 'New',
-  'diverTeam': 'Diver Team'
+  'diverTeam': 'Diver Team',
+  'validate-email': 'Please input email',
+  'validate-password': 'Please input password',
+  'invalid-user': 'Invalid email or password',
+  'quantity': 'Quantity member'
 };

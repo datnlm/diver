@@ -23,9 +23,9 @@ const Map<String, String> vn = {
   'task-emty-detail': 'Cỏ vẻ như bạn không có nhiệm vụ trong ngày này.',
   'process': 'Đang xử lý',
   'done': 'Hoàn thành',
-  'garden-name:': 'Tên vườn:',
-  'start:': 'Bắt đầu:',
-  'end:': 'Kết thúc:',
+  'garden-name:': 'Tên vườn',
+  'start:': 'Bắt đầu',
+  'end:': 'Kết thúc',
   'status:': 'Trạng thái:',
   'survey': 'Khảo sát',
   'survey-cell': 'Khảo sát Cell',
@@ -37,5 +37,9 @@ const Map<String, String> vn = {
   '2-week': '2 Tuần',
   'month': 'Tháng',
   'new': 'Mới',
-  'diverTeam': 'Đội thợ lặn'
+  'diverTeam': 'Đội thợ lặn',
+  'validate-email': 'Vui lòng nhập email',
+  'validate-password': 'Vui lòng nhập mật khẩu',
+  'invalid-user': 'Tài khoảng hoặc mật khẩu không đúng',
+  'quantity': 'Số lượng thành viên'
 };

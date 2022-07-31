@@ -10,11 +10,10 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController? email = TextEditingController();
     TextEditingController? password = TextEditingController();
-    final formkey = GlobalKey<FormState>();
 
     final AuthController authController = Get.find<AuthController>();
     return Form(
-      key: formkey,
+      key: authController.formkey,
       child: Column(
         children: [
           Container(
@@ -32,7 +31,9 @@ class LoginForm extends StatelessWidget {
               cursorColor: const Color(0xFF6F35A5),
               // cursorColor: kPrimaryColor,
               controller: email,
-              // onSaved: (email) {},
+              validator: (value) {
+                return authController.validate(value!, 'validate-email'.tr);
+              },
               decoration: InputDecoration(
                 hintText: "email".tr,
                 border: InputBorder.none,
@@ -63,6 +64,10 @@ class LoginForm extends StatelessWidget {
                 cursorColor: const Color(0xFF6F35A5),
                 // cursorColor: kPrimaryColor,
                 controller: password,
+                validator: (value) {
+                  return authController.validate(
+                      value!, 'validate-password'.tr);
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "password".tr,
@@ -89,8 +94,10 @@ class LoginForm extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () {
-                  showLoaderDialog(context);
                   authController.login(email, password);
+                  if (authController.formkey.currentState!.validate()) {
+                    showLoaderDialog(context);
+                  }
                 },
                 child: Text('login'.tr),
               ),
