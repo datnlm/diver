@@ -1,3 +1,4 @@
+import 'package:diver/models/diver_team.dart';
 import 'package:diver/models/survey.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,10 +6,10 @@ import 'package:intl/intl.dart';
 
 import '../core/res/status.dart';
 
-class SurveyCard extends StatelessWidget {
-  final Survey survey;
+class DiverTeamCard extends StatelessWidget {
+  final DiverTeam diverTeam;
 
-  const SurveyCard({Key? key, required this.survey}) : super(key: key);
+  const DiverTeamCard({Key? key, required this.diverTeam}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,8 @@ class SurveyCard extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('garden-name:'.tr),
-              Text(survey.gardenName!,
+              Text('name:'.tr),
+              Text(diverTeam.name!,
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   )),
@@ -40,8 +41,8 @@ class SurveyCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('diverTeam:'.tr),
-                        Text(survey.diverTeamName!,
+                        Text('quantity:'.tr),
+                        Text(diverTeam.number.toString(),
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
                             )),
@@ -56,7 +57,7 @@ class SurveyCard extends StatelessWidget {
                         Text('start:'.tr),
                         Text(
                             DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
-                                .format(survey.startTime!),
+                                .format(diverTeam.createTime!),
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
                             )),
@@ -64,18 +65,6 @@ class SurveyCard extends StatelessWidget {
                     ),
                     const SizedBox(
                       height: 4,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('end:'.tr),
-                        Text(
-                            DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
-                                .format(survey.endTime!),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ],
                     ),
                   ],
                 ),
@@ -86,7 +75,7 @@ class SurveyCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('status:'.tr),
-                    Text('${AppStatus.statusDivingSurvey[survey.status]}',
+                    Text('${AppStatus.statusDivingSurvey[diverTeam.status]}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                         )),
@@ -95,7 +84,7 @@ class SurveyCard extends StatelessWidget {
               ],
             ),
           ),
-          leading: _getCorrectIcon(survey.status!),
+          leading: _getCorrectIcon(diverTeam.status!),
         ),
       ),
     );

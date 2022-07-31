@@ -34,5 +34,6 @@ const Map<String, String> en = {
   'week': 'Week',
   '2-week': '2 Week',
   'month': 'Month',
-  'new': 'New'
+  'new': 'New',
+  'diverTeam': 'Diver Team'
 };

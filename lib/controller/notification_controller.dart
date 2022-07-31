@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:diver/controller/dashboard_controller.dart';
 import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/core/routes/routes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,7 +16,6 @@ class NotificationController extends GetxController {
     _notificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? route) async {
       if (route != null) {
-        print("object ne bn oi" + route);
         SurveyController surveyController = Get.find<SurveyController>();
         surveyController.getSurveyById(route);
         Get.toNamed(Routes.surveyTask);

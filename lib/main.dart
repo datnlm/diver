@@ -1,51 +1,19 @@
+import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/core/res/color.dart';
 import 'package:diver/services/localization.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:diver/core/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'controller/notification_controller.dart';
 
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-//   print('Handling a background message ${message.messageId}');
-//   print(message.data);
-//   flutterLocalNotificationsPlugin.show(
-//       message.data.hashCode,
-//       message.data['title'],
-//       message.data['body'],
-//       NotificationDetails(
-//         android: AndroidNotificationDetails(
-//           channel.id,
-//           channel.name,
-//           // channel.description,
-//         ),
-//       ));
-// }
-
-// const AndroidNotificationChannel channel = AndroidNotificationChannel(
-//   'high_importance_channel', // id
-//   'High Importance Notifications', // title
-//   // 'This channel is used for important notifications.', // description
-//   importance: Importance.high,
-// );
-
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeDateFormatting();
   NotificationController.initialize();
   await Firebase.initializeApp();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // await flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<
-  //         AndroidFlutterLocalNotificationsPlugin>()
-  //     ?.createNotificationChannel(channel);
+  Get.lazyPut(() => AuthController());
   runApp(
     GetMaterialApp(
       theme: AppColors.getTheme,
@@ -53,7 +21,8 @@ void main() async {
       locale: LocalizationService.locale,
       fallbackLocale: LocalizationService.fallbackLocale,
       translations: LocalizationService(),
-      initialRoute: Routes.splash,
+      initialRoute:
+          AuthController.isInitialized == true ? Routes.splash : Routes.login,
       getPages: RouterGenerator.pages,
     ),
   );

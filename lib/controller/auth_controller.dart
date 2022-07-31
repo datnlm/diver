@@ -31,11 +31,10 @@ class AuthController extends GetxController {
           Uri.parse('${AppConstants.baseUrl}/api/v1/account-info')
               .replace(queryParameters: queryParams),
         );
-        print(response.statusCode);
         if (response.statusCode == 200) {
           var data = json.decode(response.body);
           prefs.setString('diverId', data['id']);
-          Get.toNamed(Routes.dashboard);
+          Get.offAllNamed(Routes.dashboard);
         } else {
           Get.toNamed(Routes.login);
         }
@@ -44,9 +43,6 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       log(e.toString());
-    } finally {
-      isInitialized = true;
-      update();
     }
   }
 
@@ -66,13 +62,12 @@ class AuthController extends GetxController {
         },
         body: data,
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         final data = json.decode(response.body);
         prefs.setString('token', data['token']);
         getAccessToken();
-        Get.toNamed(Routes.dashboard);
+        Get.offAllNamed(Routes.dashboard);
       }
     } catch (e) {
       log(e.toString());
@@ -84,11 +79,10 @@ class AuthController extends GetxController {
     prefs.clear();
     DashBoardController controller = Get.find<DashBoardController>();
     controller.tabIndex = 0;
-    Get.toNamed(Routes.login);
+    Get.offAllNamed(Routes.login);
   }
 
   void setTokenDevice(String token) {
-    print(token);
     tokenDevice = token;
     update();
   }
