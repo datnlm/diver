@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:diver/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,7 +41,6 @@ class GardenReportController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
           });
-      print(response.statusCode);
       if (response.statusCode == 200) {
         gardenReport = gardenReportFromJson(response.body);
         bathymetryController.text = gardenReport.bathymetry.toString();
@@ -49,6 +49,8 @@ class GardenReportController extends GetxController {
         currentController.text = gardenReport.current.toString();
         brightnessController.text = gardenReport.brightness.toString();
         update();
+      } else if( response.statusCode == 401 || response.statusCode == 403) {
+        Get.offAllNamed(Routes.login);
       }
     } catch (e) {
       log(e.toString());
@@ -80,8 +82,6 @@ class GardenReportController extends GetxController {
             "Authorization": "Bearer $token"
           },
           body: body);
-      print(response);
-      print(response.statusCode);
       if (response.statusCode == 200) {
         Get.back();
 

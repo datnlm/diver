@@ -1,6 +1,5 @@
 import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/core/routes/routes.dart';
-import 'package:diver/services/localization.dart';
 import 'package:diver/widgets/survey_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,19 +18,20 @@ CalendarFormat _calendarFormat = CalendarFormat.week;
 DateTime _focusedDay = DateTime.now();
 DateTime? _selectedDay;
 List<Tab> myTabs = <Tab>[
-  Tab(text: 'new'.tr),
   Tab(text: 'process'.tr),
   Tab(text: 'done'.tr),
+  Tab(text: 'delete'.tr),
 ];
 
 late TabController _tabController;
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
-    // _tabController = TabController(vsync: this, length: myTabs.length);
+    _surveyController.tabIndexNew = 0;
+    _tabController = TabController(vsync: this, length: myTabs.length);
   }
 
   @override
@@ -133,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!isSameDay(_selectedDay, selectedDay)) {
           // Call `setState()` when updating the selected day
           setState(() {
+            _surveyController.dateClick = true;
             _surveyController.getByDateTime(selectedDay);
             _selectedDay = selectedDay;
             _focusedDay = focusedDay;
@@ -165,16 +166,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   DefaultTabController.of(context)!;
               tabController.addListener(() {
                 if (!tabController.indexIsChanging) {
-                  _surveyController.tabIndex = tabController.index;
+                  // Your code goes here.
+                  // To get index of current tab use tabController.index
+                  _surveyController.tabIndexNew = tabController.index;
                   if (_surveyController.isViewCalendar) {
                     _surveyController.getByDateTime(_selectedDay!);
                   } else {
                     _surveyController.getAll();
                   }
-                  // Your code goes here.
-                  // To get index of current tab use tabController.index
                 }
               });
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -212,16 +214,85 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 10,
                   ),
                   Expanded(
-                    child: GetBuilder<SurveyController>(
-                      builder: (controller) => (controller.isLoading.isTrue)
-                          ? const Center(child: CircularProgressIndicator())
-                          : controller.listSurvey.isEmpty
-                              ? _emptyTask()
-                              : _survey(controller),
+                    child: TabBarView(
+                      children: myTabs.map((Tab tab) {
+                        return GetBuilder<SurveyController>(
+                          builder: (controller) => (controller.isLoading.isTrue)
+                              ? const Center(child: CircularProgressIndicator())
+                              : controller.listSurvey.isEmpty &&
+                                      controller.isLoading.isFalse
+                                  ? _emptyTask()
+                                  : _survey(controller),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
               );
+              // return Scaffold(
+              //   appBar: AppBar(
+              //     bottom: TabBar(
+              //       tabs: myTabs,
+              //     ),
+              //   ),
+              //   body: TabBarView(
+              //     children: myTabs.map((Tab tab) {
+              //       return Center(
+              //         child: Text(
+              //           '${tab.text!} Tab',
+              //           style: Theme.of(context).textTheme.headline5,
+              //         ),
+              //       );
+              //     }).toList(),
+              //   ),
+              // );
+              // return Column(
+              //   crossAxisAlignment: CrossAxisAlignment.stretch,
+              //   children: [
+              //     SizedBox(
+              //       child: TabBar(
+              //         labelColor: Colors.black,
+              //         unselectedLabelColor: Colors.grey,
+              //         tabs: myTabs,
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       height: 20,
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.only(left: 8.0),
+              //       child: _surveyController.isViewCalendar
+              //           ? Text(
+              //               '${'task'.tr} ${DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag()).format(_selectedDay!)}',
+              //               style: TextStyle(
+              //                 color: Colors.blueGrey[900],
+              //                 fontWeight: FontWeight.w700,
+              //                 fontSize: 16,
+              //               ),
+              //             )
+              //           : Text(
+              //               'list-survey'.tr,
+              //               style: TextStyle(
+              //                 color: Colors.blueGrey[900],
+              //                 fontWeight: FontWeight.w700,
+              //                 fontSize: 16,
+              //               ),
+              //             ),
+              //     ),
+              //     const SizedBox(
+              //       height: 10,
+              //     ),
+              //     Expanded(
+              //       child: GetBuilder<SurveyController>(
+              //         builder: (controller) => (controller.isLoading.isTrue)
+              //             ? const Center(child: CircularProgressIndicator())
+              //             : controller.listSurvey.isEmpty
+              //                 ? _emptyTask()
+              //                 : _survey(controller),
+              //       ),
+              //     ),
+              //   ],
+              // );
             },
           )),
     );

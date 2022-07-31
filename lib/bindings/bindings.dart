@@ -1,4 +1,5 @@
 import 'package:diver/controller/dashboard_controller.dart';
+import 'package:diver/controller/diver_team_controller.dart';
 import 'package:diver/controller/garden_report_controller.dart';
 import 'package:diver/controller/information_controller.dart';
 import 'package:diver/controller/notification_controller.dart';
@@ -15,5 +16,6 @@ class Binding implements Bindings {
     Get.lazyPut(() => InformationController());
     Get.lazyPut(() => GardenReportController());
     Get.lazyPut(() => NotificationController());
+    Get.lazyPut(() => DiverTeamController());
   }
 }

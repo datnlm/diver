@@ -36,5 +36,6 @@ const Map<String, String> vn = {
   'week': 'Tuần',
   '2-week': '2 Tuần',
   'month': 'Tháng',
-  'new': 'Mới'
+  'new': 'Mới',
+  'diverTeam': 'Đội thợ lặn'
 };

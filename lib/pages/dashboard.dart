@@ -1,15 +1,9 @@
-import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/controller/dashboard_controller.dart';
-import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/pages/home.dart';
 import 'package:diver/pages/menu.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:diver/pages/diver_team.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-
-import '../controller/notification_controller.dart';
-import '../main.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -29,6 +23,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             index: controller.tabIndex,
             children: const [
               HomeScreen(),
+              DiverTeamScreen(),
               MenuScreen(),
             ],
           ),
@@ -36,7 +31,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             items: [
               _bottomNavigationBarItem(
                 icon: Icons.home,
-                label: 'Trang chủ',
+                label: 'home.tr',
+              ),
+              _bottomNavigationBarItem(
+                icon: Icons.people_alt_rounded,
+                label: 'Đội thợ lặn',
               ),
               _bottomNavigationBarItem(
                 icon: Icons.menu,

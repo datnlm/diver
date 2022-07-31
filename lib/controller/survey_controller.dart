@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:diver/controller/auth_controller.dart';
 import 'package:diver/core/res/app.dart';
 import 'package:diver/models/cell_survey.dart';
 import 'package:diver/models/cell.dart';
@@ -12,6 +13,7 @@ import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/routes/routes.dart';
 import '../utils/toast.dart';
 
 class SurveyController extends GetxController {
@@ -22,105 +24,123 @@ class SurveyController extends GetxController {
   List<Survey> listSurvey = <Survey>[].obs;
   List<Cell> listCellSurvey = <Cell>[].obs;
   CellResponse cellResponse = CellResponse();
-  var tabIndex = 0;
+  var dateClick = false;
+  var tabIndexNew = 0;
+  var tabIndexPrevious = -1;
   Cell? cell = Cell();
   var isUpdate = false.obs;
   late DateTime focusedDay;
 
   @override
   onInit() {
+    tabIndexNew = 0;
+    tabIndexPrevious = -1;
     focusedDay = DateTime.now();
+    print('survey');
     getByDateTime(focusedDay);
     super.onInit();
   }
 
   Future<void> getAll() async {
-    try {
-      isLoading(true);
-      update();
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      final String? diverId = prefs.getString('diverId');
+    if (tabIndexPrevious != tabIndexNew) {
+      try {
+        tabIndexPrevious = tabIndexNew;
+        isLoading(true);
+        update();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String? token = prefs.getString('token');
+        final String? diverId = prefs.getString('diverId');
 
-      Map<String, String> queryParams = {
-        'DiverId': diverId!
-        // 'DiverId': diverId!,
-        // 'Status': tabIndex.toString(),
-      };
-      final response = await http.get(
-          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
-              .replace(queryParameters: queryParams),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token"
-          });
+        Map<String, String> queryParams = {
+          'DiverId': diverId!,
+          'Status': tabIndexNew.toString(),
+        };
+        final response = await http.get(
+            Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
+                .replace(queryParameters: queryParams),
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token"
+            });
 
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        var surveys = divingSurveyResponseFromJson(response.body);
-        if (surveys.items!.isNotEmpty) {
-          listSurvey = surveys.items as List<Survey>;
+        if (response.statusCode == 200) {
+          var surveys = divingSurveyResponseFromJson(response.body);
+          if (surveys.items!.isNotEmpty) {
+            listSurvey = surveys.items as List<Survey>;
+          }
+        } else if (response.statusCode == 401 || response.statusCode == 403) {
+          Get.offAllNamed(Routes.login);
+        } else {
+          listSurvey = [];
         }
-      } else {
-        listSurvey = [];
+      } catch (e) {
+        log(e.toString());
+      } finally {
+        isLoading(false);
+        update();
       }
-    } catch (e) {
-      log(e.toString());
-    } finally {
-      isLoading(false);
-      update();
     }
   }
 
   Future<void> getByDateTime(DateTime selectedDay) async {
-    try {
-      switch (tabIndex) {
-        case 0:
-          tabIndex = 1;
-          break;
-        case 1:
-          tabIndex = 2;
-          break;
-        case 2:
-          tabIndex = 3;
-          break;
-        default:
-          tabIndex = 0;
-      }
-      print(tabIndex);
-      isLoading(true);
-      update();
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      final String? diverId = prefs.getString('diverId');
-
-      Map<String, String> queryParams = {
-        'DiverId': diverId!,
-        'Status': tabIndex.toString(),
-        'StartTime': DateFormat('yyyy-MM-dd').format(selectedDay),
-      };
-      final response = await http.get(
-          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
-              .replace(queryParameters: queryParams),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token"
-          });
-
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        var surveys = divingSurveyResponseFromJson(response.body);
-        if (surveys.items!.isNotEmpty) {
-          listSurvey = surveys.items as List<Survey>;
+    print('tabIndexPrevious');
+    print(tabIndexPrevious);
+    print('tabIndexNew');
+    print(tabIndexNew);
+    if (tabIndexPrevious != tabIndexNew || dateClick) {
+      try {
+        dateClick = false;
+        tabIndexPrevious = tabIndexNew;
+        var status = '0';
+        switch (tabIndexNew) {
+          case 0:
+            status = '1';
+            break;
+          case 1:
+            status = '3';
+            break;
+          case 2:
+            status = '0';
+            break;
+          default:
+            status = '0';
         }
-      } else {
-        listSurvey = [];
+        isLoading(true);
+        update();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String? token = prefs.getString('token');
+        final String? diverId = prefs.getString('diverId');
+
+        Map<String, String> queryParams = {
+          'DiverId': diverId!,
+          'Status': status,
+          'StartTime': DateFormat('yyyy-MM-dd').format(selectedDay),
+        };
+        final response = await http.get(
+            Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
+                .replace(queryParameters: queryParams),
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token"
+            });
+        print(token);
+        if (response.statusCode == 200) {
+          AuthController.isInitialized = false;
+          var surveys = divingSurveyResponseFromJson(response.body);
+          if (surveys.items!.isNotEmpty) {
+            listSurvey = surveys.items as List<Survey>;
+          }
+        } else if (response.statusCode == 401 || response.statusCode == 403) {
+          Get.offAllNamed(Routes.login);
+        } else {
+          listSurvey = [];
+        }
+      } catch (e) {
+        log(e.toString());
+      } finally {
+        isLoading(false);
+        update();
       }
-    } catch (e) {
-      log(e.toString());
-    } finally {
-      isLoading(false);
-      update();
     }
   }
 
@@ -149,6 +169,8 @@ class SurveyController extends GetxController {
         if (cellSurvey.items!.isNotEmpty) {
           listCellSurvey = cellSurvey.items as List<Cell>;
         }
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        Get.offAllNamed(Routes.login);
       }
     } catch (e) {
       log(e.toString());
@@ -179,6 +201,8 @@ class SurveyController extends GetxController {
 
         cellResponse = cellSurvey;
         // Get.to(CellSurveyScreen(cell: cell));
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        Get.offAllNamed(Routes.login);
       }
     } catch (e) {
       log(e.toString());

@@ -1,6 +1,5 @@
 import 'package:diver/controller/garden_report_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class GardenReportScreen extends StatelessWidget {
@@ -144,7 +143,8 @@ class GardenReportScreen extends StatelessWidget {
                     ),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    suffixIcon: Icon(Icons.keyboard_double_arrow_down_outlined),
+                    suffixIcon:
+                        const Icon(Icons.keyboard_double_arrow_down_outlined),
                     labelText: 'Độ sâu',
                     fillColor: Colors.white70,
                     alignLabelWithHint: true,

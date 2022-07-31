@@ -96,14 +96,17 @@ class _MenuScreenState extends State<MenuScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        onTap: () => _authController.logout(),
+        onTap: () => showAlertDialog(context, _authController),
         leading: const SizedBox(
           height: double.infinity,
-          child: Icon(Icons.logout),
+          child: Icon(
+            Icons.logout,
+            color: Colors.redAccent,
+          ),
         ),
         title: Text(
           'logout'.tr,
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: const TextStyle(fontWeight: FontWeight.w500),
         ),
       ),
     );
@@ -116,76 +119,77 @@ class _MenuScreenState extends State<MenuScreen> {
       child: Column(
         children: [
           ListTile(
-            leading: const SizedBox(
-              height: double.infinity,
-              child: Icon(
-                Icons.language,
-                color: Color(0xFF6F35A5),
+              leading: const SizedBox(
+                height: double.infinity,
+                child: Icon(
+                  Icons.language,
+                  color: Color(0xFF6F35A5),
+                ),
               ),
-            ),
-            title: Text(
-              'language'.tr,
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            trailing: SizedBox(
-              width: 300,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: Text(
-                        'vietnamese'.tr,
-                      ),
-                      leading: Radio(
-                        value: 0,
-                        groupValue: val,
-                        onChanged: (value) {
-                          setState(() {
-                            LocalizationService.changeLocale(
-                                LocalizationService.langCodes[0]);
-                            val = int.parse(value.toString());
-                          });
-                        },
-                        activeColor: Colors.green,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListTile(
-                      title: Text('english'.tr),
-                      leading: Radio(
-                        value: 1,
-                        groupValue: val,
-                        onChanged: (value) {
-                          setState(() {
-                            LocalizationService.changeLocale(
-                                LocalizationService.langCodes[1]);
-                            val = int.parse(value.toString());
-                          });
-                        },
-                        activeColor: Colors.green,
-                      ),
-                    ),
-                  ),
-                ],
+              title: Text(
+                'language'.tr,
+                style: const TextStyle(fontWeight: FontWeight.w500),
               ),
-            ),
-          ),
-          ListTile(
-            onTap: () => {},
-            leading: const SizedBox(
-              height: double.infinity,
-              child: Icon(
-                Icons.settings,
-                color: Color(0xFF6F35A5),
+              subtitle: Text('vietnamese'.tr)
+              // trailing: SizedBox(
+              //   width: 300,
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: ListTile(
+              //           title: Text(
+              //             'vietnamese'.tr,
+              //           ),
+              //           leading: Radio(
+              //             value: 0,
+              //             groupValue: val,
+              //             onChanged: (value) {
+              //               setState(() {
+              //                 LocalizationService.changeLocale(
+              //                     LocalizationService.langCodes[0]);
+              //                 val = int.parse(value.toString());
+              //               });
+              //             },
+              //             activeColor: Colors.green,
+              //           ),
+              //         ),
+              //       ),
+              //       Expanded(
+              //         child: ListTile(
+              //           title: Text('english'.tr),
+              //           leading: Radio(
+              //             value: 1,
+              //             groupValue: val,
+              //             onChanged: (value) {
+              //               setState(() {
+              //                 LocalizationService.changeLocale(
+              //                     LocalizationService.langCodes[1]);
+              //                 val = int.parse(value.toString());
+              //               });
+              //             },
+              //             activeColor: Colors.green,
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               ),
-            ),
-            title: Text(
-              'setting'.tr,
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            trailing: const Icon(Icons.navigate_next),
-          ),
+          // ListTile(
+          //   onTap: () => {},
+          //   leading: const SizedBox(
+          //     height: double.infinity,
+          //     child: Icon(
+          //       Icons.settings,
+          //       color: Color(0xFF6F35A5),
+          //     ),
+          //   ),
+          //   title: Text(
+          //     'setting'.tr,
+          //     style: TextStyle(fontWeight: FontWeight.w500),
+          //   ),
+          //   trailing: const Icon(Icons.navigate_next),
+          // ),
         ],
       ),
     );
@@ -209,6 +213,90 @@ class _MenuScreenState extends State<MenuScreen> {
       trailing: const Icon(
         Icons.navigate_next,
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context, AuthController authController) {
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 0,
+          backgroundColor: const Color(0xffffffff),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 15),
+              Text(
+                "Đăng xuất",
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 15),
+              //Would you like to delete this image?
+              Text("Bạn có chắc chắn muốn đăng xuất không?"),
+              // Text("Bạn có chắc chắn muốn đăng xuất không?".tr),
+              const SizedBox(height: 20),
+              const Divider(
+                height: 1,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: InkWell(
+                  highlightColor: Colors.grey[200],
+                  onTap: () {
+                    authController.logout();
+                    Get.back();
+                  },
+                  child: Center(
+                    child: Text(
+                      "Xác nhận",
+                      // "Xác nhận".tr,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Divider(
+                height: 1,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: InkWell(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(15.0),
+                    bottomRight: Radius.circular(15.0),
+                  ),
+                  highlightColor: Colors.grey[200],
+                  onTap: () => Get.back(),
+                  child: Center(
+                    child: Text(
+                      "Huỷ",
+                      // "cancel".tr,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

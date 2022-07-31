@@ -5,8 +5,6 @@ import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:diver/widgets/cell_card.dart';
 import 'package:get/get.dart';
-import 'package:numberpicker/numberpicker.dart';
-
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({Key? key}) : super(key: key);
 
@@ -27,7 +25,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "survery".tr,
+          "survey".tr,
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,

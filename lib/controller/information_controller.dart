@@ -49,6 +49,8 @@ class InformationController extends GetxController {
         var data = diverFromJson(response.body);
         diver = data;
         update();
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        Get.offAllNamed(Routes.login);
       }
     } catch (e) {
       log(e.toString());
