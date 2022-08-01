@@ -23,10 +23,10 @@ const Map<String, String> vn = {
   'task-emty-detail': 'Cỏ vẻ như bạn không có nhiệm vụ trong ngày này.',
   'process': 'Đang xử lý',
   'done': 'Hoàn thành',
-  'garden-name:': 'Tên vườn',
-  'start:': 'Bắt đầu',
-  'end:': 'Kết thúc',
-  'status:': 'Trạng thái:',
+  'garden-name': 'Tên vườn',
+  'start': 'Bắt đầu',
+  'end': 'Kết thúc',
+  'status': 'Trạng thái:',
   'survey': 'Khảo sát',
   'survey-cell': 'Khảo sát Cell',
   'delete-title': 'Xoá ảnh',
@@ -41,5 +41,11 @@ const Map<String, String> vn = {
   'validate-email': 'Vui lòng nhập email',
   'validate-password': 'Vui lòng nhập mật khẩu',
   'invalid-user': 'Tài khoảng hoặc mật khẩu không đúng',
-  'quantity': 'Số lượng thành viên'
+  'quantity': 'Số lượng thành viên',
+  'myTask': 'Việc của tôi',
+  'viewAllTask': 'Toàn bộ',
+  'languageValue': 'Tiếng Việt',
+  'garden-type': 'Loại vườn',
+  'diver-name': 'Thợ lặn',
+  'site': 'Địa điểm'
 };

@@ -72,7 +72,7 @@ class _DiverTeamCardState extends State<DiverTeamCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('start:'.tr),
+                          Text('start'.tr),
                           Text(
                               DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
                                   .format(widget.diverTeam.createTime!),
@@ -92,9 +92,9 @@ class _DiverTeamCardState extends State<DiverTeamCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('status:'.tr),
+                      Text('status'.tr),
                       Text(
-                          '${AppStatus.statusDivingSurvey[widget.diverTeam.status]}',
+                          '${AppStatus.statusDiverTeam[widget.diverTeam.status]}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                           )),

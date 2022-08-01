@@ -20,11 +20,13 @@ class SurveyCard extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('garden-name:'.tr),
-              Text(survey.gardenName!,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                  )),
+              Text('garden-name'.tr),
+              Flexible(
+                child: Text(survey.gardenName!,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                    )),
+              ),
             ],
           ),
           subtitle: Padding(
@@ -40,11 +42,13 @@ class SurveyCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('diverTeam:'.tr),
-                        Text(survey.diverTeamName!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            )),
+                        Text('diverTeam'.tr),
+                        Flexible(
+                          child: Text(survey.diverTeamName!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -53,7 +57,7 @@ class SurveyCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('start:'.tr),
+                        Text('start'.tr),
                         Text(
                             DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
                                 .format(survey.startTime!),
@@ -68,7 +72,7 @@ class SurveyCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('end:'.tr),
+                        Text('end'.tr),
                         Text(
                             DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
                                 .format(survey.endTime!),
@@ -85,7 +89,7 @@ class SurveyCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('status:'.tr),
+                    Text('status'.tr),
                     Text('${AppStatus.statusDivingSurvey[survey.status]}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,

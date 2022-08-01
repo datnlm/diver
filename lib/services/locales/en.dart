@@ -21,10 +21,10 @@ const Map<String, String> en = {
   'task-emty-detail': ' Look like you have no task in this date.',
   'process': 'Processing',
   'done': 'Done',
-  'garden-name:': 'Name:',
-  'start:': 'Start:',
-  'end:': 'End:',
-  'status:': 'Status:',
+  'garden-name': 'Name:',
+  'start': 'Start:',
+  'end': 'End:',
+  'status': 'Status:',
   'survey': 'Survey',
   'survey-cell': 'Survey Cell',
   'delete-title': 'Delete this picture',
@@ -39,5 +39,11 @@ const Map<String, String> en = {
   'validate-email': 'Please input email',
   'validate-password': 'Please input password',
   'invalid-user': 'Invalid email or password',
-  'quantity': 'Quantity member'
+  'quantity': 'Quantity member',
+  'myTask': 'My task',
+  'viewAllTask': 'Get all',
+  'languageValue': 'English',
+  'garden-type': 'Garden Type',
+  'diver-name': 'Diver',
+  'site': 'Site'
 };

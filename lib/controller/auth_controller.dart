@@ -56,7 +56,6 @@ class AuthController extends GetxController {
       if (!isValid) {
         return;
       }
-      print(tokenDevice);
       String data = json.encode(
         {
           'username': email.text,

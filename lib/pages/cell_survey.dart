@@ -51,7 +51,7 @@ class CellSurveyScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: GetBuilder<SurveyController>(
               builder: (controller) => (controller.isLoading.isTrue)
-                  ? const Loading()
+                  ? const Center(child: CircularProgressIndicator())
                   : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(

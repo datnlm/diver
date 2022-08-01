@@ -35,7 +35,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               ),
               _bottomNavigationBarItem(
                 icon: Icons.people_alt_rounded,
-                label: 'Đội thợ lặn',
+                label: 'diverTeam'.tr,
               ),
               _bottomNavigationBarItem(
                 icon: Icons.menu,

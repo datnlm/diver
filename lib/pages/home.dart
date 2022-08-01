@@ -237,70 +237,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ],
               );
-              // return Scaffold(
-              //   appBar: AppBar(
-              //     bottom: TabBar(
-              //       tabs: myTabs,
-              //     ),
-              //   ),
-              //   body: TabBarView(
-              //     children: myTabs.map((Tab tab) {
-              //       return Center(
-              //         child: Text(
-              //           '${tab.text!} Tab',
-              //           style: Theme.of(context).textTheme.headline5,
-              //         ),
-              //       );
-              //     }).toList(),
-              //   ),
-              // );
-              // return Column(
-              //   crossAxisAlignment: CrossAxisAlignment.stretch,
-              //   children: [
-              //     SizedBox(
-              //       child: TabBar(
-              //         labelColor: Colors.black,
-              //         unselectedLabelColor: Colors.grey,
-              //         tabs: myTabs,
-              //       ),
-              //     ),
-              //     const SizedBox(
-              //       height: 20,
-              //     ),
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 8.0),
-              //       child: _surveyController.isViewCalendar
-              //           ? Text(
-              //               '${'task'.tr} ${DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag()).format(_selectedDay!)}',
-              //               style: TextStyle(
-              //                 color: Colors.blueGrey[900],
-              //                 fontWeight: FontWeight.w700,
-              //                 fontSize: 16,
-              //               ),
-              //             )
-              //           : Text(
-              //               'list-survey'.tr,
-              //               style: TextStyle(
-              //                 color: Colors.blueGrey[900],
-              //                 fontWeight: FontWeight.w700,
-              //                 fontSize: 16,
-              //               ),
-              //             ),
-              //     ),
-              //     const SizedBox(
-              //       height: 10,
-              //     ),
-              //     Expanded(
-              //       child: GetBuilder<SurveyController>(
-              //         builder: (controller) => (controller.isLoading.isTrue)
-              //             ? const Center(child: CircularProgressIndicator())
-              //             : controller.listSurvey.isEmpty
-              //                 ? _emptyTask()
-              //                 : _survey(controller),
-              //       ),
-              //     ),
-              //   ],
-              // );
             },
           )),
     );
@@ -337,6 +273,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       itemBuilder: ((context, index) {
         return GestureDetector(
           onTap: () {
+            controller.getLoading();
             controller
                 .getSurveyById(controller.listSurvey[index].id.toString());
             Get.toNamed(

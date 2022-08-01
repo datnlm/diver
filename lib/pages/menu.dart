@@ -116,66 +116,20 @@ class _MenuScreenState extends State<MenuScreen> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       margin: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          ListTile(
-              leading: const SizedBox(
-                height: double.infinity,
-                child: Icon(
-                  Icons.language,
-                  color: Color(0xFF6F35A5),
-                ),
-              ),
-              title: Text(
-                'language'.tr,
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              ),
-              subtitle: Text('vietnamese'.tr)
-              // trailing: SizedBox(
-              //   width: 300,
-              //   child: Row(
-              //     children: [
-              //       Expanded(
-              //         child: ListTile(
-              //           title: Text(
-              //             'vietnamese'.tr,
-              //           ),
-              //           leading: Radio(
-              //             value: 0,
-              //             groupValue: val,
-              //             onChanged: (value) {
-              //               setState(() {
-              //                 LocalizationService.changeLocale(
-              //                     LocalizationService.langCodes[0]);
-              //                 val = int.parse(value.toString());
-              //               });
-              //             },
-              //             activeColor: Colors.green,
-              //           ),
-              //         ),
-              //       ),
-              //       Expanded(
-              //         child: ListTile(
-              //           title: Text('english'.tr),
-              //           leading: Radio(
-              //             value: 1,
-              //             groupValue: val,
-              //             onChanged: (value) {
-              //               setState(() {
-              //                 LocalizationService.changeLocale(
-              //                     LocalizationService.langCodes[1]);
-              //                 val = int.parse(value.toString());
-              //               });
-              //             },
-              //             activeColor: Colors.green,
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              ),
-        ],
+      child: ListTile(
+        onTap: () => showChangeLangueDialog(context),
+        leading: const SizedBox(
+          height: double.infinity,
+          child: Icon(
+            Icons.language,
+            color: Color(0xFF6F35A5),
+          ),
+        ),
+        title: Text(
+          'language'.tr,
+          style: const TextStyle(fontWeight: FontWeight.w500),
+        ),
+        subtitle: Text('languageValue'.tr),
       ),
     );
   }
@@ -201,6 +155,62 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
+  showChangeLangueDialog(BuildContext context) {
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 0,
+          backgroundColor: const Color(0xffffffff),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: SizedBox(
+            height: 120,
+            width: 10,
+            child: Column(
+              children: [
+                Expanded(
+                  child: RadioListTile(
+                    title: Text(
+                      'vietnamese'.tr,
+                    ),
+                    value: 0,
+                    groupValue: val,
+                    onChanged: (value) {
+                      setState(() {
+                        LocalizationService.changeLocale(
+                            LocalizationService.langCodes[0]);
+                        val = int.parse(value.toString());
+                      });
+                    },
+                    activeColor: Colors.green,
+                  ),
+                ),
+                Expanded(
+                  child: RadioListTile(
+                    title: Text('english'.tr),
+                    value: 1,
+                    groupValue: val,
+                    onChanged: (value) {
+                      setState(() {
+                        LocalizationService.changeLocale(
+                            LocalizationService.langCodes[1]);
+                        val = int.parse(value.toString());
+                      });
+                    },
+                    activeColor: Colors.green,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   showAlertDialog(BuildContext context, AuthController authController) {
     // show the dialog
     showDialog(
@@ -216,16 +226,16 @@ class _MenuScreenState extends State<MenuScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 15),
-              Text(
+              const Text(
                 "Đăng xuất",
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 15),
               //Would you like to delete this image?
-              Text("Bạn có chắc chắn muốn đăng xuất không?"),
+              const Text("Bạn có chắc chắn muốn đăng xuất không?"),
               // Text("Bạn có chắc chắn muốn đăng xuất không?".tr),
               const SizedBox(height: 20),
               const Divider(
@@ -240,11 +250,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     authController.logout();
                     Get.back();
                   },
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Xác nhận",
                       // "Xác nhận".tr,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18.0,
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
