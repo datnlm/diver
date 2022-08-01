@@ -80,13 +80,6 @@ class _LoginScreenState extends State<LoginScreen> {
       var _fcm = FirebaseMessaging.instance;
       _fcm.getToken().then((value) => print('The|||' + value!));
     });
-
-    // FirebaseMessaging.onBackgroundMessage((message) {
-    //   if (message.notification != null) {
-    //     NotificationController.display(message);
-    //   }
-    // return  print('The |||' + value!));
-    // });
   }
 
   @override

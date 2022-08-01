@@ -38,10 +38,16 @@ class Cell {
     this.images,
     this.note,
     this.coralCellId,
+    this.coralCellMaxItem,
+    this.coralCellCurrentItems,
+    this.coralCellItemsStatus0,
+    this.coralCellItemsStatus1,
     this.divingSurveyId,
     this.gardenReportId,
     this.diverMemberId,
+    this.diverName,
     this.status,
+    this.garden,
     this.coralItemStatuses,
   });
 
@@ -50,10 +56,16 @@ class Cell {
   dynamic images;
   dynamic note;
   int? coralCellId;
+  int? coralCellMaxItem;
+  int? coralCellCurrentItems;
+  dynamic coralCellItemsStatus0;
+  dynamic coralCellItemsStatus1;
   int? divingSurveyId;
-  dynamic gardenReportId;
+  int? gardenReportId;
   int? diverMemberId;
+  String? diverName;
   int? status;
+  Garden? garden;
   dynamic coralItemStatuses;
 
   factory Cell.fromJson(Map<String, dynamic> json) => Cell(
@@ -62,10 +74,16 @@ class Cell {
         images: json["images"],
         note: json["note"],
         coralCellId: json["coralCellId"],
+        coralCellMaxItem: json["coralCellMaxItem"],
+        coralCellCurrentItems: json["coralCellCurrentItems"],
+        coralCellItemsStatus0: json["coralCellItemsStatus0"],
+        coralCellItemsStatus1: json["coralCellItemsStatus1"],
         divingSurveyId: json["divingSurveyId"],
         gardenReportId: json["gardenReportId"],
         diverMemberId: json["diverMemberId"],
+        diverName: json["diverName"],
         status: json["status"],
+        garden: Garden.fromJson(json["garden"]),
         coralItemStatuses: json["coralItemStatuses"],
       );
 
@@ -75,11 +93,130 @@ class Cell {
         "images": images,
         "note": note,
         "coralCellId": coralCellId,
+        "coralCellMaxItem": coralCellMaxItem,
+        "coralCellCurrentItems": coralCellCurrentItems,
+        "coralCellItemsStatus0": coralCellItemsStatus0,
+        "coralCellItemsStatus1": coralCellItemsStatus1,
         "divingSurveyId": divingSurveyId,
         "gardenReportId": gardenReportId,
         "diverMemberId": diverMemberId,
+        "diverName": diverName,
         "status": status,
+        "garden": garden!.toJson(),
         "coralItemStatuses": coralItemStatuses,
+      };
+}
+
+class Garden {
+  Garden({
+    this.id,
+    this.name,
+    this.wellKnownText,
+    this.address,
+    this.acreage,
+    this.quantityOfCells,
+    this.areaId,
+    this.siteId,
+    this.siteName,
+    this.gardenTypeId,
+    this.gardenTypeName,
+    this.status,
+    this.coralCells,
+  });
+
+  int? id;
+  String? name;
+  String? wellKnownText;
+  String? address;
+  double? acreage;
+  int? quantityOfCells;
+  int? areaId;
+  int? siteId;
+  String? siteName;
+  int? gardenTypeId;
+  String? gardenTypeName;
+  int? status;
+  List<CoralCell>? coralCells;
+
+  factory Garden.fromJson(Map<String, dynamic> json) => Garden(
+        id: json["id"],
+        name: json["name"],
+        wellKnownText: json["wellKnownText"],
+        address: json["address"],
+        acreage: json["acreage"],
+        quantityOfCells: json["quantityOfCells"],
+        areaId: json["areaId"],
+        siteId: json["siteId"],
+        siteName: json["siteName"],
+        gardenTypeId: json["gardenTypeId"],
+        gardenTypeName: json["gardenTypeName"],
+        status: json["status"],
+        coralCells: List<CoralCell>.from(
+            json["coralCells"].map((x) => CoralCell.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "wellKnownText": wellKnownText,
+        "address": address,
+        "acreage": acreage,
+        "quantityOfCells": quantityOfCells,
+        "areaId": areaId,
+        "siteId": siteId,
+        "siteName": siteName,
+        "gardenTypeId": gardenTypeId,
+        "gardenTypeName": gardenTypeName,
+        "status": status,
+        "coralCells": List<dynamic>.from(coralCells!.map((x) => x.toJson())),
+      };
+}
+
+class CoralCell {
+  CoralCell({
+    this.id,
+    this.acreage,
+    this.maxItem,
+    this.gardenId,
+    this.gardenName,
+    this.coralCellTypeId,
+    this.coralCellTypeName,
+    this.status,
+    this.coralItems,
+  });
+
+  int? id;
+  double? acreage;
+  int? maxItem;
+  int? gardenId;
+  String? gardenName;
+  int? coralCellTypeId;
+  String? coralCellTypeName;
+  int? status;
+  List<dynamic>? coralItems;
+
+  factory CoralCell.fromJson(Map<String, dynamic> json) => CoralCell(
+        id: json["id"],
+        acreage: json["acreage"],
+        maxItem: json["maxItem"],
+        gardenId: json["gardenId"],
+        gardenName: json["gardenName"],
+        coralCellTypeId: json["coralCellTypeId"],
+        coralCellTypeName: json["coralCellTypeName"],
+        status: json["status"],
+        coralItems: List<dynamic>.from(json["coralItems"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "acreage": acreage,
+        "maxItem": maxItem,
+        "gardenId": gardenId,
+        "gardenName": gardenName,
+        "coralCellTypeId": coralCellTypeId,
+        "coralCellTypeName": coralCellTypeName,
+        "status": status,
+        "coralItems": List<dynamic>.from(coralItems!.map((x) => x)),
       };
 }
 
@@ -138,7 +275,3 @@ class MetaData {
         "lastPage": lastPage,
       };
 }
-
-// To parse this JSON data, do
-//
-//     final cellSurveyResponse = cellSurveyResponseFromJson(jsonString);

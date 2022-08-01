@@ -20,6 +20,7 @@ class SurveyController extends GetxController {
   bool isViewCalendar = true;
   List<File> listImage = <File>[].obs;
   String? imageLink = "";
+  var isLoadingAll = false.obs;
   var isLoading = false.obs;
   List<Survey> listSurvey = <Survey>[].obs;
   List<Cell> listCellSurvey = <Cell>[].obs;
@@ -27,6 +28,8 @@ class SurveyController extends GetxController {
   var dateClick = false;
   var tabIndexNew = 0;
   var tabIndexPrevious = -1;
+  var tabTaskIndexNew = 0;
+  var tabTaskIndexPrevious = -1;
   Cell? cell = Cell();
   var isUpdate = false.obs;
   late DateTime focusedDay;
@@ -36,7 +39,6 @@ class SurveyController extends GetxController {
     tabIndexNew = 0;
     tabIndexPrevious = -1;
     focusedDay = DateTime.now();
-    print('survey');
     getByDateTime(focusedDay);
     super.onInit();
   }
@@ -82,11 +84,12 @@ class SurveyController extends GetxController {
     }
   }
 
+  void getLoading() {
+    isLoadingAll(true);
+    update();
+  }
+
   Future<void> getByDateTime(DateTime selectedDay) async {
-    print('tabIndexPrevious');
-    print(tabIndexPrevious);
-    print('tabIndexNew');
-    print(tabIndexNew);
     if (tabIndexPrevious != tabIndexNew || dateClick) {
       try {
         dateClick = false;
@@ -138,6 +141,7 @@ class SurveyController extends GetxController {
       } catch (e) {
         log(e.toString());
       } finally {
+        isLoadingAll(false);
         isLoading(false);
         update();
       }
@@ -145,38 +149,52 @@ class SurveyController extends GetxController {
   }
 
   Future<void> getSurveyById(String surveyId) async {
-    try {
-      isLoading(true);
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      final String? diverId = prefs.getString('diverId');
+    if (tabTaskIndexNew != tabTaskIndexPrevious) {
+      try {
+        tabTaskIndexPrevious = tabTaskIndexNew;
+        isLoading(true);
+        update();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String? token = prefs.getString('token');
+        final String? diverId = prefs.getString('diverId');
 
-      Map<String, String> queryParams = {
-        'DivingSurveyId': surveyId.toString(),
-        'DiverId': diverId!,
-        // 'DiverId': information.diver.id.toString(),
-      };
-      final response = await http.get(
-          Uri.parse('${AppConstants.baseUrl}/api/v1/diver/cell-surveys')
-              .replace(queryParameters: queryParams),
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer $token"
-          });
-
-      if (response.statusCode == 200) {
-        var cellSurvey = cellSurveyResponseFromJson(response.body);
-        if (cellSurvey.items!.isNotEmpty) {
-          listCellSurvey = cellSurvey.items as List<Cell>;
+        Map<String, String> queryParams;
+        if (tabTaskIndexNew == 1) {
+          queryParams = {
+            'DivingSurveyId': surveyId.toString(),
+            // 'DiverId': information.diver.id.toString(),
+          };
+        } else {
+          queryParams = {
+            'DivingSurveyId': surveyId.toString(),
+            'DiverId': diverId!.toString(),
+            // 'DiverId': information.diver.id.toString(),
+          };
         }
-      } else if (response.statusCode == 401 || response.statusCode == 403) {
-        Get.offAllNamed(Routes.login);
+
+        final response = await http.get(
+            Uri.parse('${AppConstants.baseUrl}/api/v1/diver/cell-surveys')
+                .replace(queryParameters: queryParams),
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer $token"
+            });
+
+        if (response.statusCode == 200) {
+          var cellSurvey = cellSurveyResponseFromJson(response.body);
+          if (cellSurvey.items!.isNotEmpty) {
+            listCellSurvey = cellSurvey.items as List<Cell>;
+          }
+        } else if (response.statusCode == 401 || response.statusCode == 403) {
+          Get.offAllNamed(Routes.login);
+        }
+      } catch (e) {
+        log(e.toString());
+      } finally {
+        isLoadingAll(false);
+        isLoading(false);
+        update();
       }
-    } catch (e) {
-      log(e.toString());
-    } finally {
-      isLoading(false);
-      update();
     }
   }
 
@@ -195,7 +213,6 @@ class SurveyController extends GetxController {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
           });
-
       if (response.statusCode == 200) {
         var cellSurvey = cellResponseFromJson(response.body);
 
@@ -237,6 +254,7 @@ class SurveyController extends GetxController {
           request.fields['note'] = cell!.note;
         }
         request.fields['status'] = cell!.status.toString();
+        request.fields['DiverMemberId'] = cell!.diverMemberId.toString();
         request.fields['MediaUrl'] = cell!.mediaUrl.toString();
         request.fields['DivingSurveyId'] = cell!.divingSurveyId.toString();
         for (var i = 0; i < cellResponse.images!.length; i++) {

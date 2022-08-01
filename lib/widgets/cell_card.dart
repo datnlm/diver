@@ -1,138 +1,115 @@
 import 'package:diver/controller/survey_controller.dart';
-import 'package:diver/core/res/status.dart';
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/models/cell_survey.dart';
+import 'package:diver/models/survey.dart';
 import 'package:flutter/material.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-import '../models/cell_survey.dart';
+import '../core/res/status.dart';
 
-class CellCard extends StatelessWidget {
+class CellCard extends StatefulWidget {
   final Cell cell;
 
-  CellCard({Key? key, required this.cell}) : super(key: key);
+  const CellCard({Key? key, required this.cell}) : super(key: key);
 
+  @override
+  State<CellCard> createState() => _CellCardState();
+}
+
+class _CellCardState extends State<CellCard> {
   final SurveyController _surveyController = Get.find<SurveyController>();
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        DottedBorder(
-          borderType: BorderType.RRect,
-          radius: const Radius.circular(12),
-          dashPattern: const [8, 4],
-          padding: const EdgeInsets.all(6),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: GestureDetector(
-                onTap: () {
-                  // Get.to(CellSurveyScreen(cell: cell));
-                  Get.toNamed(Routes.cellSurvey);
-                  _surveyController.getCellById(cell);
-                },
-                onLongPress: () => showModal(context),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+          onTap: () {
+            Get.toNamed(Routes.cellSurvey);
+            _surveyController.getCellById(widget.cell);
+          },
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Cell:'.tr),
+              Text('#${widget.cell.id}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  )),
+            ],
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.assignment_late_outlined,
-                      // Icons.assignment_turned_in_outlined,
-                      // AssignmentTurnedIn
-                      size: 60,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('diver-name'.tr),
+                        Text(widget.cell.diverName!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ],
                     ),
-                    Text('Cell: #${cell.id}'),
                   ],
                 ),
-              ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('status'.tr),
+                    Text('${AppStatus.statusDivingSurvey[widget.cell.status]}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                        )),
+                  ],
+                ),
+              ],
             ),
           ),
+          leading: _getCorrectIcon(widget.cell.status!),
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Card(
-              color: _getColor(cell.status),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('${AppStatus.statusCellSurvey[cell.status]}'),
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  Color _getColor(int? status) {
+  SizedBox _getCorrectIcon(int status) {
     switch (status) {
       case 0:
-        return Colors.redAccent;
+        return const SizedBox(
+          height: double.infinity,
+          child:
+              Icon(Icons.cancel_outlined, size: 40.0, color: Colors.redAccent),
+        );
       case 1:
-        return Colors.grey[100]!;
-      case 2:
-        return Colors.redAccent[100]!;
+        return const SizedBox(
+          height: double.infinity,
+          child:
+              Icon(Icons.history_toggle_off, size: 40.0, color: Colors.black),
+        );
+      case 3:
+        return const SizedBox(
+          height: double.infinity,
+          child: Icon(Icons.check, size: 40.0, color: Colors.green),
+        );
       default:
-        return Colors.grey;
+        return const SizedBox(
+          height: double.infinity,
+          child:
+              Icon(Icons.history_toggle_off, size: 40.0, color: Colors.black),
+        );
     }
   }
-
-  Future<void> showModal(BuildContext context) {
-    return showModalBottomSheet<void>(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-        ),
-        context: context,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("This is a modal sheet"),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  Widget buildDeleteIcon(Color color) => buildCircle(
-        color: Colors.white,
-        all: 3,
-        child: buildCircle(
-          color: color,
-          all: 8,
-          child: const Icon(
-            Icons.delete,
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-      );
-
-  Widget buildCircle({
-    required Widget child,
-    required double all,
-    required Color color,
-  }) =>
-      ClipOval(
-        child: Container(
-          padding: EdgeInsets.all(all),
-          color: color,
-          child: child,
-        ),
-      );
 }

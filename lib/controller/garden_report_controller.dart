@@ -26,7 +26,6 @@ class GardenReportController extends GetxController {
   Future<void> getGardenReportById(int divingId) async {
     try {
       isLoading(true);
-      // print(divingId);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
 

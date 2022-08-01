@@ -73,7 +73,7 @@ class _GardenInformationCardState extends State<GardenInformationCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('start:'.tr),
+                          Text('start'.tr),
                           Text(
                               DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag())
                                   .format(widget.diverTeam.createTime!),
@@ -93,7 +93,7 @@ class _GardenInformationCardState extends State<GardenInformationCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('status:'.tr),
+                      Text('status'.tr),
                       Text(
                           '${AppStatus.statusDivingSurvey[widget.diverTeam.status]}',
                           style: const TextStyle(
