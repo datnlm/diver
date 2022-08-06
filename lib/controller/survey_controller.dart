@@ -26,6 +26,7 @@ class SurveyController extends GetxController {
   List<Cell> listCellSurvey = <Cell>[].obs;
   CellResponse cellResponse = CellResponse();
   var dateClick = false;
+  var notfiClick = false;
   var tabIndexNew = 0;
   var tabIndexPrevious = -1;
   var tabTaskIndexNew = 0;
@@ -49,13 +50,27 @@ class SurveyController extends GetxController {
         tabIndexPrevious = tabIndexNew;
         isLoading(true);
         update();
+        var status = '0';
+        switch (tabIndexNew) {
+          case 0:
+            status = '1';
+            break;
+          case 1:
+            status = '3';
+            break;
+          case 2:
+            status = '0';
+            break;
+          default:
+            status = '0';
+        }
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final String? token = prefs.getString('token');
         final String? diverId = prefs.getString('diverId');
 
         Map<String, String> queryParams = {
           'DiverId': diverId!,
-          'Status': tabIndexNew.toString(),
+          'Status': status,
         };
         final response = await http.get(
             Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -149,8 +164,10 @@ class SurveyController extends GetxController {
   }
 
   Future<void> getSurveyById(String surveyId) async {
-    if (tabTaskIndexNew != tabTaskIndexPrevious) {
+    // print('abc');
+    if (tabTaskIndexNew != tabTaskIndexPrevious || notfiClick) {
       try {
+        notfiClick = false;
         tabTaskIndexPrevious = tabTaskIndexNew;
         isLoading(true);
         update();
@@ -179,7 +196,6 @@ class SurveyController extends GetxController {
               "Content-Type": "application/json",
               "Authorization": "Bearer $token"
             });
-
         if (response.statusCode == 200) {
           var cellSurvey = cellSurveyResponseFromJson(response.body);
           if (cellSurvey.items!.isNotEmpty) {

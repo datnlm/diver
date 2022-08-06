@@ -38,7 +38,7 @@ class _DiverTeamScreenState extends State<DiverTeamScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Đội thợ lặn',
+          'diverTeam'.tr,
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
@@ -124,16 +124,16 @@ class _DiverTeamScreenState extends State<DiverTeamScreen>
           height: 40,
         ),
         const Icon(
-          Icons.assignment_outlined,
+          Icons.group,
           size: 120.0,
         ),
         Text(
-          'task-empty'.tr,
+          'diverTeam-empty'.tr,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         // Look like you have no task in this date.
         Text(
-          'task-emty-detail'.tr,
+          'diverTeam-emty-detail'.tr,
           style: const TextStyle(fontSize: 12),
         ),
       ],

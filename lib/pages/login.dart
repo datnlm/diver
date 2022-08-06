@@ -1,3 +1,4 @@
+import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/widgets/login_form.dart';
 import 'package:diver/widgets/login_screen_top_image.dart';
 import 'package:flutter/material.dart';
@@ -25,18 +26,19 @@ class _LoginScreenState extends State<LoginScreen> {
     FirebaseMessaging.instance
         .getToken()
         .then((value) => authController.setTokenDevice(value!));
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        final routeFromMessage = message.data['route'];
-        // _homeController.changeTabIndex(1);
-        var _fcm = FirebaseMessaging.instance;
-        _fcm.getToken().then((value) => print('The |||' + value!));
-      }
-    });
-    var initialzationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-        InitializationSettings(android: initialzationSettingsAndroid);
+    // FirebaseMessaging.instance.getInitialMessage().then((message) {
+    //   if (message != null) {
+    //     final routeFromMessage = message.data['route'];
+    //     // SurveyController surveyController = Get.find<SurveyController>();
+    //     // surveyController.getCellById(routeFromMessage);
+    //     var _fcm = FirebaseMessaging.instance;
+    //     _fcm.getToken().then((value) => print('The |||' + value!));
+    //   }
+    // });
+    // var initialzationSettingsAndroid =
+    //     const AndroidInitializationSettings('@mipmap/ic_launcher');
+    // var initializationSettings =
+    //     InitializationSettings(android: initialzationSettingsAndroid);
 
     // flutterLocalNotificationsPlugin.initialize(initializationSettings);
     // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -62,24 +64,24 @@ class _LoginScreenState extends State<LoginScreen> {
     //       ));
     // }
     // });
-    FirebaseMessaging.onMessage.listen((message) {
-      if (message.notification != null) {
-        NotificationController.display(message);
-        DashBoardController dashBoardController =
-            Get.find<DashBoardController>();
-        dashBoardController.tabIndex = 0;
-      }
-      var _fcm = FirebaseMessaging.instance;
-      _fcm.getToken().then((value) => print('The |||' + value!));
-    });
+    // FirebaseMessaging.onMessage.listen((message) {
+    //   if (message.notification != null) {
+    //     NotificationController.display(message);
+    //     DashBoardController dashBoardController =
+    //         Get.find<DashBoardController>();
+    //     dashBoardController.tabIndex = 0;
+    //   }
+    //   var _fcm = FirebaseMessaging.instance;
+    //   _fcm.getToken().then((value) => print('The |||' + value!));
+    // });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      // final routeFromMessage = message.data['route'];
-      DashBoardController dashBoardController = Get.find<DashBoardController>();
-      dashBoardController.tabIndex = 0;
-      var _fcm = FirebaseMessaging.instance;
-      _fcm.getToken().then((value) => print('The|||' + value!));
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   // final routeFromMessage = message.data['route'];
+    //   DashBoardController dashBoardController = Get.find<DashBoardController>();
+    //   dashBoardController.tabIndex = 0;
+    //   var _fcm = FirebaseMessaging.instance;
+    //   _fcm.getToken().then((value) => print('The|||' + value!));
+    // });
   }
 
   @override
