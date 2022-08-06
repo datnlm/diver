@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:diver/controller/auth_controller.dart';
+import 'package:diver/controller/dashboard_controller.dart';
+import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/core/res/color.dart';
 import 'package:diver/services/localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -60,6 +62,13 @@ void main() async {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
+        final routeFromMessage = message.data['route'];
+        DashBoardController dashBoardController =
+            Get.find<DashBoardController>();
+        SurveyController surveyController = Get.find<SurveyController>();
+        surveyController.notfiClick = true;
+        surveyController.getSurveyById(routeFromMessage);
+        dashBoardController.tabIndex = 0;
         flutterLocalNotificationsPlugin!.show(
             notification.hashCode,
             notification.title,

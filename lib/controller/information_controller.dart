@@ -64,15 +64,15 @@ class InformationController extends GetxController {
     typeField = type;
     switch (type) {
       case "name":
-        title = "Tên";
+        title = 'name'.tr;
         textField.text = diver.name!;
         break;
       case "phone":
-        title = "Điện thoại";
+        title = 'phone'.tr;
         textField.text = diver.phone!;
         break;
       case "address":
-        title = "Địa chỉ";
+        title = 'address'.tr;
         textField.text = diver.address!;
         break;
       default:

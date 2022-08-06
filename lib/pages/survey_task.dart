@@ -188,12 +188,12 @@ class _SurveyScreenState extends State<SurveyScreen>
           size: 120.0,
         ),
         Text(
-          'task-empty'.tr,
+          'survey-empty'.tr,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         // Look like you have no task in this date.
         Text(
-          'task-emty-detail'.tr,
+          'survey-emty-detail'.tr,
           style: const TextStyle(fontSize: 12),
         ),
       ],
