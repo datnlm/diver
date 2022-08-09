@@ -34,8 +34,8 @@ class _CellCardState extends State<CellCard> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Cell:'.tr),
-              Text('#${widget.cell.id}',
+              Text('cell'.tr),
+              Text('#${widget.cell.coralCellId}',
                   style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   )),

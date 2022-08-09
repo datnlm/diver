@@ -44,6 +44,7 @@ class DiverTeamController extends GetxController {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final String? token = prefs.getString('token');
         final String? diverId = prefs.getString('diverId');
+
         Map<String, String> queryParams = {
           'DiverId': diverId!,
           'Status': status.toString(),
@@ -53,7 +54,9 @@ class DiverTeamController extends GetxController {
                 .replace(queryParameters: queryParams),
             headers: {
               "Content-Type": "application/json",
-              "Authorization": "Bearer $token"
+              "Authorization": "Bearer $token",
+              "page_number": '1',
+              "page_size": '-1'
             });
         if (response.statusCode == 200) {
           var diverTeams = diverTeamsResponseFromJson(response.body);
@@ -85,7 +88,9 @@ class DiverTeamController extends GetxController {
               '${AppConstants.baseUrl}/api/v1/diver/diver-teams/$diverTeamId'),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer $token"
+            "Authorization": "Bearer $token",
+            "page_number": '1',
+            "page_size": '-1'
           });
       if (response.statusCode == 200) {
         var data = diverTeamResponseFromJson(response.body);

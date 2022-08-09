@@ -45,8 +45,9 @@ class SurveyController extends GetxController {
   }
 
   Future<void> getAll() async {
-    if (tabIndexPrevious != tabIndexNew) {
+    if (tabIndexPrevious != tabIndexNew || dateClick) {
       try {
+        dateClick = false;
         tabIndexPrevious = tabIndexNew;
         isLoading(true);
         update();
@@ -71,6 +72,8 @@ class SurveyController extends GetxController {
         Map<String, String> queryParams = {
           'DiverId': diverId!,
           'Status': status,
+          "page_number": '1',
+          "page_size": '-1'
         };
         final response = await http.get(
             Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -100,6 +103,7 @@ class SurveyController extends GetxController {
   }
 
   void getLoading() {
+    notfiClick = true;
     isLoadingAll(true);
     update();
   }
@@ -133,6 +137,8 @@ class SurveyController extends GetxController {
           'DiverId': diverId!,
           'Status': status,
           'StartTime': DateFormat('yyyy-MM-dd').format(selectedDay),
+          "page_number": '1',
+          "page_size": '-1'
         };
         final response = await http.get(
             Uri.parse('${AppConstants.baseUrl}/api/v1/diver/diving-surveys')
@@ -164,7 +170,6 @@ class SurveyController extends GetxController {
   }
 
   Future<void> getSurveyById(String surveyId) async {
-    // print('abc');
     if (tabTaskIndexNew != tabTaskIndexPrevious || notfiClick) {
       try {
         notfiClick = false;
@@ -329,8 +334,10 @@ class SurveyController extends GetxController {
   void changeViewTab() {
     isViewCalendar = !isViewCalendar;
     if (!isViewCalendar) {
+      dateClick = true;
       getAll();
     } else {
+      dateClick = true;
       getByDateTime(focusedDay);
     }
     update();

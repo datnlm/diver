@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       itemBuilder: ((context, index) {
         return GestureDetector(
           onTap: () {
-            controller.getLoading();
+            controller.getLoading(); 
             controller
                 .getSurveyById(controller.listSurvey[index].id.toString());
             Get.toNamed(
