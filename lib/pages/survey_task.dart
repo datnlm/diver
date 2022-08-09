@@ -69,8 +69,8 @@ class _SurveyScreenState extends State<SurveyScreen>
                 },
               );
             },
-            child: const Text('Report',
-                style: TextStyle(
+            child: Text('report'.tr,
+                style: const TextStyle(
                   color: Colors.black,
                 )),
           ),

@@ -16,9 +16,9 @@ class CellSurveyScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Khảo sát Cell",
-          style: TextStyle(
+        title: Text(
+          "survey-cell".tr,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -35,8 +35,8 @@ class CellSurveyScreen extends StatelessWidget {
               // surveyController.uploadImage(cell);
               showLoaderDialog(context, surveyController.isLoading.isTrue);
             },
-            child: const Text('Xong',
-                style: TextStyle(
+            child: Text('done'.tr,
+                style: const TextStyle(
                   color: Colors.black,
                 )),
           ),

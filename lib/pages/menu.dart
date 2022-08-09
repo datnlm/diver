@@ -226,17 +226,16 @@ class _MenuScreenState extends State<MenuScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 15),
-              const Text(
-                "Đăng xuất",
-                style: TextStyle(
+              Text(
+                "logout".tr,
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 15),
               //Would you like to delete this image?
-              const Text("Bạn có chắc chắn muốn đăng xuất không?"),
-              // Text("Bạn có chắc chắn muốn đăng xuất không?".tr),
+              Text('logout-message'.tr),
               const SizedBox(height: 20),
               const Divider(
                 height: 1,
@@ -250,11 +249,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     authController.logout();
                     Get.back();
                   },
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "Xác nhận",
+                      'confirm'.tr,
                       // "Xác nhận".tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18.0,
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
@@ -278,8 +277,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   onTap: () => Get.back(),
                   child: Center(
                     child: Text(
-                      "Huỷ",
-                      // "cancel".tr,
+                      'cancel'.tr,
                       style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.normal,

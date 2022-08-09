@@ -46,7 +46,7 @@ const Map<String, String> en = {
   'invalid-user': 'Invalid email or password',
   'quantity': 'Quantity member',
   'myTask': 'My task',
-  'viewAllTask': 'Get all',
+  'viewAllTask': 'All',
   'languageValue': 'English',
   'garden-type': 'Garden Type',
   'diver-name': 'Diver',
@@ -60,5 +60,11 @@ const Map<String, String> en = {
   'tides': 'Tides',
   'current': 'Current',
   'report': 'Environment',
-  'today': "Today's work"
+  'today': "Today's work",
+  'acreage': 'Acreage',
+  'logout-message': 'Are you sure you want to sign out?',
+  'confirm': 'Confirm',
+  'member-list': 'Members list',
+  'area': 'Area',
+   'team-infor': 'Team Info'
 };

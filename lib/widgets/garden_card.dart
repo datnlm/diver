@@ -42,7 +42,7 @@ class GardenCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Địa chỉ'.tr),
+                          Text('address'.tr),
                           Text(garden.address!,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ class GardenCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Diện tích'.tr),
+                          Text('acreage'.tr),
                           Text(garden.acreage.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
