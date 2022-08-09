@@ -12,9 +12,9 @@ class GardenReportScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'Report',
-          style: TextStyle(
+        title: Text(
+          'report'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),
@@ -30,8 +30,8 @@ class GardenReportScreen extends StatelessWidget {
               Get.arguments['divingId'],
               Get.arguments['gardenId'],
             ),
-            child: const Text('Xong',
-                style: TextStyle(
+            child: Text('done'.tr,
+                style: const TextStyle(
                   color: Colors.black,
                 )),
           ),
@@ -53,10 +53,11 @@ class GardenReportScreen extends StatelessWidget {
                         Radius.circular(10.0),
                       ),
                     ),
-                    suffixIcon: const Icon(Icons.thermostat),
+                    suffixText: '°C',
+                    // suffixIcon: const Icon(Icons.thermostat),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    labelText: 'Nhiệt độ',
+                    labelText: 'temperature'.tr,
                     fillColor: Colors.white70,
                     alignLabelWithHint: true,
                     isDense: true,
@@ -75,10 +76,10 @@ class GardenReportScreen extends StatelessWidget {
                         Radius.circular(10.0),
                       ),
                     ),
-                    suffixIcon: const Icon(Icons.light_mode),
+                    suffixText: 'cd',
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    labelText: 'Ánh sáng',
+                    labelText: 'brightness'.tr,
                     fillColor: Colors.white70,
                     alignLabelWithHint: true,
                     isDense: true,
@@ -89,6 +90,7 @@ class GardenReportScreen extends StatelessWidget {
                 ),
                 TextFormField(
                   controller: gardenReportController.tidesController,
+                  keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
@@ -96,10 +98,10 @@ class GardenReportScreen extends StatelessWidget {
                         Radius.circular(10.0),
                       ),
                     ),
-                    suffixIcon: const Icon(Icons.waves_rounded),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    labelText: 'Thuỷ triều',
+                    labelText: 'tides'.tr,
+                    suffixText: 'm',
                     fillColor: Colors.white70,
                     alignLabelWithHint: true,
                     isDense: true,
@@ -120,8 +122,8 @@ class GardenReportScreen extends StatelessWidget {
                     ),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    suffixIcon: const Icon(Icons.roundabout_right_outlined),
-                    labelText: 'Dòng chảy',
+                    suffixText: 'm³/s',
+                    labelText: 'current'.tr,
                     fillColor: Colors.white70,
                     alignLabelWithHint: true,
                     isDense: true,
@@ -143,9 +145,8 @@ class GardenReportScreen extends StatelessWidget {
                     ),
                     filled: true,
                     hintStyle: TextStyle(color: Colors.grey[800]),
-                    suffixIcon:
-                        const Icon(Icons.keyboard_double_arrow_down_outlined),
-                    labelText: 'Độ sâu',
+                    labelText: 'bathymetry'.tr,
+                    suffixText: 'm',
                     fillColor: Colors.white70,
                     alignLabelWithHint: true,
                     isDense: true,

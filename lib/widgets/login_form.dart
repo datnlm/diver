@@ -35,7 +35,7 @@ class LoginForm extends StatelessWidget {
                 return authController.validate(value!, 'validate-email'.tr);
               },
               decoration: InputDecoration(
-                hintText: "email".tr,
+                hintText: "username".tr,
                 border: InputBorder.none,
                 prefixIcon: const Padding(
                   padding: EdgeInsets.all(16.0),

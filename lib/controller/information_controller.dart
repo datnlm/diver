@@ -42,7 +42,7 @@ class InformationController extends GetxController {
           Uri.parse('${AppConstants.baseUrl}/api/v1/diver/divers/$id'),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer $token"
+            "Authorization": "Bearer $token",
           });
       if (response.statusCode == 200) {
         prefs.setString('diver', response.body);

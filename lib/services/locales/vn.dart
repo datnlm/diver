@@ -10,6 +10,7 @@ const Map<String, String> vn = {
   'information': 'Thông tin cá nhân',
   'name': 'Tên',
   'email': 'Email',
+  'username': 'Tên người dùng',
   'phone': 'Số điện thoại',
   'address': 'Địa chỉ',
   'organization-email': "Email tổ chức",
@@ -33,6 +34,7 @@ const Map<String, String> vn = {
   'status': 'Trạng thái:',
   'survey': 'Khảo sát',
   'survey-cell': 'Khảo sát Cell',
+  'cell': 'Lồng',
   'delete-title': 'Xoá ảnh',
   'delete': 'Xoá',
   'delete-message': 'Bạn có muốn xóa hình ảnh này không?',
@@ -54,4 +56,10 @@ const Map<String, String> vn = {
   'site': 'Địa điểm',
   'save-success': 'Lưu thành công',
   'save-failed': 'Lưu thất bại',
+  'bathymetry': 'Độ sâu',
+  'temperature': 'Nhiệt độ',
+  'brightness': 'Ánh sáng',
+  'tides': 'Thuỷ triều',
+  'current': 'Dòng chảy',
+  'report': 'Môi trường'
 };

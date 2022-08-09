@@ -62,29 +62,37 @@ void main() async {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        final routeFromMessage = message.data['route'];
-        DashBoardController dashBoardController =
-            Get.find<DashBoardController>();
-        SurveyController surveyController = Get.find<SurveyController>();
-        surveyController.notfiClick = true;
-        surveyController.getSurveyById(routeFromMessage);
-        dashBoardController.tabIndex = 0;
-        flutterLocalNotificationsPlugin!.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel!.id,
-                channel!.name,
-                channelDescription: channel!.description,
-                channelShowBadge: true,
-                color: Colors.blue,
-                playSound: true,
-                styleInformation: BigTextStyleInformation(''),
-                icon: '@mipmap/ic_launcher',
-              ),
-            ));
+        FirebaseMessaging.instance.getInitialMessage().then((message) {
+          if (message != null) {
+            final routeFromMessage = message.data['divingSurveyId'];
+            print(routeFromMessage);
+            print('main');
+            print('****message.data********************');
+            print(message.data);
+            DashBoardController dashBoardController =
+                Get.find<DashBoardController>();
+            SurveyController surveyController = Get.find<SurveyController>();
+            surveyController.notfiClick = true;
+            surveyController.getSurveyById(routeFromMessage);
+            dashBoardController.tabIndex = 0;
+            flutterLocalNotificationsPlugin!.show(
+                notification.hashCode,
+                notification.title,
+                notification.body,
+                NotificationDetails(
+                  android: AndroidNotificationDetails(
+                    channel!.id,
+                    channel!.name,
+                    channelDescription: channel!.description,
+                    channelShowBadge: true,
+                    color: Colors.blue,
+                    playSound: true,
+                    styleInformation: BigTextStyleInformation(''),
+                    icon: '@mipmap/ic_launcher',
+                  ),
+                ));
+          }
+        });
       }
     });
   }

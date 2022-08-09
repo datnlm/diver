@@ -14,10 +14,11 @@ class NotificationController extends GetxController {
         InitializationSettings(
             android: AndroidInitializationSettings('@mipmap/ic_launcher'));
     _notificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? route) async {
-      if (route != null) {
+        onSelectNotification: (String? divingSurveyId) async {
+      print(divingSurveyId);
+      if (divingSurveyId != null) {
         SurveyController surveyController = Get.find<SurveyController>();
-        surveyController.getSurveyById(route);
+        surveyController.getSurveyById(divingSurveyId);
         Get.toNamed(Routes.surveyTask);
       }
     });
@@ -30,12 +31,13 @@ class NotificationController extends GetxController {
         android: AndroidNotificationDetails('Diver', 'Diver channel',
             importance: Importance.max, priority: Priority.high),
       );
+
       await _notificationsPlugin.show(
         id,
         message.notification!.title,
         message.notification!.body,
         notificationDetails,
-        payload: message.data['route'],
+        payload: message.data['divingSurveyId'],
       );
     } catch (e) {
       log(e.toString());
