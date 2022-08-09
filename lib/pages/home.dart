@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 final SurveyController _surveyController = Get.find<SurveyController>();
 CalendarFormat _calendarFormat = CalendarFormat.week;
 DateTime _focusedDay = DateTime.now();
-var label = "Hôm nay";
+var label = 'today'.tr;
 DateTime? _selectedDay;
 List<Tab> myTabs = <Tab>[
   Tab(text: 'process'.tr),

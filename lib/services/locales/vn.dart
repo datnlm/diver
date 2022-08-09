@@ -46,7 +46,7 @@ const Map<String, String> vn = {
   'diverTeam': 'Đội thợ lặn',
   'validate-email': 'Vui lòng nhập email',
   'validate-password': 'Vui lòng nhập mật khẩu',
-  'invalid-user': 'Tài khoảng hoặc mật khẩu không đúng',
+  'invalid-user': 'Tài khoản hoặc mật khẩu không đúng',
   'quantity': 'Số lượng thành viên',
   'myTask': 'Việc của tôi',
   'viewAllTask': 'Toàn bộ',
@@ -61,5 +61,6 @@ const Map<String, String> vn = {
   'brightness': 'Ánh sáng',
   'tides': 'Thuỷ triều',
   'current': 'Dòng chảy',
-  'report': 'Môi trường'
+  'report': 'Môi trường',
+  'today': 'Công việc hôm nay'
 };

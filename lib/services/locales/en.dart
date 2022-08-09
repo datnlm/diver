@@ -59,5 +59,6 @@ const Map<String, String> en = {
   'brightness': 'Brightness',
   'tides': 'Tides',
   'current': 'Current',
-  'report': 'Environment'
+  'report': 'Environment',
+  'today': "Today's work"
 };
