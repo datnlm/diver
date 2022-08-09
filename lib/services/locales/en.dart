@@ -49,5 +49,7 @@ const Map<String, String> en = {
   'languageValue': 'English',
   'garden-type': 'Garden Type',
   'diver-name': 'Diver',
-  'site': 'Site'
+  'site': 'Site',
+    'save-success': 'Save successfully',
+  'save-failed': 'Save failed',
 };

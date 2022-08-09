@@ -51,5 +51,7 @@ const Map<String, String> vn = {
   'languageValue': 'Tiếng Việt',
   'garden-type': 'Loại vườn',
   'diver-name': 'Thợ lặn',
-  'site': 'Địa điểm'
+  'site': 'Địa điểm',
+  'save-success': 'Lưu thành công',
+  'save-failed': 'Lưu thất bại',
 };
