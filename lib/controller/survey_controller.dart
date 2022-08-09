@@ -285,9 +285,9 @@ class SurveyController extends GetxController {
         if (response.statusCode == 200) {
           Get.back();
           Get.back();
-          showMyToast("Lưu thành công");
+          showMyToast('save-success'.tr);
         } else {
-          showMyToast("Lưu thất bại");
+          showMyToast('save-failed'.tr);
         }
       }
     } catch (e) {
