@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/pages/garden_report.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,8 +15,7 @@ import '../utils/toast.dart';
 class GardenReportController extends GetxController {
   var isLoading = false.obs;
   GardenReport gardenReport = GardenReport();
-
-  final formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   TextEditingController bathymetryController = TextEditingController();
   TextEditingController temperatureController = TextEditingController();
@@ -30,7 +30,7 @@ class GardenReportController extends GetxController {
       final String? token = prefs.getString('token');
 
       Map<String, String> queryParams = {
-        'DivingId': '16',
+        'DivingId': divingId.toString(),
       };
       final response = await http.get(
           Uri.parse(
@@ -41,24 +41,37 @@ class GardenReportController extends GetxController {
             "Authorization": "Bearer $token"
           });
       if (response.statusCode == 200) {
+        print(response.body.toString());
         gardenReport = gardenReportFromJson(response.body);
-        bathymetryController.text = gardenReport.bathymetry.toString();
-        temperatureController.text = gardenReport.temperature.toString();
         tidesController.text = gardenReport.tides!;
-        currentController.text = gardenReport.current.toString();
-        brightnessController.text = gardenReport.brightness.toString();
-        update();
-      } else if( response.statusCode == 401 || response.statusCode == 403) {
+        if (gardenReport.bathymetry != null) {
+          bathymetryController.text = gardenReport.bathymetry.toString();
+        }
+        if (gardenReport.temperature != null) {
+          temperatureController.text = gardenReport.temperature.toString();
+        }
+        if (gardenReport.current != null) {
+          currentController.text = gardenReport.current.toString();
+        }
+        if (gardenReport.brightness != null) {
+          brightnessController.text = gardenReport.brightness.toString();
+        }
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
         Get.offAllNamed(Routes.login);
       }
     } catch (e) {
       log(e.toString());
     } finally {
       isLoading(false);
+      update();
     }
   }
 
   Future<void> createGardenReport(int divingId, int gardenId) async {
+    final isValid = formkey.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
     try {
       isLoading(true);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -84,9 +97,9 @@ class GardenReportController extends GetxController {
       if (response.statusCode == 200) {
         Get.back();
 
-        showMyToast("Cập nhật thành công");
+        showMyToast('update-success'.tr);
       } else {
-        showMyToast("Cập nhật thất bại");
+        showMyToast('update-fail'.tr);
       }
     } catch (e) {
       log(e.toString());
@@ -94,5 +107,12 @@ class GardenReportController extends GetxController {
       isLoading(false);
       update();
     }
+  }
+
+  String? validate(String value, String message) {
+    if (value.isEmpty) {
+      return message;
+    }
+    return null;
   }
 }

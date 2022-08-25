@@ -33,7 +33,7 @@ const Map<String, String> vn = {
   'end': 'Kết thúc',
   'status': 'Trạng thái:',
   'survey': 'Khảo sát',
-  'survey-cell': 'Khảo sát Lồng',
+  'survey-cell': 'Khảo sát lồng',
   'cell': 'Lồng',
   'delete-title': 'Xoá ảnh',
   'delete': 'Xoá',
@@ -68,5 +68,9 @@ const Map<String, String> vn = {
   'confirm': 'Xác nhận',
   'member-list': 'Danh sách thành viên',
   'area': 'Khu vực',
-  'team-infor': 'Thông tin đội'
+  'team-infor': 'Thông tin đội',
+  'take-picture': 'Vui lòng chọn ít nhất 5 hình ảnh',
+  'update-success': 'Cập nhật thành công',
+  'update-fail': 'Cập nhật thất bại',
+  'validate-garden-report': 'Vui lòng nhập thông tin'
 };

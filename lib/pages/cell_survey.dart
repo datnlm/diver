@@ -1,15 +1,21 @@
 import 'package:diver/controller/survey_controller.dart';
+import 'package:diver/utils/toast.dart';
 import 'package:diver/widgets/cell_card_image.dart';
 import 'package:diver/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CellSurveyScreen extends StatelessWidget {
+class CellSurveyScreen extends StatefulWidget {
   // final Cell cell;
 
   const CellSurveyScreen({Key? key}) : super(key: key);
-  // const CellSurveyScreen({Key? key, required this.cell}) : super(key: key);
 
+  @override
+  State<CellSurveyScreen> createState() => _CellSurveyScreenState();
+}
+
+class _CellSurveyScreenState extends State<CellSurveyScreen> {
+  // const CellSurveyScreen({Key? key, required this.cell}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final SurveyController surveyController = Get.find<SurveyController>();
@@ -24,22 +30,31 @@ class CellSurveyScreen extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            onPressed: () {
-              surveyController.uploadImage();
-              // surveyController.uploadImage(cell);
-              showLoaderDialog(context, surveyController.isLoading.isTrue);
-            },
-            child: Text('done'.tr,
-                style: const TextStyle(
-                  color: Colors.black,
-                )),
-          ),
+          surveyController.cellResponse.status != 3
+              ? TextButton(
+                  onPressed: () {
+                    surveyController.listImage.length +
+                                surveyController.cellResponse.images!.length <
+                            5
+                        ? showMyToast('take-picture'.tr)
+                        : {
+                            surveyController.uploadImage(),
+                            showLoaderDialog(
+                                context, surveyController.isLoading.isTrue)
+                          };
+                  },
+                  child: Text('done'.tr,
+                      style: const TextStyle(
+                        color: Colors.black,
+                      )),
+                )
+              : TextButton(
+                  onPressed: () {},
+                  child: Text('done'.tr,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      )),
+                ),
         ],
       ),
       body: SafeArea(

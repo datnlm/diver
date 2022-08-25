@@ -1,6 +1,7 @@
 import 'package:diver/controller/garden_report_controller.dart';
 import 'package:diver/controller/survey_controller.dart';
 import 'package:diver/core/routes/routes.dart';
+import 'package:diver/models/cell_survey.dart';
 import 'package:diver/widgets/cell_card.dart';
 import 'package:diver/widgets/garden_card.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,7 @@ class SurveyScreen extends StatefulWidget {
 
 bool isSwitched = false;
 SurveyController surveyController = Get.find<SurveyController>();
-GardenReportController gardenReportController =
-    Get.find<GardenReportController>();
+
 List<Tab> myTabs = <Tab>[
   Tab(text: 'myTask'.tr),
   Tab(text: 'viewAllTask'.tr),
@@ -53,12 +53,9 @@ class _SurveyScreenState extends State<SurveyScreen>
         ),
         actions: <Widget>[
           TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
             onPressed: () {
+              GardenReportController gardenReportController =
+                  Get.find<GardenReportController>();
               gardenReportController
                   .getGardenReportById(Get.arguments['divingId']);
               Get.toNamed(

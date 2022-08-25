@@ -66,5 +66,9 @@ const Map<String, String> en = {
   'confirm': 'Confirm',
   'member-list': 'Members list',
   'area': 'Area',
-   'team-infor': 'Team Info'
+  'team-infor': 'Team Info',
+  'take-picture': 'Please select at least 5 images',
+  'update-success': 'Update sucessfully',
+  'update-fail': 'Update error',
+  'validate-garden-report': 'Please input information'
 };
