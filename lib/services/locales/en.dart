@@ -70,5 +70,6 @@ const Map<String, String> en = {
   'take-picture': 'Please select at least 5 images',
   'update-success': 'Update sucessfully',
   'update-fail': 'Update error',
-  'validate-garden-report': 'Please input information'
+  'validate-garden-report': 'Please input information',
+  'expired': 'Expired'
 };

@@ -22,6 +22,7 @@ List<Tab> myTabs = <Tab>[
   Tab(text: 'process'.tr),
   Tab(text: 'done'.tr),
   Tab(text: 'delete'.tr),
+  Tab(text: 'expired'.tr)
 ];
 
 late TabController _tabController;

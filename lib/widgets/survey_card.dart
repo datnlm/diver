@@ -107,6 +107,12 @@ class SurveyCard extends StatelessWidget {
 
   SizedBox _getCorrectIcon(int status) {
     switch (status) {
+       case -2:
+        return const SizedBox(
+          height: double.infinity,
+          child:
+              Icon(Icons.cancel_outlined, size: 40.0, color: Colors.redAccent),
+        );
       case 0:
         return const SizedBox(
           height: double.infinity,

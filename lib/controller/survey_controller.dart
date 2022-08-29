@@ -62,6 +62,9 @@ class SurveyController extends GetxController {
           case 2:
             status = '0';
             break;
+          case 3:
+            status = '-2';
+            break;
           default:
             status = '0';
         }
@@ -124,6 +127,9 @@ class SurveyController extends GetxController {
           case 2:
             status = '0';
             break;
+          case 3:
+            status = '-2';
+            break;
           default:
             status = '0';
         }
@@ -153,6 +159,8 @@ class SurveyController extends GetxController {
           var surveys = divingSurveyResponseFromJson(response.body);
           if (surveys.items!.isNotEmpty) {
             listSurvey = surveys.items as List<Survey>;
+          } else {
+            listSurvey = [];
           }
         } else if (response.statusCode == 401 || response.statusCode == 403) {
           Get.offAllNamed(Routes.login);

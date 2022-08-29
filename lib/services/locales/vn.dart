@@ -72,5 +72,6 @@ const Map<String, String> vn = {
   'take-picture': 'Vui lòng chọn ít nhất 5 hình ảnh',
   'update-success': 'Cập nhật thành công',
   'update-fail': 'Cập nhật thất bại',
-  'validate-garden-report': 'Vui lòng nhập thông tin'
+  'validate-garden-report': 'Vui lòng nhập thông tin',
+  'expired': 'Quá hạn'
 };
