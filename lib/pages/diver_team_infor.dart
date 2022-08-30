@@ -16,9 +16,9 @@ class DiverTeamInformation extends StatefulWidget {
 
 class _DiverTeamInformationState extends State<DiverTeamInformation>
     with TickerProviderStateMixin {
-  static const List<Tab> myTabs = <Tab>[
-    Tab(text: 'Danh sách thành viên'),
-    Tab(text: 'Khu vực'),
+  static List<Tab> myTabs = <Tab>[
+    Tab(text: 'member-list'.tr),
+    Tab(text: 'area'.tr),
   ];
 
   late TabController _tabController;
@@ -40,9 +40,9 @@ class _DiverTeamInformationState extends State<DiverTeamInformation>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          'Thông tin đội',
-          style: TextStyle(
+        title: Text(
+          'team-infor'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w600,
           ),

@@ -21,11 +21,6 @@ class UpdateInformationScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
             onPressed: () => informationController.updateInformation(),
             child: Text('done'.tr,
                 style: const TextStyle(

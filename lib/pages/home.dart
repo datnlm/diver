@@ -22,6 +22,7 @@ List<Tab> myTabs = <Tab>[
   Tab(text: 'process'.tr),
   Tab(text: 'done'.tr),
   Tab(text: 'delete'.tr),
+  Tab(text: 'expired'.tr)
 ];
 
 late TabController _tabController;
@@ -140,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _focusedDay = focusedDay;
             if (DateFormat('yyyy-MM-dd').format(_selectedDay!) ==
                 DateFormat('yyyy-MM-dd').format(DateTime.now())) {
-              label = "Công việc hôm nay";
+              label = 'today'.tr;
             } else {
               label =
                   '${'task'.tr} ${DateFormat.yMMMMEEEEd(Get.locale!.toLanguageTag()).format(_selectedDay!)}';
@@ -273,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       itemBuilder: ((context, index) {
         return GestureDetector(
           onTap: () {
-            controller.getLoading(); 
+            controller.getLoading();
             controller
                 .getSurveyById(controller.listSurvey[index].id.toString());
             Get.toNamed(
